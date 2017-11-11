@@ -12,7 +12,6 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
-\usepackage[colorlinks=false]{hyperref}
 
 \title{A Progressive Web App (PWA)-based Mobile Wallet for Bazo}
 \author{Jan von der Assen}
@@ -23,23 +22,48 @@
 \begin{abstract}
   Your abstract.
 \end{abstract}
+\newpage
 \tableofcontents
 \newpage
 
 
 \section{Introduction}
+%% Importance etc of Blockchain based currencies
 
-\section{Background, Problem and Related Work}
+A financial service provider based in Zurich developed a bonus program that incentivizes customers to use its credit and debit cards. With every purchase with this card, customers collect virtual points. Several industry partners are participants of this bonus program. The virtual points collected can be exchanged for gift cards form partners registered via the Web site or an app. The way that these services can be used in the traditional system puts the company into a central role, thus requiring administrative efforts to enable both customers and partners to exchange virtual points. In order to decentralize the financial service providers position a blockchain based currency, Bazo (Esperanto: base; foundation), was developed at the University of Zurich. The intention of the currency is to map virtual points to coins in the crypto currency.
+The focus of this thesis lies on the implementation and evaluation of a Mobile Wallet for said currency. Features as well as requirement and implementation details are gathered during the project in an explorative way in partnership with the company.
+\subsection{Motivation}
+Traditional payment systems require a centralized institution in order to maintain a currency and support operations such as issueing, transferring and determining state of currency units. Centralizing the issuer of the virtual coins for each operation that can be performed on the virtual currency further prohibits the direct trading of virtual points between users.
+In the case of the partner company this resulted in a limited awareness and usage of the incentivization program by customers as well as partners.
+With the new cryptocurrency developed at the University of Zurich which is tailored to the requirements of a financial service provider, it is possible to still maintain control over the currency since the company remains in an issuer position. In order to let end users such as customers and partners interact with the currency as well as making the program more transparent, further development efforts are taken. This should pose a first complete prototype of a currency ecosystem where the financial service provider can evaluate the new solution with real costumers and gain insight on how blockchain technologies can be used to improve certain processes. This involves the development of a Wallet to let users trade Bazo coins as well as to improve the payment process since smartphone capabilites can be used to transfer payment information from device to device.
+
+\subsection{Description of Work}
+This thesis covers the design, implementation, and evaluation of a mobile wallet for the Bazo cryptocurrency. In order to run the client as trustless as possible, a light client implementation needs to be integrated to the Bazo wallet. This involves the integration and development of interfaces to enable -this-.
+The development should leverage existing resources from similar projects where a Mobile Wallet was implemented.
+It is required to find a way to transmit payment information with native elements such as NFC and Bluetooth. However, a fallback solution needs to be implemented to allow a broad range of users to participate in the program.
+In order to support the complete use case for customers and partners, it is required to integrate -third party- services from the service provider.
+The application needs to be tested in a pilot project where the Bazo cryptocurrency is used for payment. 
+
+
+
+
+\subsection{Outline}
+The main section of the report is structered as follows:
+In chapter 2 an introduction to technologies such as Blockchain based cryptocurrencies and Progressive Web Applications are given. Further, related work  as well as other activities in the project are introduced. Chapter 3 focuses on the design of a Mobile Wallet that satisfies the supplied requirements. The concrete implementation of the design is explained in chapter 4. In chapter 5 the prototype and the findings from developing the Wallet are evaluated and the results compared.
+Chapter 6 summarizes and concludes the report.
+\newpage
+
+\section{Background and Related Work}
 \subsection{Background}
-\subsubsection{End User}
-\subsubsection{Requirements}
+\subsubsection{Cryptocurrencies}
+\subsubsection{Progressive Web Applications}
 
 \subsection{Related Work}
-\subsubsection{Cryptocurrencies}
 \subsubsection{Bazo}
 \subsubsection{Bazo Client Implementations}
 \subsubsection{Coinblesk}
-
+\subsubsection{Bazo Block Explorer}
+\newpage
 
 
 \section{Design}
@@ -50,8 +74,8 @@
 \subsubsection{Network Communication}
 \subsubsection{Interfaces}
 
-\subsection{Transaction Informations}
-\subsubsection{Encoding}
+\subsection{Sharing Transaction Information}
+\subsubsection{Scheme}
 \subsubsection{Device Sharing}
 \subsubsection{Third party services}
 
@@ -63,18 +87,20 @@
 
 \subsubsection{Security Considerations}
 
+\newpage
 
 \section{Implementation}
 \subsection{Architecture}
-\subsubsection{Storage}
-\subsubsection{Network Communication}
 \subsubsection{User Interface}
+\subsubsection{Storage}
+\subsubsection{State}
+\subsubsection{Network Handling and Communication}
 
 \subsection{Transaction Sharing}
-\subsubsection{Web APIs}
+\subsubsection{Web APIs and Browser Support}
 \subsubsection{NFC}
 \subsubsection{Bluetooth Low Energy}
-\subsubsection{Qr Codes}
+\subsubsection{Quick Response Codes}
 \subsubsection{Fallback Solutions}
 \subsubsection{Transaction Encoding}
 
@@ -85,17 +111,20 @@
 \subsubsection{Data Queries}
 
 \subsection{Testing}
+\newpage
 
 \section{Evaluation}
-\subsubsection{Prototype Evaluation}
-\subsubsection{Comparison}
-\subsubsection{Limitations}
-
+\subsection{Prototype Evaluation}
+\subsection{Comparison}
+\subsection{Limitations}
+\subsection{Future Development}
+\subsection{Future Work}
+\newpage
 
 \section{Summary and Conclusions}
-
-
 An introduction citing \cite{someauthor}
+
+\newpage
 
 \bibliographystyle{alpha}
 \bibliography{sample}
