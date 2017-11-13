@@ -57,6 +57,9 @@ Chapter 6 summarizes and concludes the report.
 \subsection{Background}
 \subsubsection{Cryptocurrencies}
 \subsubsection{Progressive Web Applications}
+\subsubsection{Traditional payment process}
+\subsubsection{Envisioned payment process}
+
 
 \subsection{Related Work}
 \subsubsection{Bazo}
@@ -81,8 +84,8 @@ Chapter 6 summarizes and concludes the report.
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
 This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
 In order to get the complete payment process depicted, the payment process that is to be developed can be described as follows. The user of an iOS device can use his any NFC Tag Reader app from the app store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application.
-Once this set up is in place, the user will approach the POS System and may start the payment process. The cashier will scan the items, and the POS System will automatically associate the POS ID with the transaction amount. The user can now use any existing iOS or android application to read the NFC tag. Since both payment and transaction information is encoded in a URL, the user is taken to the payment page of the Mobile Wallet, where the POS ID is used to query the transaction amount from the POS System. Since the Bazo Address is supplied in the URL as well, the user can confirm the payment. Once confirmed the Mobile Wallet will sign the transaction and send it into the Bazo network.
-Figure xy shows the process of transferring payment information and transaction issueing.
+Once this set up is in place, the user will approach the POS System and may start the payment process. The cashier will scan the items, and the POS System will automatically associate the POS ID with the transaction amount. The user can now use any existing iOS or android application to read the NFC tag. Since both payment and transaction information is encoded in a URL, the user is taken to the payment page of the Mobile Wallet, where the POS ID is used to query the transaction amount from the POS System. Since the Bazo Address is supplied in the URL as well, the user can confirm the payment. Once confirmed the Mobile Wallet will sign the transaction and send it into the Bazo network. Figure
+\ref{fig:POS} shows the process of transferring payment information and transaction issueing.
 
 \begin{figure}
 \centering
