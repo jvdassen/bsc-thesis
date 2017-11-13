@@ -67,7 +67,8 @@ Similar to the process of exchanging virtual points for goods, the company also 
 \subsubsection{Envisioned payment process}
 The envisioned system is supposed to overcome the stated disadvantages, by mapping the virtual points to a currency that can be used directly to make transactions between users or between user and partner company.
 The financial company rewarding with the virtual points should still remain in a central position for the currency and control aspects such as issueing new units and accounts.
-The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant.
+The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by supplying payment information in a device to device manner. Since merchants may have more advanced payment system, a possibility to integrate third party interfaces into the payment process is required. The actual requirements and design of how transaction information can be transferred needed to be explored with the company and is further described in chapter \ref{fig:tps}.
+
 
 \subsection{Related Work}
 \subsubsection{Bazo}
@@ -88,7 +89,7 @@ The Wallet that is developed for making transactions with the currency is requir
 \subsection{Sharing Transaction Information}
 \subsubsection{Scheme}
 \subsubsection{Device Sharing}
-\subsubsection{Third party services}
+\subsubsection{Third party services}\label{fig:tps}
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
 This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
 In order to get the complete payment process depicted, the payment process that is to be developed can be described as follows. The user of an iOS device can use his any NFC Tag Reader app from the app store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application.
