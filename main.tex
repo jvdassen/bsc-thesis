@@ -91,6 +91,15 @@ Bazo is a cryptocurrency developed at the CSG at the University of Zurich. The c
 \subsection{Sharing Transaction Information}
 \subsubsection{Scheme}
 \subsubsection{Device Sharing}
+In order to explore further possibilities on how to extend the browser support for native API's a Proof of Concept was implemented. The PoC was targeted to the android Platform, since NFC support is still fairly limited on iOS devices at the time of the design. The PoC, further referenced as 'NFC Bridge', should run as a background service and enable two processes.
+\begin{enumerate}
+\item Reading NFC devices:
+The application should be registered as a handler for NFC messages. If an NFC message is read from another NFC device such as another active device or an NFC Tag, the user is prompted with applications that can handle the data format. If the user selects the NFC Bridge application, the data received from the NFC Adapter should be parsed and the user prompted with the Payment page of the Bazo Wallet. The payment page is then prefilled with the payment information extracted from the NDEF message.
+\item Pushing to NFC devices: The NFC Bridge application should allow the PWA-based Bazo Wallet to push handover encoded transaction information which can then be pushed to NFC devices and tags.
+The first design sketch included that communication between the Bridge application and the Bazo Wallet is done through an HTTP or Websocket. This implied that the NFC Bridge is running as a background service, listening for NFC messages and keeping the server alive.
+Since the android platform allows starting the application when an NFC message is received through the configuration of application intents, this design was preferred.
+\end{enumerate}
+
 \subsubsection{Third party services}\label{fig:tps}
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
 This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
@@ -123,6 +132,7 @@ Once this set up is in place, the user will approach the POS System and may star
 \subsection{Transaction Sharing}
 \subsubsection{Web APIs and Browser Support}
 \subsubsection{NFC}
+
 \subsubsection{Bluetooth Low Energy}
 \subsubsection{Quick Response Codes}
 \subsubsection{Fallback Solutions}
