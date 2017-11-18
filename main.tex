@@ -88,8 +88,21 @@ Bazo is a cryptocurrency developed at the CSG at the University of Zurich. The c
 \subsubsection{Network Communication}
 \subsubsection{Interfaces}
 
-\subsection{Sharing Transaction Information}
-\subsubsection{Scheme}
+\subsection{Transaction Information}
+One requirement, that is that Bazo coins can be exchanged between users without direct involvement or administration from the service provider was incorporated into the core design of the Bazo currency. To fulfill said requirement it is vital that transaction informations can be shared between users of the Bazo Wallet. This section outlines how transaction information can be shared with the Bazo Wallet.
+%Search for papers, resources etc.
+Sharing transaction information in native applications is often achieved with technologies such as NFC, Bluetooth or by encoding and reading transaction information from a Quick-Response Code.
+\subsubsection{Schema}
+In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema followed the \cite{bip21} 21st Bitcoin Improvement Proposal for an URI scheme since it contained all necessary elements to fulfill the requirement.
+
+
+\[
+\underbrace{\overbrace{bazo:}^{\mathrm{protocol}}\overbrace{MIGfMA0GCSqGSIb3DQEBAQUAA4GNADC}^{\mathrm{bazo address}}}_{\mathrm{required components}}
+\underbrace{\overbrace{?amount=123}^{\mathrm{amoun t}}}_{\mathrm{optional components}}
+\]
+% reference nfc bridge
+This implies, that the Bazo Wallet and other applications that need to interact with it need to be able to encode and decode transaction information as supplied in the described grammar.
+% reference implementation of decoder/encoder
 \subsubsection{Device Sharing}
 In order to explore further possibilities on how to extend the browser support for native API's a Proof of Concept was implemented. The PoC was targeted to the android Platform, since NFC support is still fairly limited on iOS devices at the time of the design. The PoC, further referenced as 'NFC Bridge', should run as a background service and enable two processes.
 \begin{enumerate}
@@ -100,7 +113,7 @@ The first design sketch included that communication between the Bridge applicati
 Since the android platform allows starting the application when an NFC message is received through the configuration of application intents, this design was preferred.
 \end{enumerate}
 
-\subsubsection{Third party services}\label{fig:tps}
+\subsubsection{Merchant options}\label{fig:tps}
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
 This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
 In order to get the complete payment process depicted, the payment process that is to be developed can be described as follows. The user of an iOS device can use his any NFC Tag Reader app from the app store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application.
@@ -156,7 +169,7 @@ Once this set up is in place, the user will approach the POS System and may star
 \newpage
 
 \section{Summary and Conclusions}
-An introduction citing \cite{someauthor}
+An introduction citing \cite{Liviosgier}
 
 \newpage
 
