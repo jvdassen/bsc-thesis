@@ -195,6 +195,19 @@ Once this set up is in place, the user will approach the POS System and may star
 \subsection{Transaction Sharing}
 \subsubsection{Web APIs and Browser Support}
 \subsubsection{NFC}
+\subsubsection{NFC Bridge}
+Due to limited browser support for Native API's such as webNFC, see \ref{xy}, a prototype was discussed and implemented in this thesis. The prototype involved a native android application that should enable the web application to forward transaction information that could be forwarded to NFC capable devices using the Android Beam technology.
+The design and requirements of such an application was outlined in \ref{xy} and the two main functional requirements for the application were presented.
+Reading NFC messages from passive and active devices, was achieved without implementing it in the android application. This was done by changing the data model for transaction information to one that can be expressed in a single URL. With this media type, it is possible to use the tag dispatching system in android. This would work as follows:
+1. An NDEF message is received when the android device is unlocked and NFC enabled.
+2. The NDEF message for this application contains just one URL. Through android's intent system the application that fits best is started.
+3. If the Bazo Wallet PWA was previously installed on the android device, an intent filter is present for the origin URI of the PWA. This will result in the PWA being opened with all transaction data passed as parameter.
+4. If the Bazo Wallet PWA is not installed there will be no intent filter requesting the data. The user is then prompted with all applications that can handle an URI, such as a Web browser. If a browser is selected, then the Bazo payment page is opened with all transaction data passed as a parameter.
+%https://developer.android.com/guide/topics/connectivity/nfc/nfc.html
+
+Writing the transaction data to other android devices was implemented using the Android Beam technology.
+The transaction data can be passed to the NFC Bridge by either manually entering it into a form or by passing it as data through an intent. Passing data to the application through parameters has the benefit that web applications can generate links that will take the user to the application. Such a link can contain further data, which would be set to the transaction data the user wants to share with another android device.
+If the android phone is held against another Android Beam enabled device, the NFC Bridge application will automatically set the appropriate transaction data encoded as an NDEF message and push it to the other device.
 
 \subsubsection{Bluetooth Low Energy}
 \subsubsection{Quick Response Codes}
