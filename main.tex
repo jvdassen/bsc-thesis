@@ -194,6 +194,11 @@ Once this set up is in place, the user will approach the POS System and may star
 
 \subsection{Transaction Sharing}
 \subsubsection{Web APIs and Browser Support}
+At the time of writing, more and more native API's are made available for the Web. 
+The API specification for NFC connectivity is still in draft. However, partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement.
+% TODO Reference state for Webkit, moz, IE.
+For the prototype, the feature was implemented for Google Chrome on android.
+
 \subsubsection{NFC}
 \subsubsection{NFC Bridge}
 Due to limited browser support for Native API's such as webNFC, see \ref{xy}, a prototype was discussed and implemented in this thesis. The prototype involved a native android application that should enable the web application to forward transaction information that could be forwarded to NFC capable devices using the Android Beam technology.
