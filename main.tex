@@ -198,6 +198,9 @@ At the time of writing, more and more native API's are made available for the We
 The API specification for NFC connectivity is still in draft \cite{web-nfc}. However, partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement. The implementation state in Google Chrome is not documented thoroughly, so the specifications guidelines and Google Chrome's source code was the only way to obtain information on the subject apart from testing.
 % TODO Reference state for Webkit, moz, IE.
 For the prototype, the feature was implemented for Google Chrome on android.
+In order to allow web-nfc in Google Chrome, there need to be two flags set to enable the experimental implementation.
+"Experimental Web Platform features" and "webnfc". The first of these flags will show the nfc object in the navigator object of the browser. However, this does not mean that the hardware does support web-nfc. The latter flag can only be set on devices whose hardware actually supports NFC.
+After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{web-nfc}.
 
 
 \subsubsection{NFC}
