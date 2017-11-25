@@ -203,12 +203,12 @@ In order to allow web-nfc in Google Chrome, there need to be two flags set to en
 After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{web-nfc}.
 
 Another challenge posed the creation and signing of Bazo transactions in the browser. Since not all data-types that are usually available in C-like structs are available in the browser, and browser support is still not widely adapted, a bridging solution had to be implemented.
-The structure of an Account Transaction can be seen in figure
+The structure of an Account Transaction can be seen in figure \ref{fig:AccountTx}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{diagrams/}
-\caption{\label{fig:POS}The application flow of transferring payment information.}
+\caption{\label{fig:AccountTx}Structure of an AccountTx in Bazo.}
 \end{figure}
 
 
