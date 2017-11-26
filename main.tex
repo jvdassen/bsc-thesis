@@ -207,9 +207,9 @@ The structure of an Account Transaction can be seen in figure \ref{fig:AccountTx
 
 \begin{figure}
 \centering
-\includegraphics[width=1\textwidth]{diagrams/}
+\includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
 \caption{\label{fig:AccountTx}Structure of an AccountTx in Bazo.}
-\end{figure}
+\end{figure}.
 
 
 \subsubsection{NFC}
@@ -227,9 +227,13 @@ Writing the transaction data to other android devices was implemented using the 
 The transaction data can be passed to the NFC Bridge by either manually entering it into a form or by passing it as data through an intent. Passing data to the application through parameters has the benefit that web applications can generate links that will take the user to the application. Such a link can contain further data, which would be set to the transaction data the user wants to share with another android device.
 If the android phone is held against another Android Beam enabled device, the NFC Bridge application will automatically set the appropriate transaction data encoded as an NDEF message and push it to the other device.
 
+At the time of writing, NFC support for iOS platforms was just released for their most recent publicyl available version, iOS 11. The NFC functionality offered to iOS developers covered writing and reading to NFC tags on the iPhone 7 and iPhone 7 Plus. Thus, an NFC Bridge application similar to how it was developed for android would not extend the functionality of existing generic NFC applications. The NFC fallback capabilities with the Bazo Wallet on iOS are outlined in chapter \ref{xy}.
 \subsubsection{Bluetooth Low Energy}
 \subsubsection{Quick Response Codes}
 \subsubsection{Fallback Solutions}
+Subsections of chapter 4.2 outlined how existing native and web-enabled API's were leveraged for the Bazo Wallet to share transaction data. This section documents the fallback solutions that were evaluated for devices or platforms that lack the support for the API, either natively or on the web.
+For android, the complete functionality of NFC could be leveraged. Writing and reading NFC tags was implemented with the web-nfc API. Complete peer to peer communication was enabled by developing an API bridge see \ref{}4.2.3.
+As iOS platforms only support native API's when communicating over NFC and peer to peer mode is not yet included, the fallback solution to use NFC on iOS devices can be described as follows. Since all transaction data can be encoded into a single valid URL, merchants and users can transfer their transaction data to an NFC tag. This can be done with any generic NFC application or, on an android device, with the Bazo Wallet itself. iOS users can then scan the NFC tag with their preferred generic NFC application. This will open the Payment page of the Bazo Wallet, prefilled with all necessary transaction data.
 \subsubsection{Transaction Encoding}
 
 \subsection{Blockchain Interaction}
