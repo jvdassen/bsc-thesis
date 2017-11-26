@@ -43,7 +43,7 @@ This thesis covers the design, implementation, and evaluation of a mobile wallet
 The development should leverage existing resources from similar projects where a Mobile Wallet was implemented.
 It is required to find a way to transmit payment information with native elements such as NFC and Bluetooth. However, a fallback solution needs to be implemented to allow a broad range of users to participate in the program.
 In order to support the complete use case for customers and partners, it is required to integrate -third party- services from the service provider.
-The application needs to be tested in a pilot project where the Bazo cryptocurrency is used for payment. 
+The application needs to be tested in a pilot project where the Bazo cryptocurrency is used for payment.
 
 
 
@@ -108,7 +108,7 @@ The implementation of this client is relevant for this thesis, since the Bazo Wa
 Coinblesk is a project carried out at the CSG at the University of Zurich. With Coinblesk, payments can be made in the Bitcoin network without having to wait for a transaction to be fully validated in a block. This is achieved by employing a client-server architecture, where transactions are signed by multiple instances in order to ensure validity as well as transaction speed.
 With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the underlying architecture for Coinblesk is substantially different from the approach with Bazo, large parts of the mobile application can be reused for the Bazo Wallet. This is described in chapter \ref{xy}.
 \subsubsection{Bazo Block Explorer}
-As described in chapter \ref{xx} the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issueing new coins and setting 
+As described in chapter \ref{xx} the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issueing new coins and setting
 parameters for the miners can be performed.
 %% find sources
 A solution to bring more transparency into the network by letting users inspect the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block explorer is an application, that lets users query informations about the currency without necessarily requiring them to participate in the network.
@@ -121,7 +121,7 @@ In order to visualize various aspects of the Bazo currency, a Block Explorer was
 \subsection{Application Structure}
 
 \subsubsection{Progressive Web Applications}
-The Bazo Wallet application is designed as a Progressive Web Application. 
+The Bazo Wallet application is designed as a Progressive Web Application.
 \subsubsection{Network Communication}
 \subsubsection{Interfaces}
 
@@ -194,7 +194,7 @@ Once this set up is in place, the user will approach the POS System and may star
 
 \subsection{Transaction Sharing}
 \subsubsection{Web APIs and Browser Support}
-At the time of writing, more and more native API's are made available for the Web. 
+At the time of writing, more and more native API's are made available for the Web.
 The API specification for NFC connectivity is still in draft \cite{web-nfc}. However, partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement. The implementation state in Google Chrome is not documented thoroughly, so the specifications guidelines and Google Chrome's source code was the only way to obtain information on the subject apart from testing.
 % TODO Reference state for Webkit, moz, IE.
 For the prototype, the feature was implemented for Google Chrome on android.
@@ -203,7 +203,13 @@ In order to allow web-nfc in Google Chrome, there need to be two flags set to en
 After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{web-nfc}.
 
 Another challenge posed the creation and signing of Bazo transactions in the browser. Since not all data-types that are usually available in C-like structs are available in the browser, and browser support is still not widely adapted, a bridging solution had to be implemented.
-T
+The structure of an Account Transaction can be seen in figure \ref{fig:AccountTx}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth]{diagrams/}
+\caption{\label{fig:AccountTx}Structure of an AccountTx in Bazo.}
+\end{figure}
 
 
 \subsubsection{NFC}
