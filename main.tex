@@ -240,6 +240,8 @@ As iOS platforms only support native API's when communicating over NFC and peer 
 Actual network communication with the Bazo network in a trustless way posed the most difficult technical challenge for the application. The following areas had to be evaluated:
 
 1. Building the transaction data in the schema defined in the Bazo protocol. \ref{fig:AccountTx}.
+Due to technical limitations of the browser, this application context is not suitable to fullfill the requirements of a light client implementation. Reasons for this are lack of tcp communcation support, storage and data structures.
+To overcome these limitations, native application wrappers for the light client written in Go were evaluated. This approach would have the advantage that each customers doesn't have to maintain a complete copy of the blockchain but transactions can be verified in trustless way. However, the current state of project that enables the mobile bindings for go did not support all networking and data structure needs to fulfill the requirement.
 2. Signing the transaction data with the appropriate algorithms.
 3. Verifying transaction and account information.
 \subsubsection{Bazo Client}
