@@ -244,6 +244,8 @@ Due to technical limitations of the browser, this application context is not sui
 To overcome these limitations, native application wrappers for the light client written in Go were evaluated. This approach would have the advantage that each customers doesn't have to maintain a complete copy of the blockchain but transactions can be verified in trustless way. However, the current state of project that enables the mobile bindings for go did not support all networking and data structure needs to fulfill the requirement. \cite{godocs}
 2. Signing the transaction data with the appropriate algorithms.
 3. Verifying transaction and account information.
+In order to run the Bazo Wallet as trustless as possible, the application has to maintain at least a certain amount of the blockchain to verify information. For the Bazo Wallet this would mean that the Bazo Wallet itself needs to verify blocks and transactions, or that the Bazo Wallet needs to talk with a trustworthy Bazo client. The latter approach would have been envisioned as a native application that would run on each mobile device.
+The first approach was not suitable, since the lack of support for certain data types and communication protocols are present in the Browser. The latter approach could not be implemented with the given resources. However, native implementations of the Bazo Client for Android and iOS are technically feasible.
 \subsubsection{Bazo Client}
 \subsubsection{Client Integration}
 \subsubsection{Transaction Signing}
