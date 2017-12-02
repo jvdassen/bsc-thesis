@@ -246,7 +246,18 @@ To overcome these limitations, native application wrappers for the light client 
 3. Verifying transaction and account information.
 In order to run the Bazo Wallet as trustless as possible, the application has to maintain at least a certain amount of the blockchain to verify information. For the Bazo Wallet this would mean that the Bazo Wallet itself needs to verify blocks and transactions, or that the Bazo Wallet needs to talk with a trustworthy Bazo client. The latter approach would have been envisioned as a native application that would run on each mobile device.
 The first approach was not suitable, since the lack of support for certain data types and communication protocols are present in the Browser. The latter approach could not be implemented with the given resources. However, native implementations of the Bazo Client for Android and iOS are technically feasible.
+
 % link to gomobile, link to evaluation & future work
+
+The process of obtaining transaction information, creating a new transaction, signing and dispatching it into the network is shown in figure
+\ref{fig:TransactionProcess}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{diagrams/transactionProcess.png}
+\caption{\label{fig:TransactionProcess}Structure of an AccountTx in Bazo.}
+\end{figure}.
+
 \subsubsection{Bazo Client}
 \subsubsection{Client Integration}
 \subsubsection{Transaction Signing}
