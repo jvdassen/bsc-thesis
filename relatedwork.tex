@@ -1,0 +1,59 @@
+\chapter{Background and Related Work}
+\section{Background}
+\subsection{Cryptocurrencies}
+\subsection{Web based Wallets}
+\subsection{Progressive Web Applications}
+A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applcations.
+%https://developers.google.com/web/progressive-web-apps/
+They leverage the accessibility from the web but have various enhancements to give them a user experience that is closer to native mobile applications.
+%https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
+A PWA can be characterized as:
+\newtheorem{theorem-progressive}{Progressive}
+\newtheorem{theorem}{Connectivity Independent}
+\newtheorem{theorem-install}{Installable}
+\newtheorem{theorem-secure}{Secure}
+
+\begin{theorem-progressive}
+A PWA should be progressively enhanced, based on what the user agent supports.
+\end{theorem-progressive}
+
+\begin{theorem}
+A Progressive Web Application should always present something to the viewer. By employing an app-shell architecture, the application can be separated from its content. The application shell as well as cached content should always be shown.
+\end{theorem}
+\begin{theorem-install}
+A Progressive Web Application should be installable to the users home screen and accessible from there.
+
+\end{theorem-install}
+\begin{theorem-secure}
+Since web application have access to powerful API's in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as https or wss.
+
+\end{theorem-secure}
+\subsection{Traditional payment process}
+In the traditional process, customers were incentivized to use debit and credit cards issued by the company by rewarding the customer with points of a virtual currency based on the transaction volumes.
+Through contracts that are established between the company and partner companys, the company can trade the customers virtual points against gift cards from partner companys.
+Based on the terms established in the contract, the partner companies are disbursed for the value of the gift cards, which customers can redeem at the partner company.
+Similar to the process of exchanging virtual points for goods, the company also has to act as a middleman when users want to exchange their points amongst each other. Both these cases pose a significant administrative effort for the company. Further disadvantages are the limited transparency of the program to users and that the virtual points have a relative short lifecycle.
+
+\subsection{Envisioned payment process}
+The envisioned system is supposed to overcome the stated disadvantages, by mapping the virtual points to a currency that can be used directly to make transactions between users or between user and partner company.
+The financial company rewarding with the virtual points should still remain in a central position for the currency and control aspects such as issueing new units and accounts.
+The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by supplying payment information in a device to device manner. Since merchants may have more advanced payment system, a possibility to integrate third party interfaces into the payment process is required. The actual requirements and design of how transaction information can be transferred needed to be explored with the company and is further described in chapter \ref{fig:tps}.
+
+
+\section{Related Work}
+\subsection{Bazo}
+Bazo is a cryptocurrency developed at the CSG at the University of Zurich. The currency was tailored to the use case of the financial service provider, which acts as a central institution that is able to create new coins and accounts. This makes the currency private, since an invite needs to be used to use the currency. This differs from various popular cryptocurrencies such as Bitcoin and Ethereum [xy] which are both open to the public. Similar to the approach taken in Ethereum, Bazo implements an account-based data model. Consensus in the Bazo network is achieved through a Proof of Work algorithm, although there are drawbacks from employing this strategy. More information about the current state of research of the consensus protocol in Bazo can be found in \ref{Bazo Block Explorer}.
+
+\subsection{Bazo Client Implementations}
+As part of the initial development efforts for Bazo, a client application was created. With this application, it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this implementation, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases, for example, that a Bazo client can be run on a device with limited resources such as a mobile device.
+%% elaborate.
+The implementation of this client is relevant for this thesis, since the Bazo Wallet is required to communicate with a Bazo client. Through this, the Bazo Wallet can perform actions such as querying account balances, transaction states as well as creating new transactions.
+\subsection{Coinblesk}
+Coinblesk is a project carried out at the CSG at the University of Zurich. With Coinblesk, payments can be made in the Bitcoin network without having to wait for a transaction to be fully validated in a block. This is achieved by employing a client-server architecture, where transactions are signed by multiple instances in order to ensure validity as well as transaction speed.
+With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the underlying architecture for Coinblesk is substantially different from the approach with Bazo, large parts of the mobile application can be reused for the Bazo Wallet. This is described in chapter \ref{xy}.
+\subsection{Bazo Block Explorer}
+As described in chapter \ref{xx} the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issueing new coins and setting
+parameters for the miners can be performed.
+%% find sources
+A solution to bring more transparency into the network by letting users inspect the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block explorer is an application, that lets users query informations about the currency without necessarily requiring them to participate in the network.
+In order to visualize various aspects of the Bazo currency, a Block Explorer was developed. This application is also used to let the company perform administrative tasks such as setting the reward for mining a block in the Bazo network.

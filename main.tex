@@ -1,285 +1,88 @@
-\documentclass[a4paper]{article}
-
-%% Language and font encodings
-\usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
-
-%% Sets page size and margins
-\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-%% Useful packages
+\documentclass[12pt,a4paper,english,twoside]{book}
+\usepackage[german,english]{babel}
+\usepackage[T1]{fontenc} 
+\usepackage[latin1]{inputenc}
+\usepackage{amsfonts}
 \usepackage{amsmath}
-\usepackage{alltt}
-\usepackage{graphicx}
-\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{moreverb}
+\usepackage{rotating}
+\usepackage{enumerate}
+\usepackage{graphics, graphicx,wrapfig}
+\usepackage{fancybox}
+\usepackage{picinpar,varioref,floatflt}
+\usepackage{ae}
+\usepackage{longtable}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{url}
+\usepackage{unizhdt}
 
-\title{A Progressive Web App (PWA)-based Mobile Wallet for Bazo}
-\author{Jan von der Assen}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define the language of the diploma thesis
+\selectlanguage{english}
+%\selectlanguage{german}
+
+\pagestyle{headings}
 
 \begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define the author printed on the cover page
+\author{Jan von der Assen}
+% Define the city and country of the author
+\authorcity{Zurich, Switzerland}
+% Define the student ID (Matrikelnummer)
+\studentid{14-719-132}
+% Define the title with optional subtitle
+\title{A Progressive Web App (PWA)-based Mobile Wallet for Bazo}
+% Define the supervisors
+\supervisors{Thomas Bocek, Bruno Rodrigues, Hamza Bedrija}
+% Define the submission date
+\submissiondate{January 31, 2018}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Make the title page
 \maketitle
 
-\begin{abstract}
-  Your abstract.
-\end{abstract}
-\newpage
+% Make the imprint on the back of the cover page
+\makeimprint
+
+\pagenumbering{roman}
+
+% Include the files of the diploma thesis
+%\cleardoublepage
+\input{abstract.tex}
+%\cleardoublepage
+\input{acknowledgments.tex}
+
 \tableofcontents
-\newpage
 
+\cleardoublepage
+\pagenumbering{arabic}
+\input{introduction.tex}
+\input{relatedwork.tex}
+\input{mainchapter.tex}
+%\input{.tex}
+%\input{.tex}
+\input{evaluation.tex}
+\input{summary.tex}
 
-\section{Introduction}
-%% Importance etc of Blockchain based currencies
+\input{bibliography.tex}
 
-A financial service provider based in Zurich developed a bonus program that incentivizes customers to use its credit and debit cards. With every purchase with this card, customers collect virtual points. Several industry partners are participants of this bonus program. The virtual points collected can be exchanged for gift cards form partners registered via the Web site or an app. The way that these services can be used in the traditional system puts the company into a central role, thus requiring administrative efforts to enable both customers and partners to exchange virtual points. In order to decentralize the financial service providers position a blockchain based currency, Bazo (Esperanto: base; foundation), was developed at the University of Zurich. The intention of the currency is to map virtual points to coins in the crypto currency.
-The focus of this thesis lies on the implementation and evaluation of a Mobile Wallet for said currency. Features as well as requirement and implementation details are gathered during the project in an explorative way in partnership with the company.
-\subsection{Motivation}
-Traditional payment systems require a centralized institution in order to maintain a currency and support operations such as issueing, transferring and determining state of currency units. Centralizing the issuer of the virtual coins for each operation that can be performed on the virtual currency further prohibits the direct trading of virtual points between users.
-In the case of the partner company this resulted in a limited awareness and usage of the incentivization program by customers as well as partners.
-With the new cryptocurrency developed at the University of Zurich which is tailored to the requirements of a financial service provider, it is possible to still maintain control over the currency since the company remains in an issuer position. In order to let end users such as customers and partners interact with the currency as well as making the program more transparent, further development efforts are taken. This should pose a first complete prototype of a currency ecosystem where the financial service provider can evaluate the new solution with real costumers and gain insight on how blockchain technologies can be used to improve certain processes. This involves the development of a Wallet to let users trade Bazo coins as well as to improve the payment process since smartphone capabilites can be used to transfer payment information from device to device.
+\input{abbreviations.tex}
+\input{glossary.tex}
 
-\subsection{Description of Work}
-This thesis covers the design, implementation, and evaluation of a mobile wallet for the Bazo cryptocurrency. In order to run the client as trustless as possible, a light client implementation needs to be integrated to the Bazo wallet. This involves the integration and development of interfaces to enable -this-.
-The development should leverage existing resources from similar projects where a Mobile Wallet was implemented.
-It is required to find a way to transmit payment information with native elements such as NFC and Bluetooth. However, a fallback solution needs to be implemented to allow a broad range of users to participate in the program.
-In order to support the complete use case for customers and partners, it is required to integrate -third party- services from the service provider.
-The application needs to be tested in a pilot project where the Bazo cryptocurrency is used for payment.
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
 
-
-
-
-\subsection{Outline}
-The main section of the report is structered as follows:
-In chapter 2 an introduction to leveraged technologies, the traditional and envisioned transaction process is given. Further, related work  as well as other activities in the project are introduced. Chapter 3 focuses on the design of a Mobile Wallet that satisfies the supplied requirements. The concrete implementation of the design is explained in chapter 4. In chapter 5 the prototype and the findings from developing the Wallet are evaluated and the results compared.
-Chapter 6 summarizes and concludes the report.
-\newpage
-
-\section{Background and Related Work}
-\subsection{Background}
-\subsubsection{Cryptocurrencies}
-\subsubsection{Web based Wallets}
-\subsubsection{Progressive Web Applications}
-A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applcations.
-%https://developers.google.com/web/progressive-web-apps/
-They leverage the accessibility from the web but have various enhancements to give them a user experience that is closer to native mobile applications.
-%https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
-A PWA can be characterized as:
-\newtheorem{theorem-progressive}{Progressive}
-\newtheorem{theorem}{Connectivity Independent}
-\newtheorem{theorem-install}{Installable}
-\newtheorem{theorem-secure}{Secure}
-
-\begin{theorem-progressive}
-A PWA should be progressively enhanced, based on what the user agent supports.
-\end{theorem-progressive}
-
-\begin{theorem}
-A Progressive Web Application should always present something to the viewer. By employing an app-shell architecture, the application can be separated from its content. The application shell as well as cached content should always be shown.
-\end{theorem}
-\begin{theorem-install}
-A Progressive Web Application should be installable to the users home screen and accessible from there.
-
-\end{theorem-install}
-\begin{theorem-secure}
-Since web application have access to powerful API's in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as https or wss.
-
-\end{theorem-secure}
-\subsubsection{Traditional payment process}
-In the traditional process, customers were incentivized to use debit and credit cards issued by the company by rewarding the customer with points of a virtual currency based on the transaction volumes.
-Through contracts that are established between the company and partner companys, the company can trade the customers virtual points against gift cards from partner companys.
-Based on the terms established in the contract, the partner companies are disbursed for the value of the gift cards, which customers can redeem at the partner company.
-Similar to the process of exchanging virtual points for goods, the company also has to act as a middleman when users want to exchange their points amongst each other. Both these cases pose a significant administrative effort for the company. Further disadvantages are the limited transparency of the program to users and that the virtual points have a relative short lifecycle.
-
-\subsubsection{Envisioned payment process}
-The envisioned system is supposed to overcome the stated disadvantages, by mapping the virtual points to a currency that can be used directly to make transactions between users or between user and partner company.
-The financial company rewarding with the virtual points should still remain in a central position for the currency and control aspects such as issueing new units and accounts.
-The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by supplying payment information in a device to device manner. Since merchants may have more advanced payment system, a possibility to integrate third party interfaces into the payment process is required. The actual requirements and design of how transaction information can be transferred needed to be explored with the company and is further described in chapter \ref{fig:tps}.
-
-
-\subsection{Related Work}
-\subsubsection{Bazo}
-Bazo is a cryptocurrency developed at the CSG at the University of Zurich. The currency was tailored to the use case of the financial service provider, which acts as a central institution that is able to create new coins and accounts. This makes the currency private, since an invite needs to be used to use the currency. This differs from various popular cryptocurrencies such as Bitcoin and Ethereum [xy] which are both open to the public. Similar to the approach taken in Ethereum, Bazo implements an account-based data model. Consensus in the Bazo network is achieved through a Proof of Work algorithm, although there are drawbacks from employing this strategy. More information about the current state of research of the consensus protocol in Bazo can be found in \ref{Bazo Block Explorer}.
-
-\subsubsection{Bazo Client Implementations}
-As part of the initial development efforts for Bazo, a client application was created. With this application, it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this implementation, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases, for example, that a Bazo client can be run on a device with limited resources such as a mobile device.
-%% elaborate.
-The implementation of this client is relevant for this thesis, since the Bazo Wallet is required to communicate with a Bazo client. Through this, the Bazo Wallet can perform actions such as querying account balances, transaction states as well as creating new transactions.
-\subsubsection{Coinblesk}
-Coinblesk is a project carried out at the CSG at the University of Zurich. With Coinblesk, payments can be made in the Bitcoin network without having to wait for a transaction to be fully validated in a block. This is achieved by employing a client-server architecture, where transactions are signed by multiple instances in order to ensure validity as well as transaction speed.
-With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the underlying architecture for Coinblesk is substantially different from the approach with Bazo, large parts of the mobile application can be reused for the Bazo Wallet. This is described in chapter \ref{xy}.
-\subsubsection{Bazo Block Explorer}
-As described in chapter \ref{xx} the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issueing new coins and setting
-parameters for the miners can be performed.
-%% find sources
-A solution to bring more transparency into the network by letting users inspect the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block explorer is an application, that lets users query informations about the currency without necessarily requiring them to participate in the network.
-In order to visualize various aspects of the Bazo currency, a Block Explorer was developed. This application is also used to let the company perform administrative tasks such as setting the reward for mining a block in the Bazo network.
-\newpage
-
-
-\section{Design}
-
-\subsection{Application Structure}
-
-\subsubsection{Progressive Web Applications}
-The Bazo Wallet application is designed as a Progressive Web Application.
-\subsubsection{Network Communication}
-\subsubsection{Interfaces}
-
-\subsection{Transaction Information}
-One requirement, that is that Bazo coins can be exchanged between users without direct involvement or administration from the service provider was incorporated into the core design of the Bazo currency. To fulfill said requirement it is vital that transaction informations can be shared between users of the Bazo Wallet. This section outlines how transaction information can be shared with the Bazo Wallet.
-%Search for papers, resources etc.
-Sharing transaction information in native applications is often achieved with technologies such as NFC, Bluetooth or by encoding and reading transaction information from a Quick-Response Code.
-\subsubsection{Schema}
-In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema followed the \cite{bip21} 21st Bitcoin Improvement Proposal for an URI scheme since it contained all necessary elements to fulfill the requirement. The URI Schema consists of a required part which holds the protocol name and the recipient's fully qualified bazo address.
-
-
-\[
-\underbrace{\overbrace{bazo:}^{\mathrm{protocol}}\overbrace{MIGfMA0GCSqGSIb3DQEBAQUAA4GNADC}^{\mathrm{bazo address}}}_{\mathrm{required components}}
-\underbrace{\overbrace{?amount=123}^{\mathrm{amoun t}}\overbrace{?label=1 Coffee}^{\mathrm{label}}\overbrace{?message=Message}^{\mathrm{message}}}_{\mathrm{optional components}}
-\]
-
-
-% reference nfc bridge
-This implies, that the Bazo Wallet and other applications that need to interact with it need to be able to encode and decode transaction information as supplied in the described grammar.
-For the web-based wallet this transaction info should also be an optional parameter of the URL of the payment page. This allows that a complete URI to the payment page with all required transaction information can be shared among users or between merchants and users.
-This enables to encode complete transaction information as well as a an URI to the application page with the transaction information into media such as a QR-Code. This has the benefit, that all users of the Wallet can exchange payment information without having to know about the Schema.
-Since merchants frequently have more advanced payment systems and don't want to encode payment information into media such as QR-Codes for each new transaction, the payment page of the Wallet also needs to be able to accept additional parameters, by which the Wallet can then query the transaction amount from a service.
-The schema below shows the URI endpoint of the payment page, together with additional parameters that can be supplied to have the payment page prefilled with transaction information. This procedure is further described in Figure\ref{fig:POS}.
-\[
-\underbrace{\overbrace{https://host/:}^{\mathrm{Host}}\overbrace{/auth/user/send}^{\mathrm{payment page}}}_{\mathrm{required components}}
-\underbrace{\overbrace{posid=323}^{\mathrm{POS identification}}\overbrace{?paymentinfo=bazo://123123}^{\mathrm{transaction info}}}_{\mathrm{optional components}}
-\]
-
-The implementation of the module to encode and decode bazo encoded transaction information is described in \ref{xy}.
-%reference impl
-
-\subsubsection{Device Sharing}
-In order to explore further possibilities on how to extend the browser support for native API's a Proof of Concept was implemented. The PoC was targeted to the android Platform, since NFC support is still fairly limited on iOS devices at the time of the design. The PoC, further referenced as 'NFC Bridge', should run as a background service and enable two processes.
-\begin{enumerate}
-\item Reading NFC devices:
-The application should be registered as a handler for NFC messages. If an NFC message is read from another NFC device such as another active device or an NFC Tag, the user is prompted with applications that can handle the data format. If the user selects the NFC Bridge application, the data received from the NFC Adapter should be parsed and the user prompted with the Payment page of the Bazo Wallet. The payment page is then prefilled with the payment information extracted from the NDEF message.
-\item Pushing to NFC devices: The NFC Bridge application should allow the PWA-based Bazo Wallet to push handover encoded transaction information which can then be pushed to NFC devices and tags.
-The first design sketch included that communication between the Bridge application and the Bazo Wallet is done through an HTTP or Websocket. This implied that the NFC Bridge is running as a background service, listening for NFC messages and keeping the server alive.
-Since the android platform allows starting the application when an NFC message is received through the configuration of application intents, this design was preferred.
-\end{enumerate}
-
-\subsubsection{Merchant options}\label{fig:tps}
-In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
-This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
-In order to get the complete payment process depicted, the payment process that is to be developed can be described as follows. The user of an iOS device can use his any NFC Tag Reader app from the app store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application.
-Once this set up is in place, the user will approach the POS System and may start the payment process. The cashier will scan the items, and the POS System will automatically associate the POS ID with the transaction amount. The user can now use any existing iOS or android application to read the NFC tag. Since both payment and transaction information is encoded in a URL, the user is taken to the payment page of the Mobile Wallet, where the POS ID is used to query the transaction amount from the POS System. Since the Bazo Address is supplied in the URL as well, the user can confirm the payment. Once confirmed the Mobile Wallet will sign the transaction and send it into the Bazo network. Figure
-\ref{fig:POS} shows the process of transferring transaction information and transaction issueing under the constraint that a third party service needs to be queried.
-
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth]{diagrams/POS_flow.png}
-\caption{\label{fig:POS}The application flow of transferring payment information.}
-\end{figure}
-
-\subsection{Communication}
-%% Interfaces includes integration of existing services
-\subsubsection{Bazo Interfaces}
-\subsubsection{Payment System Interfaces}
-
-\subsubsection{Security Considerations}
-
-\newpage
-
-\section{Implementation}
-\subsection{Architecture}
-\subsubsection{User Interface}
-\subsubsection{Storage}
-\subsubsection{State}
-\subsubsection{Network Handling and Communication}
-
-\subsection{Transaction Sharing}
-\subsubsection{Web APIs and Browser Support}
-At the time of writing, more and more native API's are made available for the Web.
-The API specification for NFC connectivity is still in draft \cite{web-nfc}. However, partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement. The implementation state in Google Chrome is not documented thoroughly, so the specifications guidelines and Google Chrome's source code was the only way to obtain information on the subject apart from testing.
-% TODO Reference state for Webkit, moz, IE.
-For the prototype, the feature was implemented for Google Chrome on android.
-In order to allow web-nfc in Google Chrome, there need to be two flags set to enable the experimental implementation.
-"Experimental Web Platform features" and "webnfc". The first of these flags will show the nfc object in the navigator object of the browser. However, this does not mean that the hardware does support web-nfc. The latter flag can only be set on devices whose hardware actually supports NFC.
-After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{web-nfc}.
-
-Another challenge posed the creation and signing of Bazo transactions in the browser. Since not all data-types that are usually available in C-like structs are available in the browser, and browser support is still not widely adapted, a bridging solution had to be implemented.
-The structure of an Account Transaction can be seen in figure \ref{fig:AccountTx}
-
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
-\caption{\label{fig:AccountTx}Structure of an AccountTx in Bazo.}
-\end{figure}.
-
-
-\subsubsection{NFC}
-\subsubsection{NFC Bridge}
-Due to limited browser support for Native API's such as webNFC, see \ref{xy}, a prototype was discussed and implemented in this thesis. The prototype involved a native android application that should enable the web application to forward transaction information that could be forwarded to NFC capable devices using the Android Beam technology.
-The design and requirements of such an application was outlined in \ref{xy} and the two main functional requirements for the application were presented.
-Reading NFC messages from passive and active devices, was achieved without implementing it in the android application. This was done by changing the data model for transaction information to one that can be expressed in a single URL. With this media type, it is possible to use the tag dispatching system in android. This would work as follows:
-1. An NDEF message is received when the android device is unlocked and NFC enabled.
-2. The NDEF message for this application contains just one URL. Through android's intent system the application that fits best is started.
-3. If the Bazo Wallet PWA was previously installed on the android device, an intent filter is present for the origin URI of the PWA. This will result in the PWA being opened with all transaction data passed as parameter.
-4. If the Bazo Wallet PWA is not installed there will be no intent filter requesting the data. The user is then prompted with all applications that can handle an URI, such as a Web browser. If a browser is selected, then the Bazo payment page is opened with all transaction data passed as a parameter.
-%https://developer.android.com/guide/topics/connectivity/nfc/nfc.html
-
-Writing the transaction data to other android devices was implemented using the Android Beam technology.
-The transaction data can be passed to the NFC Bridge by either manually entering it into a form or by passing it as data through an intent. Passing data to the application through parameters has the benefit that web applications can generate links that will take the user to the application. Such a link can contain further data, which would be set to the transaction data the user wants to share with another android device.
-If the android phone is held against another Android Beam enabled device, the NFC Bridge application will automatically set the appropriate transaction data encoded as an NDEF message and push it to the other device.
-
-At the time of writing, NFC support for iOS platforms was just released for their most recent publicyl available version, iOS 11. The NFC functionality offered to iOS developers covered writing and reading to NFC tags on the iPhone 7 and iPhone 7 Plus \cite{corenfc}. Thus, an NFC Bridge application similar to how it was developed for android would not extend the functionality of existing generic NFC applications. The NFC fallback capabilities with the Bazo Wallet on iOS are outlined in chapter \ref{xy}.
-\subsubsection{Bluetooth Low Energy}
-\subsubsection{Quick Response Codes}
-\subsubsection{Fallback Solutions}
-Subsections of chapter 4.2 outlined how existing native and web-enabled API's were leveraged for the Bazo Wallet to share transaction data. This section documents the fallback solutions that were evaluated for devices or platforms that lack the support for the API, either natively or on the web.
-For android, the complete functionality of NFC could be leveraged. Writing and reading NFC tags was implemented with the web-nfc API. Complete peer to peer communication was enabled by developing an API bridge see \ref{}4.2.3.
-As iOS platforms only support native API's when communicating over NFC and peer to peer mode is not yet included, the fallback solution to use NFC on iOS devices can be described as follows. Since all transaction data can be encoded into a single valid URL, merchants and users can transfer their transaction data to an NFC tag. This can be done with any generic NFC application or, on an android device, with the Bazo Wallet itself. iOS users can then scan the NFC tag with their preferred generic NFC application. This will open the Payment page of the Bazo Wallet, prefilled with all necessary transaction data.
-\subsubsection{Transaction Encoding}
-
-\subsection{Blockchain Interaction}
-Actual network communication with the Bazo network in a trustless way posed the most difficult technical challenge for the application. The following areas had to be evaluated:
-
-1. Building the transaction data in the schema defined in the Bazo protocol. \ref{fig:AccountTx}.
-Due to technical limitations of the browser, this application context is not suitable to fullfill the requirements of a light client implementation. Reasons for this are lack of tcp communcation support, storage and data structures.
-To overcome these limitations, native application wrappers for the light client written in Go were evaluated. This approach would have the advantage that each customers doesn't have to maintain a complete copy of the blockchain but transactions can be verified in trustless way. However, the current state of project that enables the mobile bindings for go did not support all networking and data structure needs to fulfill the requirement. \cite{godocs}
-2. Signing the transaction data with the appropriate algorithms.
-3. Verifying transaction and account information.
-In order to run the Bazo Wallet as trustless as possible, the application has to maintain at least a certain amount of the blockchain to verify information. For the Bazo Wallet this would mean that the Bazo Wallet itself needs to verify blocks and transactions, or that the Bazo Wallet needs to talk with a trustworthy Bazo client. The latter approach would have been envisioned as a native application that would run on each mobile device.
-The first approach was not suitable, since the lack of support for certain data types and communication protocols are present in the Browser. The latter approach could not be implemented with the given resources. However, native implementations of the Bazo Client for Android and iOS are technically feasible.
-
-% link to gomobile, link to evaluation & future work
-
-The process of obtaining transaction information, creating a new transaction, signing and dispatching it into the network is shown in figure
-\ref{fig:TransactionProcess}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\textwidth]{diagrams/transactionProcess.png}
-\caption{\label{fig:TransactionProcess}Structure of an AccountTx in Bazo.}
-\end{figure}.
-
-\subsubsection{Bazo Client}
-\subsubsection{Client Integration}
-\subsubsection{Transaction Signing}
-\subsubsection{Data Queries}
-
-\subsection{Testing}
-\newpage
-
-\section{Evaluation}
-\subsection{Prototype Evaluation}
-\subsection{Comparison}
-\subsection{Limitations}
-\subsection{Future Development}
-\subsection{Future Work}
-\newpage
-
-\section{Summary and Conclusions}
-An introduction citing \cite{Liviosgier}
-
-\newpage
-
-\bibliographystyle{alpha}
-\bibliography{sample}
+\input{appendix.tex}
 
 \end{document}
