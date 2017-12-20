@@ -7,7 +7,7 @@ The Bazo Wallet application is designed as a Progressive Web Application.
 \subsection{Network Communication}
 \subsection{Interfaces}
 
-\section{Transaction Information}
+\section{Transaction Information} \label{transactioninfo}
 One requirement, that is that Bazo coins can be exchanged between users without direct involvement or administration from the service provider was incorporated into the core design of the Bazo currency. To fulfill said requirement it is vital that transaction informations can be shared between users of the Bazo Wallet. This section outlines how transaction information can be shared with the Bazo Wallet.
 %Search for papers, resources etc.
 Sharing transaction information in native applications is often achieved with technologies such as NFC, Bluetooth or by encoding and reading transaction information from a Quick-Response Code.
@@ -79,8 +79,8 @@ Once this set up is in place, the user will approach the POS System and may star
 \subsection{Network Handling and Communication}
 
 \section{Transaction Sharing}
-Requesting payments is a core requirement for the Bazo Wallet to qualify as a payment system for end-users. The design of  the sharing process and the data model were explained in \ref{x} This section explains how sharing transaction data across devices was implemented.
-\subsection{Web APIs and Browser Support}
+Requesting payments is a core requirement for the Bazo Wallet to qualify as a payment system for end-users. The design of the sharing process and the data model were explained in \ref{transactioninfo} This section explains how sharing transaction data across devices was implemented.
+\subsection{Web APIs and Browser Support}\label{browsersupport}
 At the time of writing, more and more native API's are made available for the Web.
 The API specification for NFC connectivity is still in draft \cite{webnfc}. However, partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement. The implementation state in Google Chrome is not documented thoroughly, so the specifications guidelines and Google Chrome's source code was the only way to obtain information on the subject apart from testing.
 % TODO Reference state for Webkit, moz, IE.
@@ -90,18 +90,18 @@ In order to allow web-nfc in Google Chrome, there need to be two flags set to en
 After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{webnfc}.
 
 Another challenge posed the creation and signing of Bazo transactions in the browser. Since not all data-types that are usually available in C-like structs are available in the browser, and browser support is still not widely adapted, a bridging solution had to be implemented.
-The structure of an Account Transaction can be seen in figure \ref{fig:AccountTx}
+The structure of a Funds Transaction can be seen in figure \ref{fig:FundsTX}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
-\caption{\label{fig:AccountTx}Structure of an AccountTx in Bazo.}
+\caption{\label{fig:FundsTX}Structure of a FundsTx in Bazo.}
 \end{figure}.
 
 
 \subsection{NFC}
-\subsection{NFC Bridge}
-Due to limited browser support for Native API's such as webNFC, see \ref{xy}, a prototype was discussed and implemented in this thesis. The prototype involved a native android application that should enable the web application to forward transaction information that could be forwarded to NFC capable devices using the Android Beam technology.
+\subsection{NFC Bridge}\label{nfcbridge}
+Due to limited browser support for Native API's such as webNFC, see \ref{browsersupport}, a prototype was discussed and implemented in this thesis. The prototype involved a native android application that should enable the web application to forward transaction information that could be forwarded to NFC capable devices using the Android Beam technology.
 The design and requirements of such an application was outlined in \ref{xy} and the two main functional requirements for the application were presented.
 Reading NFC messages from passive and active devices, was achieved without implementing it in the android application. This was done by changing the data model for transaction information to one that can be expressed in a single URL. With this media type, it is possible to use the tag dispatching system in android. This would work as follows:
 1. An NDEF message is received when the android device is unlocked and NFC enabled.
@@ -119,7 +119,7 @@ At the time of writing, NFC support for iOS platforms was just released for thei
 \subsection{Quick Response Codes}
 \subsection{Fallback Solutions}
 Subsections of chapter 4.2 outlined how existing native and web-enabled API's were leveraged for the Bazo Wallet to share transaction data. This section documents the fallback solutions that were evaluated for devices or platforms that lack the support for the API, either natively or on the web.
-For android, the complete functionality of NFC could be leveraged. Writing and reading NFC tags was implemented with the web-nfc API. Complete peer to peer communication was enabled by developing an API bridge see \ref{}4.2.3.
+For android, the complete functionality of NFC could be leveraged. Writing and reading NFC tags was implemented with the web-nfc API. Complete peer to peer communication was enabled by developing an API bridge, see \ref{nfcbridge}.
 As iOS platforms only support native API's when communicating over NFC and peer to peer mode is not yet included, the fallback solution to use NFC on iOS devices can be described as follows. Since all transaction data can be encoded into a single valid URL, merchants and users can transfer their transaction data to an NFC tag. This can be done with any generic NFC application or, on an android device, with the Bazo Wallet itself. iOS users can then scan the NFC tag with their preferred generic NFC application. This will open the Payment page of the Bazo Wallet, prefilled with all necessary transaction data.
 \subsection{Transaction Encoding}
 
@@ -136,18 +136,34 @@ The first approach was not suitable, since the lack of support for certain data 
 
 % link to gomobile, link to evaluation & future work
 
-The process of obtaining transaction information, creating a new transaction, signing and dispatching it into the network is shown in figure
-\ref{fig:TransactionProcess}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\textwidth]{diagrams/transactionProcess.png}
-\caption{\label{fig:TransactionProcess}Structure of an AccountTx in Bazo.}
-\end{figure}.
 
 \subsection{Bazo Client}
 \subsection{Client Integration}
 \subsection{Transaction Signing}
+Due to limitations of the browser for C-like structures as they would be required to create a FundsTx \ref{fig:FundsTX}, an interface had to the Bazo client had to be developed. 
+The process of obtaining transaction information, requesting a new transaction, signing and dispatching it into the network is shown in figure \ref{fig:TransactionProcess}.
+1. The application queries the necessary account information to request a transaction struct in a later step. This is a necessary step, since the TxCount of the transaction has to be correct in order for the transaction to be valid.
+2. With the account information, the web application can send a request to the web service to create a new FundsTx struct. The Bazo client creates the appropriate structure, hashes it using the SHA3-256 algorithm and returns it to the Wallet.
+3. The Wallet is now in charge of asking the user about its private key, signing the received transaction hash and sending it to the Bazo client.
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{diagrams/transactionProcess.png}
+\caption{\label{fig:TransactionProcess}Structure of a FundsTx in Bazo \cite{lisg}.}
+\end{figure}.
+
+This approach is comparable to the mechanism employed in the official JavaScript API of the Ripple currency \cite{ripplelib}.
+Figure \ref{ripplesendTx} demonstrates how a transaction can be sent with the Ripple cryptocurrency.
+L1: A connection to an interface is opened over a Websocket. 
+L3: A request is made to obtain relevant data and instruction for the payment.
+L5: The data returned from preparing the transaction is signed.
+L7: The API submits the signed Transaction over the WebSocket
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{diagrams/ripplelibSendTX.png}
+\caption{\label{fig:ripplesendTx} Programmatically creating, signing and sending a transaction with Ripple-lib \citep{ripplelib}.
+\end{figure}.
+
+
 \subsection{Data Queries}
 
 \section{Testing}
