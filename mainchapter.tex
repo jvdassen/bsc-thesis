@@ -147,7 +147,7 @@ The process of obtaining transaction information, requesting a new transaction, 
 3. The Wallet is now in charge of asking the user about its private key, signing the received transaction hash and sending it to the Bazo client.
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{diagrams/transactionProcess.png}
+\includegraphics[width=0.75\textwidth]{diagrams/transactionProcess.png}
 \caption{\label{fig:TransactionProcess}Structure of a FundsTx in Bazo \cite{lisg}.}
 \end{figure}.
 
@@ -157,10 +157,12 @@ L1: A connection to an interface is opened over a Websocket.
 L3: A request is made to obtain relevant data and instruction for the payment.
 L5: The data returned from preparing the transaction is signed.
 L7: The API submits the signed Transaction over the WebSocket
+
+
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{diagrams/ripplelibSendTX.png}
-\caption{\label{fig:ripplesendTx} Programmatically creating, signing and sending a transaction with Ripple-lib \citep{ripplelib}.
+\includegraphics[width=1\textwidth]{diagrams/ripplelibSendTX.png}
+\caption{\label{ripplesendTx}Programmatically creating, signing and sending a transaction with Ripple-lib\cite{ripplelib}.}
 \end{figure}.
 
 
