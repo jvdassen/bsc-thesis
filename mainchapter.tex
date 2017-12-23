@@ -123,7 +123,7 @@ For android, the complete functionality of NFC could be leveraged. Writing and r
 As iOS platforms only support native API's when communicating over NFC and peer to peer mode is not yet included, the fallback solution to use NFC on iOS devices can be described as follows. Since all transaction data can be encoded into a single valid URL, merchants and users can transfer their transaction data to an NFC tag. This can be done with any generic NFC application or, on an android device, with the Bazo Wallet itself. iOS users can then scan the NFC tag with their preferred generic NFC application. This will open the Payment page of the Bazo Wallet, prefilled with all necessary transaction data.
 \subsection{Transaction Encoding}
 
-\section{Blockchain Interaction}
+\section{Blockchain Interaction}\label{blockchaininteraction}
 Actual network communication with the Bazo network in a trustless way posed the most difficult technical challenge for the application. The following areas had to be evaluated:
 
 1. Building the transaction data in the schema defined in the Bazo protocol. \ref{fig:AccountTx}.
@@ -137,9 +137,8 @@ The first approach was not suitable, since the lack of support for certain data 
 % link to gomobile, link to evaluation & future work
 
 
-\subsection{Bazo Client}
-\subsection{Client Integration}
-\subsection{Transaction Signing}
+\subsection{Bazo Client Web interface} \label{bazoclientwebinterface}
+\subsection{Transaction Signing}\label{transactionsigning}
 Due to limitations of the browser for C-like structures as they would be required to create a FundsTx \ref{fig:FundsTX}, an interface had to the Bazo client had to be developed. 
 The process of obtaining transaction information, requesting a new transaction, signing and dispatching it into the network is shown in figure \ref{fig:TransactionProcess}.
 1. The application queries the necessary account information to request a transaction struct in a later step. This is a necessary step, since the TxCount of the transaction has to be correct in order for the transaction to be valid.
@@ -167,6 +166,15 @@ L7: The API submits the signed Transaction over the WebSocket
 
 
 \subsection{Data Queries}
+\subsection{Client Integration}
+Chapter \ref{bazoclientwebinterface} explained the interaction between the Bazo Wallet and the Bazo light client over a web interface.
+This chapter explains contexts in which the bazo client can be run, consequences and documents the efforts of porting the light client to mobile devices.
+Due to the security constraints one needs to be consider when interaction with other sources in a PWA, the Bazo client web interface has to be in a secure context. This would mean that an SSL certificate needs to be installed or the server needs to accessible through a secure reverse tunnel.
+This makes mobile devices as a runtime unsuitable, since an SSL certificate can not easily be installed for each mobile device. However, a proof of concept was developed to show that mobile devices are technically feasible to run the client. In chapter \ref{blockchaininteraction}, it was explained that binding the bazo client that was written in the go programming language in native android development using the official tools was not possible due to a lack of support for data-types. The following xy explain how the bazo client was ported to the android operating system for ARMv5 devices.
+To port the complete bazo client without any modifications to the android operating system the application was compiled  using the clang compiler. The compiler can be obtained through androids official NDK or it can be compiled from scratch. The complete toolchain was compiled targeting the arm architecture, and android API version 21 on a darwin x64bit system. The clang compiler of the toolchain was then used to configure the go environment for cross-compilation. The bazo client could then be compiled for android by configuring the golang environment for arm architectures and to use the freshly compiled clang compiler.
+The binary was then copied to an android device an ran in the scope of an existing application. This is a necessary step for binaries that are run on devices were root access is not given. The application performed well, so that ngrok was used to create a secure reverse tunnel. With this in place the web application was able to interact with the bazo client running on the same device but accessible through the secure context.
+This Proof of Concept could be leveraged to create an actual android application wrapping the binary. However, a solution to configure SSL appropriately would need to be found.
+% reference in future work
 
 \section{Testing}
 
