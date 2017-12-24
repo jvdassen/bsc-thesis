@@ -124,7 +124,7 @@ As iOS platforms only support native API's when communicating over NFC and peer 
 \subsection{Transaction Encoding}
 
 \section{Blockchain Interaction}\label{blockchaininteraction}
-Actual network communication with the Bazo network in a trustless way posed the most difficult technical challenge for the application. The following areas had to be evaluated:
+Actual network communication with the Bazo network in a trustless way posed the most difficult technical challenge for the application. The following mechanisms had to be evaluated:
 
 1. Building the transaction data in the schema defined in the Bazo protocol. \ref{fig:AccountTx}.
 Due to technical limitations of the browser, this application context is not suitable to fullfill the requirements of a light client implementation. Reasons for this are lack of tcp communcation support, storage and data structures.
@@ -139,6 +139,13 @@ The first approach was not suitable, since the lack of support for certain data 
 
 \subsection{Bazo Client Web interface} \label{bazoclientwebinterface}
 In order to interact with the Bazo Client, a web interface had to be created. The web service was designed as a RESTful API. The following xy explains the functionality of the API.
+The web service consisted of two endpoints for each type of transaction in the Bazo currency and one for the retrieval of account information such as balance and other parameters.
+For each of the transaction types the following two endpoints need to be used.
+\begin{itemize}
+\item The endpoint at /create<Account Type>/ is used to create obtain a transaction hash given all parameters for the Transaction struct are sent. This solves the problem of lacking the appropriate data types in the browser. The  returned transaction hash can then be signed on the client.
+\item The endpoint at /send<Account Type> accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond the answer to the client.
+\end{itemize}  
+
 \subsection{Transaction Signing}\label{transactionsigning}
 Due to limitations of the browser for C-like structures as they would be required to create a FundsTx \ref{fig:FundsTX}, an interface had to the Bazo client had to be developed. 
 The process of obtaining transaction information, requesting a new transaction, signing and dispatching it into the network is shown in figure \ref{fig:TransactionProcess}.
