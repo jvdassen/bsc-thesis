@@ -32,7 +32,7 @@ The schema below shows the URI endpoint of the payment page, together with addit
 \underbrace{\overbrace{posid=323}^{\mathrm{POS identification}}\overbrace{?paymentinfo=bazo://123123}^{\mathrm{transaction info}}}_{\mathrm{optional components}}
 \]
 
-The implementation of the module to encode and decode bazo encoded transaction information is described in \ref{xy}.
+The implementation of the module to encode and decode bazo encoded transaction information is described in \cite{undefined}.
 %reference impl
 
 \subsection{Device Sharing}
@@ -102,7 +102,7 @@ The structure of a Funds Transaction can be seen in figure \ref{fig:FundsTX}
 \subsection{NFC}
 \subsection{NFC Bridge}\label{nfcbridge}
 Due to limited browser support for Native API's such as webNFC, see \ref{browsersupport}, a prototype was discussed and implemented in this thesis. The prototype involved a native android application that should enable the web application to forward transaction information that could be forwarded to NFC capable devices using the Android Beam technology.
-The design and requirements of such an application was outlined in \ref{xy} and the two main functional requirements for the application were presented.
+The design and requirements of such an application was outlined in \cite{undefined} and the two main functional requirements for the application were presented.
 Reading NFC messages from passive and active devices, was achieved without implementing it in the android application. This was done by changing the data model for transaction information to one that can be expressed in a single URL. With this media type, it is possible to use the tag dispatching system in android. This would work as follows:
 1. An NDEF message is received when the android device is unlocked and NFC enabled.
 2. The NDEF message for this application contains just one URL. Through android's intent system the application that fits best is started.
