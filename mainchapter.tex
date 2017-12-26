@@ -76,10 +76,12 @@ Chapter \cite{undefined} explained the design of the Bazo Wallet in order to ful
 \section{Architecture\label{architecture}}
 The application was implemented as a Progressive Web Application. The constraints to a progressive web application have been outlined in \cite{undefined}. The application was implemented as a web application with the addition of the following items to comply as a progressive web application:
 \begin{itemize}
-\item manifest.json
-A manifest is a file that describes metadata of a web application such as links to icons for different screen sizes. It is further used to configure the progressive web application. For example, the name that will be displayed in the app drawer on the phone once the app is installed, can be set here. It is important to note that only Google Chrome on Android supports manifest files. Other platforms, such as iOS rely on meta tags in the main html file of the web application.
-\item service-worker
-A service worker is a javascript 
+\item Manifest
+A manifest is a JSON file that describes metadata of a web application such as links to icons for different screen sizes. It is further used to configure the progressive web application. For example, the name that will be displayed in the app drawer on the phone once the app is installed, can be set here. It is important to note that only Google Chrome on Android supports manifest files. \cite{manifest} Other platforms, such as iOS rely on meta tags in the main html file of the web application \cite{applemetatags}. 
+\item Service worker
+A service worker is a method to enable background processing of certain actions. A common way how service workers are used is to enable offline capability by intercepting and caching web requests \cite{serviceworkers}.
+\item Security Constraints
+User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest}.
 \end{itemize}
 
 \subsection{User Interface}
