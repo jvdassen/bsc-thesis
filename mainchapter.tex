@@ -85,7 +85,27 @@ User-agents such as Google Chrome pose certain security constraints to allow a w
 \end{itemize}
 
 \subsection{User Interface}
-\subsection{Storage}
+The application was implemented as a Single-Page-Application. In SPA, it is possible to structure content and application interface into pages without leaving the document. %find sources%, 
+This deals with the quality requirement, that the application should run in the browser with as little logic on the backend as possible. The Wallet was structured into the following pages, each accessible through a unique URL, although all technically in the same document:
+\begin{itemize}
+\item Home Page
+This is where the user will be directed upon loading the application. If a user tries to access a page, he is not allowed to, he will be directed to this page. For example, if a user opens the link to the payment page of the application, but the network connection is lost, he will be temporarily be redirected to the home page until network access becomes available again.
+\item Settings Page
+On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. Further, the user is given the possibility to set the URI of a bazo client web interface, that is then used for further blockchain interaction \ref{blockchaininteraction}.
+\item Accounts Page
+Whenever a user tries to access any of the other pages except for the home and settings screen, without an account being stored in the browser, see \ref{storage}, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then be automatically preselected for all other operations on other pages.
+This page can also be opened with an address supplied in the URI, which would then be prefilled in the form. This is employed to make the process of inviting the user into the system easier.
+\item Requesting Funds Page
+When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction height. If the user has selected advanced options in the Settings Page, he can inject an identifier for a POS system. 
+The compiled transaction data can then be transferred to other users using as many of the transaction sharing methods, see \cite{undefined}, as supported by his device and browser. For each of the transfer methods, an overlay would be opened to instruct the transfer process and to indicate the state of the transfer.
+\item Sending Funds Page
+If a user opens transaction data which is encoded into a single URI, \ref{transactioninfo}, he would be taken to the Sending Funds Page.
+All transaction data supplied as parameters in the URI are then parsed and filled into the form. If a POS id is present, see \ref{transactioninfo}, the transaction height is looked. All of these informations can also be manually supplied by filling out the form. In either cases, the user needs to select an account from which he wants to deduct the transaction, given that multiple accounts are stored. For said source account, the maximal amount of coins to be spent is displayed on the page. If the transaction data is valid, the user can request the transaction to be initiated. Once the transaction is prepared, a modal is opened, where the user needs to enter his private key, which is used to sign the transaction. The process of preparing, signing and submitting a transactoin is further described in \ref{blockchaininteraction}.
+\item Obtaining new funds
+This page allows users to inspect and submit new requests to deduct value from the bonus program and to top up a supplied Bazo account.
+\end{itemize}
+
+\subsection{Storage\label{storage}}
 \subsection{State}
 \subsection{Network Handling and Communication}
 
