@@ -72,7 +72,16 @@ Once this set up is in place, the user will approach the POS System and may star
 
 
 \chapter{Implementation}
-\section{Architecture}
+Chapter \cite{undefined} explained the design of the Bazo Wallet in order to fulfill the requirements to such an application captured in chapter \cite{undefined}. This chapter documents the implementation phase of the application. Chapter  \ref{architecture} outlines the architecture, the application employed. The following sections explain how the individual functional requirements were implemented.
+\section{Architecture\label{architecture}}
+The application was implemented as a Progressive Web Application. The constraints to a progressive web application have been outlined in \cite{undefined}. The application was implemented as a web application with the addition of the following items to comply as a progressive web application:
+\begin{itemize}
+\item manifest.json
+A manifest is a file that describes metadata of a web application such as links to icons for different screen sizes. It is further used to configure the progressive web application. For example, the name that will be displayed in the app drawer on the phone once the app is installed, can be set here. It is important to note that only Google Chrome on Android supports manifest files. Other platforms, such as iOS rely on meta tags in the main html file of the web application.
+\item service-worker
+A service worker is a javascript 
+\end{itemize}
+
 \subsection{User Interface}
 \subsection{Storage}
 \subsection{State}
