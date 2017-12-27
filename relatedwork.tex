@@ -59,22 +59,28 @@ A solution to bring more transparency into the network by letting users inspect 
 In order to visualize various aspects of the Bazo currency, a Block Explorer was developed. This application is also used to let the company perform administrative tasks such as setting the reward for mining a block in the Bazo network.
 \section{Requirements to the envisioned application}
 This section captures requirements which have been known upfront or which haven been explored or derived from other requirements. 
-\subsection{Functional Requirements}
+\subsection{Functional Requirements}\label{functionalreq}
 The envisioned Wallet application is supposed to enable the following operations
-\begin{itemize}
+\begin{enumerate}
 \item Requesting Funds from other Users.
 This is supposed to be achieved by sending transaction data between users over multiple ways, such as NFC, BTLE, QR Codes and Links. There should be a fallback solution which is applicable even if all these technologies are not supported by the underlying platform.
 \item Sending Funds from to Users.
-\item Requesting Funds from other Users.
 \item Inspecting account state such as e.g. balance.
+\item Linking account details to the Bazo Block Explorer, thus directing the user to it for further details.
 \item Requesting new Bazo coins from the traditional bonus points.
 \item Querying transaction height of a cash register in an existing sale system.
 
-\end{itemize}
+
+\end{enumerate}
 \subsection{Quality Requirements}
 The envisioned Wallet application is supposed to behave under the following quality requirements and design guidelines %????%
 \begin{itemize}
 \item Operations with the currency should be possible in a trustless way.
 \item All operations requiring the users private key should be safe and run completely in the browser. It should not be necessary to send the key over a network or expose it in any other way.
+\item Even users on devices and platforms that do not support most ways of transferring transaction data should have a fallback solution to still do so.
 
 \end{itemize}
+\subsection{Analyzing Requirements}
+
+The functional requirements outlined in \ref{functionalreq} were compared to%??% 
+the provided functionality of \textit{myetherwallet.com}., a web-based wallet for the Ethereum cryptocurrency. All of the requirements are met in \textit{myetherwallet.com}, except for the ways of transferring transaction data as described in the first requirement and for the integration of a point of sale system. For sharing transaction data among users, \textit{myetherwallet.com} provides the ability to generate a QR-Code from the public address. The functionalities not covered by the requirements in \ref{functionalreq} indicate that the envisioned system provides more than a Wallet for the currency since these functionalities can be found in other payment applications.
