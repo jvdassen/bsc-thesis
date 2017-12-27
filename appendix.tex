@@ -1,6 +1,93 @@
 \appendix
-
 \chapter{Installation Guidelines}
+\section{Wallet Application}
+
+In order to compile the source code of the Bazo Wallet application, \textit{npm} needs to be installed on the system. If \textit{node.js} is installed on the system, npm should be already included as well. Otherwise, download and install npm and the node.js runtime from the website:
+
+\begin{framed}
+\url{https://www.npmjs.com/get-npm}
+\end{framed}
+
+After having the package manager installed, install yarn and then use it to fetch the dependencies from the npm registry as follows. From the command line, run the following to install yarn globally:
+
+\begin{framed}
+npm install -g yarn
+\end{framed}
+This step may require root access to the system where yarn is installed. Upon installation, the dependencies can be fetched by running the following in the directory of the source code:
+\begin{framed}
+yarn install
+\end{framed}
+With all the dependencies met, it is now possible to run an integrated development server on \textit{localhost} without compiling and optimizing all source files:
+\begin{framed}
+yarn run dev\end{framed}
+This server will not meet the requirement posed on Progressive Web Applications, namely that they need to be served from a secure context.
+So, in a production environment one should build the actual files using another supplied script:
+\begin{framed}
+yarn run build\end{framed}
+This will build and transpile all source files. Further, the resulting project will be optimized for performance by splitting files into chunks and compressing them. The built project can then be found in the \textit{dist} directory of the current working directory.
+\begin{framed}
+yarn run build
+\end{framed}
+It is possible to run the built project locally by running:
+\begin{framed}
+node start-server.js
+\end{framed}
+However, to deploy the project to a suitable production environment, the \textit{dist} folder needs to be served from an http server. Any web server can be used to serve the project, however using a server where \textit{https} is optimal. A simple solution to test-deploy the project to a server without the need to configure https, is by using a webservice like \textit{surge}. Since npm should already be installed installation is as simple as running:
+\begin{framed}
+npm install -g surge
+\end{framed}
+Upon successfull installation, the dist project can be deployed to an https enabled server by running:
+\begin{framed}
+surge -d 'https://<subdomain of choice>.surge.sh' -p 'dist'
+\end{framed}
+This command will tell surge to deploy the directory \textit{dist} to the supplied subdomain. If the subdomain is prefixed with \textit{https} as with the command above, all incoming \textit{http} requests will be redirected to the secure context.
+Once the project is deployed, the user can navigate to the URL, where he will be automatically asked if he wants to install the Progressive Web Application to the device.
+
+\section{Installing and Running the NFC Bridge}
+The NFC Bridge PoC can be installed in two ways. For both methods, developer options have to be enabled on the android device. Follow the instructions from the official Android Studio documentation to enable developer options:
+\begin{framed}
+\url{
+https://developer.android.com/studio/debug/dev-options.html
+}
+\end{framed}
+Now, connect your device to the computer using e.g. an USB cable and follow one of the installation types below:
+\begin{enumerate}
+\item Importing, compiling and deploying the source code with Android Studio
+First, install a build of Android Studio Canary. Builds can be found at:
+\begin{framed}
+\url{http://tools.android.com/download/studio/canary/latest}
+\end{framed}
+Start Android Studio, and import the NFC Bridge source code as a gradle project. Click on \textit{Run} in the application menu and select \textit{Run 'app'}. This should prompt a dialog with a list of connected android devices. Select the target device and confirm by clicking \textit{OK}.
+On some devices, the android system will show a dialog and ask the user if \textit{USB Debugging} should be allowed for the requesting computer.
+After this is granted, the application is automatically installed and opened.
+\item Deploying the compiled \textit{.apk} file.
+Connect your android powered device to the computer and copy the NFCBridge \textit{.apk} file to the device. The file can then be opened from the android system. This will install the application permanently and run it.
+This installation type requires that unknown sources are trusted for installing android applications. The process of granting this right is described here:
+\begin{framed}\url{https://developer.android.com/distribute/marketing-tools/alternative-distribution.html#unknown-sources}
+\end{framed}
+\end{enumerate}
+
+\section{Installing and Running a Bazo node on Android}
+In order to run a a complete Bazo node on android device, several binaries have to be run. A full Bazo node consists of the Bazo miner and light client, of which the latter contains the web interface.
+This installation uses \textit{Android Debugging Bridge} to obtain a shell session on the android device. First, connect and configure your target android device as described in the official documentation:
+\begin{framed}\url{https://developer.android.com/studio/command-line/adb.html#wireless}
+\end{framed}
+Once the device is properly connected, the binaries can be pushed to the device. The following command is run from the root directory of the Android Port project:
+\begin{framed}adb push bin/bazo\_miner-android-armv5 /data/local/bin\end{framed}
+The target directory can be any directory with write access for the adb shell. Once the files are copied to the device, they can be run directly if root access is enabled on the phone.
+\begin{framed}adb shell /data/local/bin/<binary>\end{framed}
+If this is not the case, the VM of an existing android application can be used to run the binaries in. Open an interactive shell on the device:
+\begin{framed}adb shell\end{framed}
+Now use the following command to attach to an installed application. The following command demonstrates this with the NFC Bridge application:
+\begin{framed}run-as <ch.uzh.ifi.nfcbridge>\end{framed}
+Copy the binaries to the current working directory of the application:
+\begin{framed}cp /data/local/bin/bazo* .\end{framed}
+After this step the binaries can be run from the command line. This demonstrates how a miner application and a client can be started so that the web interface is running on port 8001:
+\begin{framed}./bazo\_miner new\_database :8000 \&
+
+./bazo\_client \&
+\end{framed}
+Now, the web service will be listening on port 8001 of the android device, so that this URL can be used in the Wallet application. Navigate to the settings page of the Wallet to modify the URI that will be used for all blockchain interaction.
 
 \chapter{Contents of the CD}
 \begin{itemize}
