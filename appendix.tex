@@ -82,12 +82,26 @@ Now use the following command to attach to an installed application. The followi
 \begin{framed}run-as <ch.uzh.ifi.nfcbridge>\end{framed}
 Copy the binaries to the current working directory of the application:
 \begin{framed}cp /data/local/bin/bazo* .\end{framed}
-After this step the binaries can be run from the command line. This demonstrates how a miner application and a client can be started so that the web interface is running on port 8001:
+After this step the binaries can be run from the command line. 
+First, the provided root key which is associated with the root account that is also the beneficiary in the miner application, has to be used to create a new non-root user account:
 \begin{framed}./bazo\_miner new\_database :8000 \&
+./bazo\_client accTx <header> <fee> <privKey> <keyOutput>
+\end{framed}
+With this, the bazo miner binary is run in the background, while passing the name for a new database file. The last argument will tell the miner to listen on localhost:8000 for inbount connections. Then, the client can be used with the follwoing parameters:
 
+\textbf{header}  Reserved header for later usage. E.g value: 0
+
+\textbf{fee}  The fee for the transaction. E.g value: 1
+
+\textbf{privKey} Key file containing the key pair of a valid root account. E.g value: ../rootkey
+
+\textbf{keyoutput} Name for the key file of the newly created account. E.g. value: new\_user
+
+Now that a user account is available and the bazo miner application is running in the background, the bazo client application can be started. When no arguments are passed to the client denoting the transaction type, the client will create the web interface runing on port 8001.
+\begin{framed}
 ./bazo\_client \&
 \end{framed}
-Now, the web service will be listening on port 8001 of the android device, so that this URL can be used in the Wallet application. Navigate to the settings page of the Wallet to modify the URI that will be used for all blockchain interaction.
+Now, the web service will be listening on port 8001 of the android device, so that this URI can be used in the Wallet application. Navigate to the settings page of the Wallet web application to modify the URI that will be used for all  interaction with the Bazo network.
 
 \chapter{Contents of the CD}
 \begin{itemize}
