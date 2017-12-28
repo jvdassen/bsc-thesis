@@ -45,7 +45,7 @@ The first design sketch included that communication between the Bridge applicati
 Since the android platform allows starting the application when an NFC message is received through the configuration of application intents, this design was preferred.
 \end{enumerate}
 
-\subsection{Merchant options}\label{fig:tps}
+\subsection{Merchant options}\label{merchantoptions}
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
 This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
 In order to get the complete payment process depicted, the payment process that is to be developed can be described as follows. The user of an iOS device can use his any NFC Tag Reader app from the app store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application.
@@ -88,25 +88,46 @@ User-agents such as Google Chrome pose certain security constraints to allow a w
 The application was implemented as a Single-Page-Application. In SPA, it is possible to structure content and application interface into pages without leaving the document. %find sources%, 
 This deals with the quality requirement, that the application should run in the browser with as little logic on the backend as possible. The Wallet was structured into the following pages, each accessible through a unique URL, although all technically in the same document:
 \begin{itemize}
-\item Home Page
+\item \textbf{Home Page}
 This is where the user will be directed upon loading the application. If a user tries to access a page, he is not allowed to, he will be directed to this page. For example, if a user opens the link to the payment page of the application, but the network connection is lost, he will be temporarily be redirected to the home page until network access becomes available again.
-\item Settings Page
+\item \textbf{Settings Page}
 On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. Further, the user is given the possibility to set the URI of a bazo client web interface, that is then used for further blockchain interaction \ref{blockchaininteraction}.
-\item Accounts Page
-Whenever a user tries to access any of the other pages except for the home and settings screen, without an account being stored in the browser, see \ref{storage}, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then be automatically preselected for all other operations on other pages.
+\item \textbf{Accounts Page}
+Whenever a user tries to access any of the other pages except for the Home and Settings Page, without an account being stored in the browser, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. Every public key can only be stored once, so that the total balance can be computed from the set of accounts. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then be automatically preselected for all other operations on other pages.
 This page can also be opened with an address supplied in the URI, which would then be prefilled in the form. This is employed to make the process of inviting the user into the system easier.
-\item Requesting Funds Page
+\item \textbf{Requesting Funds Page}
 When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction height. If the user has selected advanced options in the Settings Page, he can inject an identifier for a POS system. 
 The compiled transaction data can then be transferred to other users using as many of the transaction sharing methods, see \cite{undefined}, as supported by his device and browser. For each of the transfer methods, an overlay would be opened to instruct the transfer process and to indicate the state of the transfer.
-\item Sending Funds Page
+\item \textbf{Sending Funds Page}
 If a user opens transaction data which is encoded into a single URI, \ref{transactioninfo}, he would be taken to the Sending Funds Page.
 All transaction data supplied as parameters in the URI are then parsed and filled into the form. If a POS id is present, see \ref{transactioninfo}, the transaction height is looked. All of these informations can also be manually supplied by filling out the form. In either cases, the user needs to select an account from which he wants to deduct the transaction, given that multiple accounts are stored. For said source account, the maximal amount of coins to be spent is displayed on the page. If the transaction data is valid, the user can request the transaction to be initiated. Once the transaction is prepared, a modal is opened, where the user needs to enter his private key, which is used to sign the transaction. The process of preparing, signing and submitting a transactoin is further described in \ref{blockchaininteraction}.
-\item Obtaining new funds
+\item \textbf{Obtaining new funds}
 This page allows users to inspect and submit new requests to deduct value from the bonus program and to top up a supplied Bazo account.
+The user interface consists of table, where previous fund requests are displayed along with their state, and a form to submit new requests. In order to make a new request, the user needs to supply their token, target Bazo address and the amount of coins he wants to receive. 
+\end{itemize}
+The described pages are always a standalone display, where it is not possible for a user to be on multiple pages. However, there were parts of the User Interface that are shown on all of the pages. These parts along with the individual pages were logically structured into reusable components:
+\begin{itemize}
+\item \textbf{Navigation Bar}
+The navigation bar, which is located at the top of the screen holds multiple items. The icon of the project, a display of the total balance over all accounts and the currently selected main account are displayed. 
+On devices which are less than 550 pixels wide, the total balance and main account are hidden.
+\item \textbf{Side Bar}
+The side bar is located at the right side of the document and can be used to navigate between the individual pages. If there is no account configured in the application, only the Settings and Account pages are shown. If there is no network access, navigating between pages is restricted to the Home, Settings, Accounts and Requesting Funds pages.
+The sidebar also contains a display of the total amount of balances over all accounts and the icon of the project. Users can select between German and English languages at the bottom of the Sidebar. Each text in the application is fully internationalized in these two languages.
+
+\item \textbf{Offline status display}
+There is a background service, which is constantly checking if the application has network access. If this is not the case, the usage of the application is restricted to the Home, Settings, Accounts and Requesting Funds pages. If a user happens to be on any other page during connection loss, he is taken to the Home page where the Offline status display is shown. If the user does not navigate further he will be taken back to the original page, once network connection is obtained again.
+\item \textbf{Progress Bar}
+On each of the pages there is a thin progress bar at the very top of the document, above the header. This progress bar is used to indicate the progress of network requests made after the application is loaded.
+
 \end{itemize}
 
-\subsection{Storage\label{storage}}
-\subsection{State}
+\subsection{Storage and State management\label{storageandstate}}
+In chapter \ref{qualityrequirements}, the requirement for complete client-side operation and security requirements were introduced. This implied, that a storage solution local to the browser had to be used. HTML5 Web Storage is a browser side storage solution, that is supported by the majority of browsers \cite{localstoragetest} \cite{localstorage}.
+%part?%
+In the Security part of the document, multiple issues with the security of Web Storage are explained\cite{localstorage}.
+With a new API for browser side encryption in discussion by the World Wide Web Consortium, mechanisms like symmetrically encrypting values in the storage could be leveraged. However, the API is only considered a Recommendation of the Consortium\cite{webcrypto}.
+This makes local storage of security related data such as private keys unsuitable. Therefore, only user-data such as settings and public keys of Bazo accounts were stored in the Web Storage. For explicit state management vuex, a library for state management with Vue.js was used \cite{vuex}. The subset of state that needed to be persisted in Web Storage was placed in this storage.
+%??%
 \subsection{Network Handling and Communication}
 
 \section{Transaction Sharing}
