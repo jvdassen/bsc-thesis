@@ -233,17 +233,22 @@ The process of obtaining transaction information, requesting a new transaction, 
 \end{figure}.
 
 This approach is comparable to the mechanism employed in the official JavaScript API of the Ripple currency \cite{ripplelib}.
-Figure \ref{ripplesendTx} demonstrates how a transaction can be sent with the Ripple cryptocurrency.
+Figure \ref{fig:ripplesendTx} demonstrates how a transaction can be sent with the Ripple cryptocurrency using the library. The mechanism can be outlined into the following
 L1: A connection to an interface is opened over a Websocket. 
 L3: A request is made to obtain relevant data and instruction for the payment.
 L5: The data returned from preparing the transaction is signed.
 L7: The API submits the signed Transaction over the WebSocket
 
+Comparing the mechanism in Bazo, see Figure \ref{fig:TransactionProcess}, and Ripple, \ref{fig:ripplesendTx}, reveals certain differences, although the approach, with the respective consequences being similar.
+\begin{itemize}
+\item \textbf{Protocol mechanism} In Ripple, there exists a convenient method to prepare all data into a single JSON object, that needs to be signed and submitted. This step is splitted up into multiple steps in the web interface for Bazo. The client is responsible for querying the account information and then requesting a transaction hash from said information.
+\item \textbf{Connection Type} Both cryptocurrencies use web interfaces for communication with a node in the Network. In Bazo http is used, while the Ripple library makes use of a WebSocket for two-way communication. Given that two-way communication is not necessary for the Bazo currency, the http approach was chosen, since this is supported by a broader range of devices and browsers.
+\end{itemize}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{diagrams/ripplelibSendTX.png}
-\caption{\label{ripplesendTx}Programmatically creating, signing and sending a transaction with Ripple-lib\cite{ripplelib}.}
+\caption{\label{fig:ripplesendTx}Programmatically creating, signing and sending a transaction with Ripple-lib\cite{ripplelib}.}
 \end{figure}.
 
 
@@ -259,13 +264,4 @@ This Proof of Concept could be leveraged to create an actual android application
 
 \section{Testing}
 
-
-\chapter{Evaluation}
-\section{Prototype Evaluation}
-\section{Comparison}
-\section{Limitations}
-\section{Future Development}
-\section{Future Work}
 \newpage
-
-\chapter{Summary and Conclusions}
