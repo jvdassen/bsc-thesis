@@ -76,14 +76,20 @@ This is supposed to be achieved by sending transaction data between users over m
 
 \end{enumerate}
 \subsection{Quality Requirements}\label{qualityrequirements}
-The envisioned Wallet application is supposed to behave under the following quality requirements and design guidelines %????%
+The envisioned Wallet application is supposed to behave under the following quality requirements. %????%
 \begin{itemize}
-\item Operations with the currency should be possible in a trustless way.
+\item Operations with the currency should be possible in a trustless way using the application.
 \item All operations requiring the users private key should be safe and run completely in the browser. It should not be necessary to send the key over a network or expose it in any other way.
 \item Even users on devices and platforms that do not support most ways of transferring transaction data should have a fallback solution to still do so.
 
 \end{itemize}
 \subsection{Analyzing Requirements}
 
-The functional requirements outlined in \ref{functionalreq} were compared to%??% 
-the provided functionality of \textit{myetherwallet.com}., a web-based wallet for the Ethereum cryptocurrency. All of the requirements are met in \textit{myetherwallet.com}, except for the ways of transferring transaction data as described in the first requirement and for the integration of a point of sale system. For sharing transaction data among users, \textit{myetherwallet.com} provides the ability to generate a QR-Code from the public address. The functionalities not covered by the requirements in \ref{functionalreq} indicate that the envisioned system provides more than a Wallet for the currency since these functionalities can be found in other payment applications.
+The functional requirements outlined in \ref{functionalreq} were compared to %??% 
+the provided functionality of \textit{myetherwallet.com}, a web-based wallet for the Ethereum cryptocurrency. All of the requirements are met in \textit{myetherwallet.com}, except for the ways of transferring transaction data as described in the first requirement and for the integration of a point of sale system. For sharing transaction data among users, \textit{myetherwallet.com} provides the ability to generate a QR-Code from the public address \cite{myethwallet}. %The functionalities not covered by the requirements in \ref{functionalreq} indicate that the envisioned system provides more than a Wallet for the currency since these functionalities can be found in other payment applications.%
+The envisioned system could also be described as a Nonbank-centric person-to-person payment methods. This characterization builds on person to person exchange of transaction data. The clearing of such payments can vary to fit the classification. %??%
+Several advantages, such as speed and security, of such payment systems are outlined, although they do depend on the way that payments are cleared. Since this type of payment system requires at least the payee to have an account created, drawbacks such as the payment system not being accepted by users or users fearing that information is revealed exist \cite{p2ppayments}. 
+Other source highlight that users live a mobile lifestyle and wish for their payment systems to be usable mobile. Security was also found to be an important factor for payment systems while respondents associated currently available system, such as PayPal, to be risky \cite{p2ppadoption}.
+Since the application will not only be targeted to a universe base of users but also to merchants, which have a special role, the payment solution can be characterized as a Payment System for Merchants or Retailers.
+Another indication of this classification is the use of proximity technologies at a Point of Sale, which this application requires \cite{p2ptypes}.
+There are sources than characterize payment systems specifically for cryptocurrencies. Geva differentiates between mobile and cloud wallets. Functionalities such as proximity-based transfers qualify as a mobile wallet and are said to be key enabling technologies for such mobile payments \cite{bitcoinmobile}.
