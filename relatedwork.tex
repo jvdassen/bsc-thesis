@@ -4,16 +4,23 @@ This chapter familiarizes the reader with core concepts and technologies, which 
 %customer?%
 \subsection{Cryptocurrencies}
 \subsection{Web based Wallets}
+A web based wallet is a web application that allows for certain operations with the Blockchain. There are two common ways of implementing operations in the context of the web.
+As the name suggests, Web Clients allow users to operate on the blockchain using a web application. The key difference of this approach is that assets such as private keys are stored on the server of the application. Since the user has to share these assets with a third party, he will lose control over his funds and is dependent on the provider. This means that funds can be stolen from user, which has happened multiple times in Web clients for the Bitcoin network \cite{masteringbitcoin}.
+The second approach is known as a signing-only client. These applications do not maintain the blockchain or parts of it, as it is common with Full- or Headers-only clients. This allows to implement operations with minimal resources such as storage or network usage. Cryptographic operations are performed with the tools available in web applications and usually implemented in JavaScript.
+A drawback of such signing-only applications is that there still needs to be a minimum amount of trust with the server, that actually maintains parts of the blockchain and provides an interface for the web applications \cite{bitcoinclients}.
+Both client variants are compared in table \ref{table:clientstable}.
 \subsection{Progressive Web Applications}
 A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applcations.
-%https://developers.google.com/web/progressive-web-apps/
 They leverage the accessibility from the web but have various enhancements to give them a user experience that is closer to native mobile applications.
-%https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
-A PWA can be characterized as:
-\newtheorem{theorem-progressive}{Progressive}
-\newtheorem{theorem}{Connectivity Independent}
-\newtheorem{theorem-install}{Installable}
-\newtheorem{theorem-secure}{Secure}
+
+A PWA can be characterized as \cite{pwas}:
+
+%how to cite theorems?%
+\theoremstyle{definition}
+\newtheorem*{theorem-progressive}{Progressive}
+\newtheorem*{theorem}{Connectivity Independent}
+\newtheorem*{theorem-install}{Installable}
+\newtheorem*{theorem-secure}{Secure}
 
 \begin{theorem-progressive}
 A PWA should be progressively enhanced, based on what the user agent supports.
@@ -27,7 +34,7 @@ A Progressive Web Application should be installable to the users home screen and
 
 \end{theorem-install}
 \begin{theorem-secure}
-Since web application have access to powerful API's in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as https or wss.
+Since web application have access to powerful API's in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as https or wss \cite{securitychrome}.
 
 \end{theorem-secure}
 \subsection{Traditional payment process}
@@ -46,11 +53,24 @@ The Wallet that is developed for making transactions with the currency is requir
 The development of a Wallet for the cryptocurrency, which is the focus of this thesis, was started as various parts of the ecosystem of the Bazo currency had already been implemented. This section introduces other applications and their role or influence on the bazo ecosystem.
 \subsection{Bazo}
 Bazo is a cryptocurrency developed at the CSG at the University of Zurich. The currency was tailored to the use case of the financial service provider, which acts as a central institution that is able to create new coins and accounts. This makes the currency private, since an invite needs to be used to use the currency. This differs from various popular cryptocurrencies such as Bitcoin and Ethereum [xy] which are both open to the public. Similar to the approach taken in Ethereum, Bazo implements an account-based data model. Consensus in the Bazo network is achieved through a Proof of Work algorithm, although there are drawbacks from employing this strategy. More information about the current state of research of the consensus protocol in Bazo can be found is given the Proof of Stake thesis \cite{proofofstake}.
-
+The outcome of the first development efforts for Bazo consisted of two applications. The first, \textit{Bazo Miner}, can be classified as a Mining client. The second application is a Full client \cite{bitcoinclients}. Table \ref{table:clientstable} compares the two application.
 \subsection{Bazo Client Implementations}
-As part of the initial development efforts for Bazo, a client application was created. With this application, it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this implementation, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases, for example, that a Bazo client can be run on a device with limited resources such as a mobile device.
+As part of the initial development efforts for Bazo, a full client application was created. With this application, it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this fork implementation of the full client, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases, for example, that a Bazo client can be run on a device with limited resources such as a mobile device. This type of client can be classified as a \textit{Headers-only Client} \cite{bitcoinclients}. This type of client is compared in table \ref{table:clientstable}.
 %% elaborate.
 The implementation of this client is relevant for this thesis, since the Bazo Wallet is required to communicate with a Bazo client. Through this, the Bazo Wallet can perform actions such as querying account balances, transaction states as well as creating new transactions.
+
+\begin{center}\label{table:clientstable}
+    \begin{tabular}{ | l | l | l | l | p{3cm} |}
+    \hline
+      & Blockchain & Block headers & Transaction Signing & Mining \\ \hline
+    Full clients  & yes & yes & yes & no \\ \hline
+    Headers-only clients  & no & yes & yes & no \\ \hline    
+    Signing-only clients  & no & no & yes & no \\ \hline
+    Mining clients  & no & no & no & yes \\ \hline
+    \end{tabular}
+    \captionof{table}{Comparison of different client solutions with Bitcoin \cite{bitcoinclients}}
+
+\end{center}
 \subsection{Coinblesk}
 Coinblesk is a project carried out at the CSG at the University of Zurich. With Coinblesk, payments can be made in the Bitcoin network without having to wait for a transaction to be fully validated in a block. This is achieved by employing a client-server architecture, where transactions are signed by multiple instances in order to ensure validity as well as transaction speed.
 With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the underlying architecture for Coinblesk is substantially different from the approach with Bazo, large parts of the mobile application can be reused for the Bazo Wallet. This is described in chapter \cite{undefined}.
@@ -93,3 +113,6 @@ Other source highlight that users live a mobile lifestyle and wish for their pay
 Since the application will not only be targeted to a universe base of users but also to merchants, which have a special role, the payment solution can be characterized as a Payment System for Merchants or Retailers.
 Another indication of this classification is the use of proximity technologies at a Point of Sale, which this application requires \cite{p2ptypes}.
 There are sources than characterize payment systems specifically for cryptocurrencies. Geva differentiates between mobile and cloud wallets. Functionalities such as proximity-based transfers qualify as a mobile wallet and are said to be key enabling technologies for such mobile payments \cite{bitcoinmobile}.
+Another source evaluates different applications that can interact with the Blockchain, although the evaluation was performed for the Bitcoin currency, it can be compared.
+Due to the design guideline of crafting the application as a web application, the application can be classified as a Web-based signing-only client \cite{bitcoinclients}.
+

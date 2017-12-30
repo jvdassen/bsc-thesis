@@ -18,6 +18,12 @@ Since the Application is designed as a PWA and a quality requirement is the full
 \item Preparing transactions
 \item Distributing transactions in the peer-to-peer network
 \end{itemize}
+In order to let users in the role of a merchant depict the complete payment process, where transaction height can be determined for a POS system, multiple operations need to be enabled through a web interface. Further, an interface to the existing bonus program was designed in partnership with the company. The following operations were designed to be implemented into the backend of the financial service provider:
+\begin{itemize}
+\item Filing a new request to deduct bonus points and credit a Bazo account
+\item Querying the state of filed requests
+\item Querying the transactoin height of a POS instance given a supplied ID denoting the system in proximity.
+\end{itemize}
 \subsection{Device Sharing}
 In order to explore how suitable a PWA approach to the implementation of a Wallet or payment application is, the application is required to share transaction data on a device-to-device basis. Technologies such as NFC and Bluetooth Low Energy should be evaluated for their browser support and implemented. 
 The data model and mechanism applied to use the described technologies are explained in the consecutive sections.
@@ -73,12 +79,13 @@ Once this set up is in place, the user will approach the POS System and may star
 \caption{\label{fig:POS}Transferring payment information across devices using NFC.}
 \end{figure}
 
-\section{Communication}\label{communication}
+%%
+%%\section{Communication}\label{communication}
 %% Interfaces includes integration of existing services
-\subsection{Bazo Interfaces}
-\subsection{Payment System Interfaces}
-
-\subsection{Security Considerations}
+%%\subsection{Bazo Interfaces}
+%%\subsection{Payment System Interfaces}
+%%
+%%\subsection{Security Considerations}%%
 
 
 
@@ -96,7 +103,7 @@ A manifest is a JSON file that describes metadata of a web application such as l
 \item Service worker
 A service worker is a method to enable background processing of certain actions. A common way how service workers are used is to enable offline capability by intercepting and caching web requests \cite{serviceworkers}.
 \item Security Constraints
-User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest}.
+User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest}, \cite{securitychrome}.
 \end{itemize}
 
 \subsection{User Interface}
@@ -262,7 +269,7 @@ Comparing the mechanism in Bazo, see Figure \ref{fig:TransactionProcess}, and Ri
 \subsection{Client Integration}
 Chapter \ref{bazoclientwebinterface} explained the interaction between the Bazo Wallet and the Bazo light client over a web interface.
 This chapter explains contexts in which the bazo client can be run, consequences and documents the efforts of porting the light client to mobile devices.
-Due to the security constraints one needs to be consider when interaction with other sources in a PWA, the Bazo client web interface has to be in a secure context. This would mean that an SSL certificate needs to be installed or the server needs to accessible through a secure reverse tunnel.
+Due to the security constraints one needs to be consider when interaction with other sources in a PWA, the Bazo client web interface has to be in a secure context \cite{securitychrome}. This would mean that an SSL certificate needs to be installed or the server needs to accessible through a secure reverse tunnel.
 This makes mobile devices as a runtime unsuitable, since an SSL certificate can not easily be installed for each mobile device. However, a proof of concept was developed to show that mobile devices are technically feasible to run the client. In chapter \ref{blockchaininteraction}, it was explained that binding the bazo client that was written in the go programming language in native android development using the official tools was not possible due to a lack of support for data-types. The following xy explain how the bazo client was ported to the android operating system for ARMv5 devices.
 To port the complete bazo client without any modifications to the android operating system the application was compiled  using the clang compiler. The compiler can be obtained through androids official NDK or it can be compiled from scratch. The complete toolchain was compiled targeting the arm architecture, and android API version 21 on a darwin x64bit system. The clang compiler of the toolchain was then used to configure the go environment for cross-compilation. The bazo client could then be compiled for android by configuring the golang environment for arm architectures and to use the freshly compiled clang compiler.
 The binary was then copied to an android device an ran in the scope of an existing application. This is a necessary step for binaries that are run on devices were root access is not given. The application performed well, so that ngrok was used to create a secure reverse tunnel. With this in place the web application was able to interact with the bazo client running on the same device but accessible through the secure context.
