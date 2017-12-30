@@ -1,4 +1,26 @@
 \chapter{Evaluation}
 \section{Prototype Evaluation}
+This section evaluates the developed P2P mobile payment application against key characteristics for such a solution. Key characteristics of a mobile payment solution can be :
+\begin{enumerate}
+\item \textbf{Speed}
+The speed of a payment is characterized as the time passed between initiation and clearance of the transaction.
+\item \textbf{Payer control}
+This refers to the degree as where a user can select the most advantageous terms for his payment
+\item \textbf{Security}
+The degree of risk of having funds manipulated or stolen by engaging in the payment system is considered Security.
+%inverse?%
+\item \textbf{Universatility}
+This key characteristic deals with the importance of a payment system being accepted by a large user base to make the payment solution attractive.
+\end{enumerate}
+
+
+Considering speed, there are multiple issues for assessing the Speed of the Bazo Wallet. First, it is hard to determine where the start of the transaction process begins. It is assumed that the transaction process starts when the user has already all the necessary information such as target address and transaction height available. It is difficult to assess the speed of the Wallet since the speed of the payment depends on other systems. A high amount of unconfirmed transactions,a lower fee selected by the user and the configuration of the block interval can impact the payment speed. If we would assume these values were chosen optimally, the Bazo Wallet contributes little to no time to the overall time required for the payment. Obtaining transaction data, signing and submitting it from and to a remote bazo client, took less than 500ms in tests. Using a local client, such as the Android version would require even less.
+
 \section{Limitations}
+Since with blockchain based cryptocurrencies a goal is to be independent on trusting a single authority, the Bazo Wallet should be evaluated with respect to this key factor
+%???%
+Since, the application is designed as a signing-only client, there needs to exist a certain amount of trust between the user of such a Wallet and the server he relies on \cite{bitcoinclients}.
+It is known that although there is some space for attacks, such as tampering with account balances when queried, it is not possible for a server to modify transactions and therefore steal funds. This is ensured by having all transaction signing implemented in the browser. Since sharing transaction data is not performed over the same server, but rather on a P2P basis, it is also hard to trick the user into targeting the wrong address. Further, the user has the possibility to set a custom URI, which is used for all transactions. That way, one could deploy the light client to an https enabled server and use this node as a backend. This is an approach that is frequently employed when dealing with signing-only clients \cite{bitcoinclients}. It is also technically possible to run the light client locally on an android phone, by running the ARM compiled binaries of the light client. This was tested and proved to work as with any other operating system or platform.
+Another risk is introduced with the unified data model of transaction data, since this points to the URI of the Bazo Wallet. One could trick a user into using a web application that looks like the bazo wallet, but has the only purpose of stealing the private key, in case that the user does not realize that the URI does not belong to the actual Wallet.
+One solution how this weakness can be handled is to install the progressive web application to the home screen. On Android platforms, this will associate the installed application with the URI of the origin. Therefore the application will only open if the host of the URI matches the origin of the installed web page.
 \section{Future Work}
