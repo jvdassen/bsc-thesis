@@ -1,9 +1,9 @@
 \chapter{Design}
-This chapter describes the design decisions taken for the implementation of the Bazo Wallet. Section \ref{designguidelines} introduces design guidelines that were given from the start of the project. Section \ref{transactioninfo} and \ref{communication} explain how the required functionality of the Wallet was designed.
-\section{Design Guidelines}\label{designguidelines}
+This chapter describes the design decisions taken for the implementation of the Bazo Wallet. Section \ref{designguide} introduces design guidelines that were given from the start of the project. Section \ref{transactioninfo} and the following subsections explain how the required functionality of the Wallet was designed.
+\section{Design Guidelines}\label{designguide}
 For the development of the Bazo Wallet, multiple requirements were explored with the financial service provider. These are described in \ref{functionalreq}. This section introduces several design guidelines which were known from the start of the project and consequences on other design desicions.
 \subsection{Progressive Web Applications}
-The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due to Progressive Web Applications having native elements, they provide a unified solution for multiple operating systems, targeting both mobile and desktop devices. This implies that a web application is to be crafted, that supports all the functional requirements described i \ref{functionalreq}. The Web application therefore needs to contain the following pages to support the core requirements:
+The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due to Progressive Web Applications having native elements, they provide a unified solution for multiple operating systems, targeting both mobile and desktop devices. This implies that a web application is to be crafted, that supports all the functional requirements described in \ref{functionalreq}. The Web application therefore needs to contain the following pages to support the core requirements:
 \begin{itemize}
 \item Page to share transaction data
 \item Page to send new transactions
@@ -11,12 +11,18 @@ The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due
 \item Page to request new funds from bonus points
 \end{itemize}
 
-\subsection{Network Communication and Interfaces}
+\subsection{Network Communication and Interfaces}\label{networkandinterfaces}
 Since the Application is designed as a PWA and a quality requirement is the fully client side approach to all the operations, all operations need to be made in the browser. Since no backend application should be leveraged, the Web app needs to be able to sign transactions in the browser. All further communication with the Bazo network needs to be done over web interfaces. This led to the design of a RESTful web interface for the bazo light client, which was then implemented. The following operations should be supported by the API:
 \begin{itemize}
 \item Querying account state
+
+This endpoint should return all necessary information about the account's state such as balance, the transaction counter and information if the account has root access.
 \item Preparing transactions
+
+By posting fee, transaction height, target and source address to this endpoint, the API will prepare the transaction hash and return it to the client.
 \item Distributing transactions in the peer-to-peer network
+
+This endpoint can be used to post a transaction hash and signature. The API will then distribute the transaction in the peer-to-peer network.
 \end{itemize}
 In order to let users in the role of a merchant depict the complete payment process, where transaction height can be determined for a POS system, multiple operations need to be enabled through a web interface. Further, an interface to the existing bonus program was designed in partnership with the company. The following operations were designed to be implemented into the backend of the financial service provider:
 \begin{itemize}
@@ -162,17 +168,15 @@ The API specification for NFC connectivity is still in draft \cite{webnfc}. Howe
 For the prototype, the feature was implemented for Google Chrome on android.
 In order to allow web-nfc in Google Chrome, there need to be two flags set to enable the experimental implementation.
 "Experimental Web Platform features" and "webnfc". The first of these flags will show the nfc object in the navigator object of the browser. However, this does not mean that the hardware does support web-nfc. The latter flag can only be set on devices whose hardware actually supports NFC.
-After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{webnfc}.
+After extensive testing, it became clear that the current implementation of Google Chrome only allows devices to use NFC functionalities such as reading and writing to them with NFC tags as a target. Performing these actions to active NFC devices such as a smartphone will throw the corresponding error according to the specification draft \cite{webnfc}. After discussion with members on the working group, they confirmed that targeting active NFC devices is not yet implemented. The reason for this is that these operations would require native UI elements from the android operating system. However, they expressed intent on implementing it in the future \cite{webnfcpeer}.
 
-Another challenge posed the creation and signing of Bazo transactions in the browser. Since not all data-types that are usually available in C-like structs are available in the browser, and browser support is still not widely adapted, a bridging solution had to be implemented.
-The structure of a Funds Transaction can be seen in figure \ref{fig:FundsTX}
+Another challenge posed the creation and signing of Bazo transactions in the browser. The structure of a Funds Transaction can be seen in figure \ref{fig:FundsTX}. Since not all data-types that are usually available in C-like structs, are available in the browser, a bridging solution had to be implemented. The application was therefore designed as a signing-only client, with the implication of designing a web interface into the light client as described in \ref{networkandinterfaces}. This is a common approach when building web based Wallets that don't store the users private key on a server \cite{bitcoinclients}\cite{masteringbitcoin}.
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
 \caption{\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.}
-\end{figure}.
-
+\end{figure}
 
 \subsection{Web NFC}
 In section \ref{pocnfcbridge} the semantics of the data model of a transaction that can be shared among users in the form of a single URL was explained.

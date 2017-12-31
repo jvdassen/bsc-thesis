@@ -9,14 +9,20 @@ This refers to the degree as where a user can select the most advantageous terms
 \item \textbf{Security}
 The degree of risk of having funds manipulated or stolen by engaging in the payment system is considered Security.
 %inverse?%
-\item \textbf{Universatility}
+\item \textbf{Universality}
 This key characteristic deals with the importance of a payment system being accepted by a large user base to make the payment solution attractive.
 \end{enumerate}
 
-
 Considering speed, there are multiple issues for assessing the Speed of the Bazo Wallet. First, it is hard to determine where the start of the transaction process begins. It is assumed that the transaction process starts when the user has already all the necessary information such as target address and transaction height available. It is difficult to assess the speed of the Wallet since the speed of the payment depends on other systems. A high amount of unconfirmed transactions,a lower fee selected by the user and the configuration of the block interval can impact the payment speed. If we would assume these values were chosen optimally, the Bazo Wallet contributes little to no time to the overall time required for the payment. Obtaining transaction data, signing and submitting it from and to a remote bazo client, took less than 500ms in tests. Using a local client, such as the Android version would require even less.
 
-\section{Limitations}
+Payer control with the Bazo currency has a mixed result %%??%%
+The user has the control to create transactions at terms he prefers, for example, the user can set the fee he is ready to spend for the transaction. However, the clearance of the transaction depends very much on the network. That is the current amount of unconfirmed transactions, the rate at which transactions are validated and the fee the user has set.
+
+Security as in the definiton above, should be given for all transactions signed by the user. Section \ref{limitations} outlines cases, where the user can be tricked to reveal his public key. From a technical point of view, the Wallet can be considered secure, as that it is not possible to steal a private key or manipulate transactions which would result in the loss of funds for the user.
+
+Universality is not a strength of the Bazo currency. Since the Wallet is not compatible with other payment systems or applications only users in the system can exchange funds. Since Bazo is a newly created cryptocurrency, there is no user base and users would have to be convinced to join the system. Given that the target users should already be in the bonus program, the usage of the Bazo currency could be offered an incentive. Since the mechanisms in the Wallet for communicating with the currency are very similar to the mechanisms in other currencies such as Ripple, it would technically be feasible to reuse the Wallet for other currencies and map the bonus points to said currency \cite{ripplelib}.
+
+\section{Limitations}\label{limitations}
 Since with blockchain based cryptocurrencies a goal is to be independent on trusting a single authority, the Bazo Wallet should be evaluated with respect to this key factor
 %???%
 Since, the application is designed as a signing-only client, there needs to exist a certain amount of trust between the user of such a Wallet and the server he relies on \cite{bitcoinclients}.
