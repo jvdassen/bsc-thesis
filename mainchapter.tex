@@ -180,6 +180,9 @@ Another challenge posed the creation and signing of Bazo transactions in the bro
 
 \subsection{Web NFC}
 In section \ref{pocnfcbridge} the semantics of the data model of a transaction that can be shared among users in the form of a single URL was explained.
+
+NFC also enables devices to share information at a distance that is less than 10 centimeters. Users can share business cards, make transactions, access information from a smart poster or provide credentials for access control systems with a simple touch.
+NFC, is a technology standard that allows contactless, two-way data transfers between devices that are within centimeters of distance \cite{nfcforum}.
 Since the support for WebNFC is limited to android devices, the functionality for writing and reading the transaction data is visible only to the users that have activated advanced options.
 The corresponding UI elements are therefore hidden if the user has not activated advanced options. The same goes for browsers and devices that lack webnfc or nfc support.
 Using the API for the actual read and write operations was straightforward since the API consists of one method for each of them. The data type of the NFC %??% record was set to URL.
@@ -202,6 +205,8 @@ If the android phone is held against another Android Beam enabled device, the NF
 
 At the time of writing, NFC support for iOS platforms was just released for their most recent publicyl available version, iOS 11. The NFC functionality offered to iOS developers covered writing and reading to NFC tags on the iPhone 7 and iPhone 7 Plus \cite{corenfc}. Thus, an NFC Bridge application similar to how it was developed for android would not extend the functionality of existing generic NFC applications. The NFC fallback capabilities with the Bazo Wallet on iOS are outlined in chapter \cite{undefined}.
 \subsection{Bluetooth Low Energy}
+Bluetooth Low Energy, allows for devices to exchange data in short wireless connection. Devices will usually establish connections in a peer-to-peer topology\cite{blep2p}. Data can be structured into GATT-services which is then exposed to other BLE-capable devices. These devices may then read and write on these Services \cite{blegatt}. 
+This makes the web-bluetooth API useful, for web applications to interact with BLE-devices in proximity. However, to use the API for transaction sharing between two web pages on different devices, this would imply for one of the devices to take on the role of a server. This functionality is not provided in the web-bluetooth API, and makes it therefore not suitable to solve the requirement.
 \subsection{Quick Response Codes}
 Quick Response Codes were envisioned to be the fallback way to transfer transaction data for devices that either do not support NFC or in cases where the browser does not support webNFC. With the data model explained in \cite{undefined}, all transaction data can be placed in a QR Code in the form of a single URL.
 This has the intent to support devices where the browser does not allow camera access in the browser over the webRTC API \cite{undefined}. Users with such a device can still read the QR Code using a generic native application. Since all information is encoded in a single URL the payment page can be opened with all necessary information prefilled.
