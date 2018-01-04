@@ -1,4 +1,4 @@
-\chapter{Design}
+\chapter{Design}\label{design}
 This chapter describes the design decisions taken for the implementation of the Bazo Wallet. Section \ref{designguide} introduces design guidelines that were given from the start of the project. Section \ref{transactioninfo} and the following subsections explain how the required functionality of the Wallet was designed.
 \section{Design Guidelines}\label{designguide}
 For the development of the Bazo Wallet, multiple requirements were explored with the financial service provider. These are described in \ref{functionalreq}. This section introduces several design guidelines which were known from the start of the project and consequences on other design desicions.
@@ -12,77 +12,75 @@ The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due
 \end{itemize}
 
 \subsection{Network Communication and Interfaces}\label{networkandinterfaces}
-Since the Application is designed as a PWA and a quality requirement is the fully client side approach to all the operations, all operations need to be made in the browser. Since no backend application should be leveraged, the Web app needs to be able to sign transactions in the browser. All further communication with the Bazo network needs to be done over web interfaces. This led to the design of a RESTful web interface for the bazo light client, which was then implemented. The following operations should be supported by the API:
+Since the Application is designed as a PWA and a quality requirement is the fully client side approach for all the operations, all operations need to be made in the browser. Since no backend application should be leveraged, the Web app needs to be able to sign transactions in the browser. All further communication with the Bazo network needs to be done over web interfaces. This led to the design of a RESTful web interface for the bazo light client, which was then implemented. The following operations should be supported by the API:
 \begin{itemize}
 \item Querying account state
 
 This endpoint should return all necessary information about the account's state such as balance, the transaction counter and information if the account has root access.
 \item Preparing transactions
 
-By posting fee, transaction height, target and source address to this endpoint, the API will prepare the transaction hash and return it to the client.
+By supplying fee, transaction height, target and source address to this endpoint, the API will prepare the transaction hash and return it to the client to calculate the signature.
 \item Distributing transactions in the peer-to-peer network
 
 This endpoint can be used to post a transaction hash and signature. The API will then distribute the transaction in the peer-to-peer network.
 \end{itemize}
-In order to let users in the role of a merchant depict the complete payment process, where transaction height can be determined for a POS system, multiple operations need to be enabled through a web interface. Further, an interface to the existing bonus program was designed in partnership with the company. The following operations were designed to be implemented into the backend of the financial service provider:
+In order to depict the complete payment process for users in the role of a merchant, the application needs to retrieve infromation such as transaction height through a web interface. Further, an interface to the existing bonus program was designed in partnership with the company. The following operations were designed to be implemented into the backend of the financial service provider:
 \begin{itemize}
 \item Filing a new request to deduct bonus points and credit a Bazo account
 \item Querying the state of filed requests
-\item Querying the transactoin height of a POS instance given a supplied ID denoting the system in proximity.
+\item Querying the transactoin height of a POS instance given a supplied ID denoting the POS system in proximity.
 \end{itemize}
 \subsection{Device Sharing}
-In order to explore how suitable a PWA approach to the implementation of a Wallet or payment application is, the application is required to share transaction data on a device-to-device basis. Technologies such as NFC and Bluetooth Low Energy should be evaluated for their browser support and implemented. 
-The data model and mechanism applied to use the described technologies are explained in the consecutive sections.
+In order to explore how suitable a PWA approach for the implementation of a Wallet or payment application is, the application is required to share transaction data on a device-to-device basis. Technologies such as NFC and Bluetooth should be evaluated for their browser support and implemented. 
+The data model and mechanism designed to use the described technologies are explained in the consecutive sections.
 %??%
 \section{Transaction Information} \label{transactioninfo}
-One requirement, that is that Bazo coins can be exchanged between users without direct involvement or administration from the service provider was incorporated into the core design of the Bazo currency. To fulfill said requirement it is vital that transaction informations can be shared between users of the Bazo Wallet. This section outlines how transaction information can be shared with the Bazo Wallet.
+One requirement, that is that Bazo coins can be exchanged between users without direct involvement or administration from the service provider was incorporated into the core design of the Bazo currency. To fulfill said requirement it is vital that transaction information, can be exchanged between users of the Bazo Wallet. This section outlines the design of the data model and mechanisms in order to share said information between web applications.
 %Search for papers, resources etc.
-Sharing transaction information in native applications is often achieved with technologies such as NFC, Bluetooth or by encoding and reading transaction information from a Quick-Response Code.
+%%Sharing transaction information in native applications is often achieved with technologies such as NFC, Bluetooth or by encoding and reading transaction information from a Quick-Response Code.
 \subsection{Schema}\label{schema}
-In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema followed the \cite{bip21} 21st Bitcoin Improvement Proposal for an URI scheme since it contained all necessary elements to fulfill the requirement. The URI Schema consists of a required part which holds the protocol name and the recipient's fully qualified bazo address.
+In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema closely follows the 21st Bitcoin Improvement Proposal for an URI scheme since it contained all necessary elements to fulfill the requirement \cite{bip21}. The URI Schema consists of a required part which holds the protocol name and the recipient's fully qualified bazo address. The structure and schema of an example transaction request are visible in \ref{urischeme}.
 
 
 \[
 \underbrace{\overbrace{bazo:}^{\mathrm{protocol}}\overbrace{34ad8...8a4a4}^{\mathrm{public\ key}}}_{\mathrm{required\ components}}
 \underbrace{\overbrace{?amount=123}^{\mathrm{amoun t}}\overbrace{?label=1 Coffee}^{\mathrm{label}}\overbrace{?message=Message}^{\mathrm{message}}}_{\mathrm{optional\ components}}
-\]
+\]\label{fig:urischeme} Example of a transaction request in Bazo.
 
 
 % reference nfc bridge
-This implies, that the Bazo Wallet and other applications that need to interact with it need to be able to encode and decode transaction information as supplied in the described grammar.
-For the web-based wallet this transaction info should also be an optional parameter of the URL of the payment page. This allows that a complete URI to the payment page with all required transaction information can be shared among users or between merchants and users.
-This enables to encode complete transaction information as well as a an URI to the application page with the transaction information into media such as a QR-Code. This has the benefit, that all users of the Wallet can exchange payment information without having to know about the Schema.
-Since merchants frequently have more advanced payment systems and don't want to encode payment information into media such as QR-Codes for each new transaction, the payment page of the Wallet also needs to be able to accept additional parameters, by which the Wallet can then query the transaction amount from a service.
-The schema below shows the URI endpoint of the payment page, together with additional parameters that can be supplied to have the payment page prefilled with transaction information. This procedure is further described in Figure \ref{fig:POS}.
+The chosen data model implies that the Bazo Wallet and other applications that need to interact with it need to be able to encode and decode transaction information as supplied in the described grammar.
+This enables to encode complete transaction information as well as a an URI to the application page into a medium such as a QR-Code. With this, a convenient way of transferring transaction data is given.
+Since merchants frequently have more advanced payment systems and don't want to encode payment information into media such as QR-Codes for each new transaction, the payment page of the Wallet also needs to be able to accept additional parameters, by which the Wallet can then query the transaction value from a service.
+Figure \ref{schema} shows an URI consting of the endpoint of the payment page, together with additional parameters that can be supplied to have the payment page filled with transaction information upon opening it. This procedure is further described in Figure \ref{networkandinterfaces}.
 \[
 \underbrace{\overbrace{https://host/:}^{\mathrm{Host}}\overbrace{\#/auth/user/send}^{\mathrm{payment\ page}}}_{\mathrm{required\ components}}
-\underbrace{\overbrace{posid=323}^{\mathrm{POS\  identification}}\overbrace{?paymentinfo=bazo://123123}^{\mathrm{transaction\ data}}}_{\mathrm{optional\ components}}
-\]
+\underbrace{\overbrace{posid=<ID>}^{\mathrm{POS\  identification}}\overbrace{?paymentinfo=bazo:<public key>}^{\mathrm{transaction\ data}}}_{\mathrm{optional\ components}}
+\]\label{fig:schema}Example of a complete URI pointing to the payment page and containing a valid transaction request.
 
-The implementation of the module to encode and decode bazo encoded transaction information is described in \cite{undefined}.
 %reference impl
 
 \subsection{Device Sharing}\label{pocnfcbridge}
-In order to explore further possibilities on how to extend the browser support for native API's a Proof of Concept was designed. The PoC was targeted to the android Platform, since NFC support is still fairly limited on iOS devices at the time of the design. This means that with Core NFC, a technology by Apple, only communication with passive NFC Tags is supported \cite{corenfc}. The PoC, further referenced as 'NFC Bridge', should run as a background service and enable two processes.
+In order to explore further possibilities on how to extend the browser support for native API's a Proof of Concept was designed. The PoC is targeted to the android Platform, since NFC support is still fairly limited on iOS devices at the time of the design. This means that with Core NFC, a technology by Apple, only communication with passive NFC Tags is supported \cite{corenfc}. The PoC, further referenced as 'NFC Bridge', should run as a background service and enable two processes.
 \begin{enumerate}
 \item Reading NFC devices:
 The application should be registered as a handler for NFC messages. If an NFC message is read from another NFC device such as another active device or an NFC Tag, the user is prompted with applications that can handle the data format. If the user selects the NFC Bridge application, the data received from the NFC Adapter should be parsed and the user prompted with the Payment page of the Bazo Wallet. The payment page is then prefilled with the payment information extracted from the NDEF message.
-\item Pushing to NFC devices: The NFC Bridge application should allow the PWA-based Bazo Wallet to push handover encoded transaction information which can then be pushed to NFC devices and tags.
-The first design sketch included that communication between the Bridge application and the Bazo Wallet is done through an HTTP or Websocket. This implied that the NFC Bridge is running as a background service, listening for NFC messages and keeping the server alive.
-Since the android platform allows starting the application when an NFC message is received through the configuration of application intents, this design was preferred.
+\item Pushing to NFC devices: The NFC Bridge application should allow the web-based Bazo Wallet to handover encoded transaction information which can then be pushed to NFC devices.
+The first design sketch included that communication between the Bridge application and the Bazo Wallet is done through an HTTP or Websocket. This implied that the NFC Bridge would need to run as a background service, listening for incoming push requests.
+Since the android platform allows starting an application when a certain type of data is received through the configuration of application intents, this design was preferred. That way, it is also possible to start the android application from the browser and pass the transaction data to it. The application does not need to run when doing so, and the effort to maintain a server in the application is omitted.
 \end{enumerate}
 
 \subsection{Merchant options}\label{merchantoptions}
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
-This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices support for NFC access is restricted to native API's and the functionality is limited to reading passive NFC Tags.
-In order to get the complete payment process depicted, the payment process that is to be developed can be described as follows. The user of an iOS device can use his any NFC Tag Reader app from the app store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application.
-Once this set up is in place, the user will approach the POS System and may start the payment process. The cashier will scan the items, and the POS System will automatically associate the POS ID with the transaction amount. The user can now use any existing iOS or android application to read the NFC tag. Since both payment and transaction information is encoded in a URL, the user is taken to the payment page of the Mobile Wallet, where the POS ID is used to query the transaction amount from the POS System. Since the Bazo Address is supplied in the URL as well, the user can confirm the payment. Once confirmed the Mobile Wallet will sign the transaction and send it into the Bazo network. Figure
+This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices, support for NFC is restricted to native API's and the functionality is limited to reading passive NFC Tags.
+In order to enable the complete payment process, the mechanism that is being implemented can be described as follows. The user of an iOS device can use any existing NFC Tag Reader application from the Apple App Store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application on android.
+Once this set up is in place, the user will approach the POS System and may start the payment process. The cashier will scan the items, and the POS System will automatically associate the POS ID with the transaction value. The user can now use any existing iOS or android application to read the NFC tag. Since the transaction information is encoded in a URL, the user is taken to the payment page of the Mobile Wallet. Here, the POS ID is used to query the transaction value associated with the POS from a web-service. Since the Bazo Address is supplied in the URL as well, the transaction request is complete and can be confirmed by the user. Once confirmed the Mobile Wallet will sign the transaction and send it to the Bazo network. Figure
 \ref{fig:POS} shows the process of transferring transaction information and transaction issueing under the constraint that a third party service needs to be queried.
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{diagrams/POS_flow.png}
-\caption{\label{fig:POS}Transferring payment information across devices using NFC.}
+\caption{\label{fig:POS}Payment process using an NFC tag with static transaction data.}
 \end{figure}
 
 %%
@@ -100,40 +98,41 @@ Once this set up is in place, the user will approach the POS System and may star
 
 
 \chapter{Implementation}
-Chapter \cite{undefined} explained the design of the Bazo Wallet in order to fulfill the requirements to such an application captured in chapter \cite{undefined}. This chapter documents the implementation phase of the application. Chapter  \ref{architecture} outlines the architecture, the application employed. The following sections explain how the individual functional requirements were implemented.
+Chapter \ref{design} introduced the design of the Bazo Wallet in order to fulfill the requirements to such an application documented in chapter \ref{requirements}. This chapter documents the implementation phase of the application. Chapter  \ref{architecture} outlines the architecture, the application employed. The following sections explain how the individual functional requirements were implemented.
 \section{Architecture\label{architecture}}
-The application was implemented as a Progressive Web Application. The constraints to a progressive web application have been outlined in \cite{undefined}. The application was implemented as a web application with the addition of the following items to comply as a progressive web application:
+The application was implemented as a Progressive Web Application. The characteristics of a progressive web application have been outlined in \ref{pwacharacteristics}. The application was implemented as a web application with the addition of the following items to comply as a progressive web application:
 \begin{itemize}
 \item Manifest
-A manifest is a JSON file that describes metadata of a web application such as links to icons for different screen sizes. It is further used to configure the progressive web application. For example, the name that will be displayed in the app drawer on the phone once the app is installed, can be set here. It is important to note that only Google Chrome on Android supports manifest files. \cite{manifest} Other platforms, such as iOS rely on meta tags in the main html file of the web application \cite{applemetatags}. 
-\item Service worker
-A service worker is a method to enable background processing of certain actions. A common way how service workers are used is to enable offline capability by intercepting and caching web requests \cite{serviceworkers}.
+A manifest is a JSON file that describes metadata of a web application such as links to icons for different screen sizes. It is further used to configure the progressive web application. For example, the name that will be displayed in the app drawer on the phone once the app is installed, can be set here. It is important to note that only Google Chrome on Android supports manifest files. \cite{manifest} Other platforms, such as iOS rely on meta tags in the main html file of the web application \cite{applemetatags}. Implementing meta tags and manifest was straight forward, the names and description of the application had to be given, and the static ressources such as icons had to be linked correctly.
+\item Service worker and Offline Capability
+A service worker is a method to enable background processing of certain actions. A common way how service workers are used is to enable offline capability by intercepting web requests. By caching static parts of the web application, offline availability is enabled \cite{serviceworkers}. The service worker used in the project is automatically generated at compile time by a webpack plugin. This makes it possible to flexibly configure the service worker and define all the static resources which are then cached for offline usage. The offline experience is further enhanced by an event listener, which is integrated in the routing of the SPA. If a user is on a page that requires network access, the application will then inform the user about the network loss and redirect to the Home page.
+
 \item Security Constraints
 User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest}, \cite{securitychrome}.
 \end{itemize}
 
 \subsection{User Interface}\label{userinterface}
-The application was implemented as a Single-Page-Application. In SPA, it is possible to structure content and application interface into pages without leaving the document. %find sources%, 
+The application was implemented as a Single-Page-Application. With SPAs, it is possible to structure content and application interface into pages without leaving the document. %find sources%, 
 This deals with the quality requirement, that the application should run in the browser with as little logic on the backend as possible. The Wallet was structured into the following pages, each accessible through a unique URL, although all technically in the same document:
 \begin{itemize}
 \item \textbf{Home Page}
 This is where the user will be directed upon loading the application. If a user tries to access a page, he is not allowed to, he will be directed to this page. For example, if a user opens the link to the payment page of the application, but the network connection is lost, he will be temporarily be redirected to the home page until network access becomes available again.
 \item \textbf{Settings Page}
-On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. Further, the user is given the possibility to set the URI of a bazo client web interface, that is then used for further blockchain interaction \ref{blockchaininteraction}.
+On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. This would mean that the user has an additional field available to encode the POS ID into the transaction data. Further, the user is given the possibility to set the URI of a bazo client web interface, that is then used for further communication with the client's web interface.
 \item \textbf{Accounts Page}
-Whenever a user tries to access any of the other pages except for the Home and Settings Page, without an account being stored in the browser, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. Every public key can only be stored once, so that the total balance can be computed from the set of accounts. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then be automatically preselected for all other operations on other pages.
-This page can also be opened with an address supplied in the URI, which would then be prefilled in the form. This is employed to make the process of inviting the user into the system easier.
+Whenever a user tries to access any of the other pages except for the Home and Settings Page, without an account being stored in the browser, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. Every public key can only be stored once, so that the total balance can be computed from the set of accounts. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then automatically get preselected for all other operations on other pages.
+This page can also be opened with an address supplied in the URI, which would then be filled into the form. This is employed to make the process of inviting the user into the system easier.
 \item \textbf{Requesting Funds Page}
-When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction height. If the user has selected advanced options in the Settings Page, he can inject an identifier for a POS system. 
-The compiled transaction data can then be transferred to other users using as many of the transaction sharing methods, see \cite{undefined}, as supported by his device and browser. For each of the transfer methods, an overlay would be opened to instruct the transfer process and to indicate the state of the transfer.
+When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction height. If the user has selected advanced options in the Settings Page, he may set an identifier for a POS system. 
+The compiled transaction data can then be transferred to other users using as many of the transaction sharing methods, as supported by his device and browser. Only the sharing methods supported by the underlying platform are visible to the user, in order to progressively enhance the application. For each of the transfer methods, an overlay would be opened to instruct the transfer process and to indicate the state of the transfer.
 \item \textbf{Sending Funds Page}
-If a user opens transaction data which is encoded into a single URI, \ref{transactioninfo}, he would be taken to the Sending Funds Page.
-All transaction data supplied as parameters in the URI are then parsed and filled into the form. If a POS id is present, see \ref{transactioninfo}, the transaction height is looked. All of these informations can also be manually supplied by filling out the form. In either cases, the user needs to select an account from which he wants to deduct the transaction, given that multiple accounts are stored. For said source account, the maximal amount of coins to be spent is displayed on the page. If the transaction data is valid, the user can request the transaction to be initiated. Once the transaction is prepared, a modal is opened, where the user needs to enter his private key, which is used to sign the transaction. The process of preparing, signing and submitting a transactoin is further described in \ref{blockchaininteraction}.
+If a user opens transaction data which is encoded into a single URI, he would be taken to the Sending Funds Page.
+All transaction data supplied as parameters in the URI are then parsed and filled into the form. If a POS id is present, see \ref{transactioninfo}, the transaction value is looked up. All of these informations can also be manually supplied by filling out the form. In either cases, the user needs to select an account from which he wants to deduct the transaction, given that multiple accounts are stored. For said source account, the maximal amount of coins to be spent is displayed on the page. If the transaction data is valid, the user can request the transaction to be initiated. Once the transaction is prepared, a modal is opened, where the user needs to enter his private key, which is used to sign the transaction. The process of preparing, signing and submitting a transactoin is further described in \ref{blockchaininteraction}.
 \item \textbf{Obtaining new funds}
 This page allows users to inspect and submit new requests to deduct value from the bonus program and to top up a supplied Bazo account.
 The user interface consists of table, where previous fund requests are displayed along with their state, and a form to submit new requests. In order to make a new request, the user needs to supply their token, target Bazo address and the amount of coins he wants to receive. 
 \end{itemize}
-The described pages are always a standalone display, where it is not possible for a user to be on multiple pages. However, there were parts of the User Interface that are shown on all of the pages. These parts along with the individual pages were logically structured into reusable components:
+The described pages are always a standalone display, where it is not possible for a user to be on multiple pages. However, there are parts of the User Interface that are shown on all of the pages. These parts along with the individual pages were logically structured into reusable components:
 \begin{itemize}
 \item \textbf{Navigation Bar}
 The navigation bar, which is located at the top of the screen holds multiple items. The icon of the project, a display of the total balance over all accounts and the currently selected main account are displayed. 
@@ -142,6 +141,7 @@ On devices which are less than 550 pixels wide, the total balance and main accou
 The side bar is located at the right side of the document and can be used to navigate between the individual pages. If there is no account configured in the application, only the Settings and Account pages are shown. If there is no network access, navigating between pages is restricted to the Home, Settings, Accounts and Requesting Funds pages.
 The sidebar also contains a display of the total amount of balances over all accounts and the icon of the project. Users can select between German and English languages at the bottom of the Sidebar. Each text in the application is fully internationalized in these two languages.
 
+
 \item \textbf{Offline status display}
 There is a background service, which is constantly checking if the application has network access. If this is not the case, the usage of the application is restricted to the Home, Settings, Accounts and Requesting Funds pages. If a user happens to be on any other page during connection loss, he is taken to the Home page where the Offline status display is shown. If the user does not navigate further he will be taken back to the original page, once network connection is obtained again.
 \item \textbf{Progress Bar}
@@ -149,10 +149,12 @@ On each of the pages there is a thin progress bar at the very top of the documen
 
 \end{itemize}
 
+Since the User Interface of the coinblesk-frontend application was structured as a SPA with reusable components, it was possible to use this application as a base \cite{coinbleskfrontend}. Since that application was designed as a client-server application, most of the logic had to be rewritten. However, it was possible to inherit the application structure as well as certain components. The Home Page as well as the four components that are visible on all pages were reused. Few modifications such as styling had to be applied. Almost all individual pages had to be rewritten. When doing this, the same User Interface Framework was used, since it provided reusable components and a consistent look with other parts of the application. A webpack configuration was used to optimize and build the application.
+
 \subsection{Storage and State management\label{storageandstate}}
 In chapter \ref{qualityrequirements}, the requirement for complete client-side operation and security requirements were introduced. This implied, that a storage solution local to the browser had to be used. HTML5 Web Storage is a browser side storage solution, that is supported by the majority of browsers \cite{localstoragetest} \cite{localstorage}.
 %part?%
-In the Security part of the document, multiple issues with the security of Web Storage are explained\cite{localstorage}.
+In the Security part of the specification document, multiple issues with the security of Web Storage are explained \cite{localstorage}.
 With a new API for browser side encryption in discussion by the World Wide Web Consortium, mechanisms like symmetrically encrypting values in the storage could be leveraged. However, the API is only considered a Recommendation of the Consortium\cite{webcrypto}.
 This makes local storage of security related data such as private keys unsuitable. Therefore, only user-data such as settings and public keys of Bazo accounts were stored in the Web Storage. For explicit state management vuex, a library for state management with Vue.js was used \cite{vuex}. The subset of state that needed to be persisted in Web Storage was placed in this storage.
 %??%
@@ -163,7 +165,7 @@ Multiple operations of the Bazo Wallet are performed using cross-origin http req
 Requesting payments is a core requirement for the Bazo Wallet to qualify as a payment system for end-users. The design of the sharing process and the data model were explained in \ref{transactioninfo} This section explains how sharing transaction data across devices was implemented.
 \subsection{Web APIs and Browser Support}\label{browsersupport}
 At the time of writing, more and more native API's are made available for the Web.
-The API specification for NFC connectivity is still in draft \cite{webnfc}. However, partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement. The implementation state in Google Chrome is not documented thoroughly since there exists no implementation report yet, as they are available for other specifications \cite{localstoragetest}\cite{webnfc}. This implied that the specifications guidelines and Google Chrome's source code was the only way to obtain information on the subject apart from testing.
+However, the API specification for NFC connectivity in the browser is still in draft \cite{webnfc}. Partial implementations of the API are available in Google Chrome on android devices. Other user-agents and platforms do not yet support the feature although some have expressed intent to implement. The implementation state in Google Chrome is not documented thoroughly since there exists no implementation report yet, as they are available for other specifications \cite{localstoragetest}\cite{webnfc}. This implied that the specifications guidelines and Google Chrome's source code was the only way to obtain information on the subject apart from testing.
 % TODO Reference state for Webkit, moz, IE.
 For the prototype, the feature was implemented for Google Chrome on android.
 In order to allow web-nfc in Google Chrome, there need to be two flags set to enable the experimental implementation.
@@ -222,7 +224,8 @@ If the android phone is held against another Android Beam enabled device, the NF
 At the time of writing, NFC support for iOS platforms was just released for their most recent publicyl available version, iOS 11. The NFC functionality offered to iOS developers covered writing and reading to NFC tags on the iPhone 7 and iPhone 7 Plus \cite{corenfc}. Thus, an NFC Bridge application similar to how it was developed for android would not extend the functionality of existing generic NFC applications. The NFC fallback capabilities with the Bazo Wallet on iOS are outlined in chapter \ref{fallback}.
 \subsection{Bluetooth Low Energy}\label{ble}
 Bluetooth Low Energy, allows for devices to exchange data in short wireless connection. Devices will usually establish connections in a peer-to-peer topology\cite{blep2p}. Data can be structured into GATT-services which is then exposed to other BLE-capable devices. These devices may then read and write on these Services \cite{blegatt}. 
-This makes the web-bluetooth API useful, for web applications to interact with BLE-devices in proximity \cite{webble}. However, to use the API for transaction sharing between two web pages on different devices, this would imply for one of the devices to take on the role of a server. This functionality is not provided in the web-bluetooth API, and makes it therefore not suitable to solve the requirement. This was confirmed by \cite{undefined}.
+This makes the web-bluetooth API useful, for web applications to interact with BLE-devices in proximity. However, to use the API for transaction sharing between two web pages on different devices, this would imply for one of the devices to take on the role of a server. This functionality is not provided in the web-bluetooth API, and makes it therefore not suitable to solve the requirement \cite{webble}. 
+%%This was confirmed by \cite{undefined}.
 
 Since the web-bluetooth API could not be used for data sharing, the websharing API was leveraged to provide easy sharing capabilites with low friction. Low friction for usage is given through the deep integration of the API with android's intent system. By invoking the API through passing the relevant URI, all sharing options available to the device will be presented to the user \cite{webshareapi}. This has two advantageous:
 \begin{enumerate}
@@ -230,15 +233,14 @@ Since the web-bluetooth API could not be used for data sharing, the websharing A
 \item Sharing transaction data is not limited to functionalities provided by the Wallet. The user has the possibility to use any existing application, for example, his favorite chat applicatoin, to transfer the URI. When new applications are installed, they will be considerd by the android's intent system for sharing.
 \end{enumerate}
 
-The Web Share API is not considered a W3C standard, however it was assessed as an origin trial in Google Chrome and is now normally available starting with version 61 \cite{webshareapi}\cite{websharespec}. This is limited to the android platform.
+The Web Share API is not considered a W3C standard, however it was assessed as an origin trial in Google Chrome on Android and is now normally available starting with version 61 \cite{webshareapi}\cite{websharespec}.
 
 
 \subsection{Quick Response Codes}\label{qrcodes}
-Quick Response Codes were envisioned to be the fallback way to transfer transaction data for devices that either do not support NFC or in cases where the browser does not support webNFC. With the data model explained in \cite{undefined}, all transaction data can be placed in a QR Code in the form of a single URL.
-This has the intent to support devices where the browser does not allow camera access in the browser over the webRTC API \cite{undefined}. Users with such a device can still read the QR Code using a generic native application. Since all information is encoded in a single URL the payment page can be opened with all necessary information prefilled.
-webRTC is a powerful new API that allows webpages to access the camera and microphone of the device. Google Chrome has supported this API for  years, therefore multiple QR Reader libraries leveraging the API exist.
-On iOS devices, webRTC support has been added with the release of Safari version 11 in September 2017 \cite{safari11release}.
-The QR Scanner from the coinblesk-frontend project was a simple wrapper around an existing QR Reader library \cite{instascan}. Due to the implementations in Safari 11, the underlying library had to be modified so that certain attributes were set. This allowed to run the QR Reader in the Browser of iOS devices. The actual decoding of the image with the library is implemented in pure JavaScript. This has performance drawbacks, since there is no hardware support. Further, the library is quite large with around 1.5 MB size for a minified JavaScript file. Because of this, the ShapeDetectionAPI was evaluated, which promises certain optimizations, since the decoding is not run in JavaScript \cite{shapeapinotes}. However, this new API is neither a W3c Standard or on track of becoming one \cite{shapeapispec}.
+Quick Response Codes were envisioned to be the fallback way to transfer transaction data for devices that either do not support NFC or in cases where the browser does not support webNFC. With the data model explained in \ref{schema}, all transaction data can be placed in a QR Code in the form of a single URL.
+This data model was chosen with the intent to support devices where the browser does not allow camera access in the browser over the webRTC API, which is still not widely adapted by browsers\cite{webrtcimplreport}. Testing Google Chrome and Safari on desktop and mobile systems showed that only Google Chrome has implemented the webRTC API for camera access. Safari has  implemented webRTC into their most recent version 11, which was released to the public in September 2017  \cite{safari11release}\cite{ios11release}. This implies that users with older versions of iOS will not have access to the API. Users with such a device can still read the QR Code using a generic native application. Since all information is encoded in a single URL the payment page can be opened with all necessary information prefilled.
+Google Chrome has already implemented the webRTC API, therefore multiple QR Reader libraries leveraging the API exist.
+The QR Scanner from the coinblesk-frontend project was a simple wrapper around an existing QR Reader library \cite{instascan}. Due to the implementations in Safari version 11, the underlying library had to be modified so that certain attributes were set. This allowed to run the QR Reader in the Browser of iOS devices. The actual decoding of the image with the library is implemented in pure JavaScript. This has performance drawbacks, since there is no hardware support. Further, the library is quite large with around 1.5 MB size for a minified JavaScript file. Because of this, the ShapeDetectionAPI was evaluated, which promises certain optimizations, since the decoding is not run in JavaScript \cite{shapeapinotes}. However, this new API is neither a W3c Standard or on track of becoming one \cite{shapeapispec}.
 
 \subsection{Fallback Solutions}\label{fallback}
 Subsections of chapter 4.2 outlined how existing native and web-enabled API's were leveraged for the Bazo Wallet to share transaction data. This section documents the fallback solutions that were evaluated for devices or platforms that lack the support for the API, either natively or on the web.
@@ -262,12 +264,12 @@ The first approach was not suitable, since the lack of support for certain data 
 
 
 \subsection{Bazo Client Web interface} \label{bazoclientwebinterface}
-In order to interact with the Bazo Client, a web interface had to be created. The web service was designed as a RESTful API. The following xy explains the functionality of the API.
+In order to interact with the Bazo Client, a web interface had to be created. The web service was designed as a RESTful API. The following section explains the functionality of the API.
 The web service consisted of two endpoints for each type of transaction in the Bazo currency and one for the retrieval of account information such as balance and other parameters.
 For each of the transaction types the following two endpoints need to be used.
 \begin{itemize}
 \item The endpoint at /create<Account Type>/ is used to create obtain a transaction hash given all parameters for the Transaction struct are sent. This solves the problem of lacking the appropriate data types in the browser. The  returned transaction hash can then be signed on the client.
-\item The endpoint at /send<Account Type> accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond the answer to the client.
+\item The endpoint at /send<Account Type>/ accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond the answer to the client.
 \end{itemize}  
 
 \subsection{Transaction Signing}\label{transactionsigning}

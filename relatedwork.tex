@@ -6,11 +6,11 @@ This chapter familiarizes the reader with core concepts and technologies, which 
 \subsection{Web based Wallets}
 A web based wallet is a web application that allows for certain operations with the Blockchain. There are two common ways of implementing operations in the context of the web.
 As the name suggests, Web Clients allow users to operate on the blockchain using a web application. The key difference of this approach is that assets such as private keys are stored on the server of the application. Since the user has to share these assets with a third party, he will lose control over his funds and is dependent on the provider. This means that funds can be stolen from user, which has happened multiple times in Web clients for the Bitcoin network \cite{masteringbitcoin}.
-The second approach is known as a signing-only client. These applications do not maintain the blockchain or parts of it, as it is common with Full- or Headers-only clients. This allows to implement operations with minimal resources such as storage or network usage. Cryptographic operations are performed with the tools available in web applications and usually implemented in JavaScript.
-A drawback of such signing-only applications is that there still needs to be a minimum amount of trust with the server, that actually maintains parts of the blockchain and provides an interface for the web applications \cite{bitcoinclients}.
+The second approach is known as a signing-only client. These applications do not maintain the blockchain or parts of it, as it is common with Full- or Headers-only clients. This allows to implement operations with minimal resources such as storage or network usage. Cryptographic operations are performed with the tools available in web applications and implemented in JavaScript.
+A drawback of such signing-only applications is that there still needs to be a certain amount of trust with the server, that actually maintains parts of the blockchain and exposes an interface for the web applications \cite{bitcoinclients}.
 Both client variants are compared in table \ref{table:clientstable}.
-\subsection{Progressive Web Applications}
-A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applcations.
+\subsection{Progressive Web Applications}\label{pwacharacteristics}
+A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applications.
 They leverage the accessibility from the web but have various enhancements to give them a user experience that is closer to native mobile applications.
 
 A PWA can be characterized as \cite{pwas}:
@@ -27,35 +27,35 @@ A PWA should be progressively enhanced, based on what the user agent supports.
 \end{theorem-progressive}
 
 \begin{theorem}
-A Progressive Web Application should always present something to the viewer. By employing an app-shell architecture, the application can be separated from its content. The application shell as well as cached content should always be shown.
+A Progressive Web Application should always present something to the user. By employing an app-shell architecture, the application can be separated from its content. The application shell as well as cached content should always be shown.
 \end{theorem}
 \begin{theorem-install}
 A Progressive Web Application should be installable to the users home screen and accessible from there.
 
 \end{theorem-install}
 \begin{theorem-secure}
-Since web application have access to powerful API's in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as \textit{https} or \textit{wss} \cite{securitychrome}. \textit{https}
+Since web application have access to powerful API's in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as \textit{https} or \textit{wss} \cite{securitychrome}.
 
 \end{theorem-secure}
 \subsection{Traditional payment process}
 In the traditional process, customers were incentivized to use debit and credit cards issued by the company by rewarding the customer with points of a virtual currency based on the transaction volumes.
 Through contracts that are established between the company and partner companys, the company can trade the customers virtual points against gift cards from partner companys.
 Based on the terms established in the contract, the partner companies are disbursed for the value of the gift cards, which customers can redeem at the partner company.
-Similar to the process of exchanging virtual points for goods, the company also has to act as a middleman when users want to exchange their points amongst each other. Both these cases pose a significant administrative effort for the company. Further disadvantages are the limited transparency of the program to users and that the virtual points have a relative short lifecycle.
+Similar to the process of exchanging virtual points for goods, the company also has to act as a middleman when users want to exchange their points amongst each other. Both these cases pose a significant administrative effort for the company. Further disadvantages are the limited transparency of the program to users and that the virtual points have a relative short life cycle \cite{lisg}.
 
-\subsection{Envisioned payment process}
-The envisioned system is supposed to overcome the stated disadvantages, by mapping the virtual points to a currency that can be used directly to make transactions between users or between user and partner company.
-The financial company rewarding with the virtual points should still remain in a central position for the currency and control aspects such as issueing new units and accounts.
-The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by supplying payment information in a device to device manner. Since merchants may have more advanced payment system, a possibility to integrate third party interfaces into the payment process is required. The decoupled requirements needed to be explored with the company and are further described in chapter \ref{functionalreq}.
+\subsection{Envisioned payment process}\label{envisionedpaymentprocess}
+The envisioned system is supposed to overcome the stated disadvantages, by mapping the virtual points to a currency that can be used directly to make transactions between users or between user and the partner company.
+The company rewarding with the virtual points should still remain in a central position for the currency and control aspects such as issueing new units and accounts.
+The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by exchanging payment information in a device to device manner. Since merchants may have more advanced payment system, a possibility to integrate third party interfaces into the payment process is required. The detailed requirements needed to be explored with the company and are further described in chapter \ref{functionalreq}.
 
 
 \section{Related Work}
 The development of a Wallet for the cryptocurrency, which is the focus of this thesis, was started as various parts of the ecosystem of the Bazo currency had already been implemented. This section introduces other applications and their role or influence on the bazo ecosystem.
 \subsection{Bazo}
-Bazo is a cryptocurrency developed at the CSG at the University of Zurich. The currency was tailored to the use case of the financial service provider, which acts as a central institution that is able to create new coins and accounts. This makes the currency private, since an invite needs to be used to use the currency. This differs from various popular cryptocurrencies such as Bitcoin and Ethereum [xy] which are both open to the public. Similar to the approach taken in Ethereum, Bazo implements an account-based data model. Consensus in the Bazo network is achieved through a Proof of Work algorithm, although there are drawbacks from employing this strategy. More information about the current state of research of the consensus protocol in Bazo can be found is given the Proof of Stake thesis \cite{proofofstake}.
-The outcome of the first development efforts for Bazo consisted of two applications. The first, \textit{Bazo Miner}, can be classified as a Mining client. The second application is a Full client \cite{bitcoinclients}. Table \ref{table:clientstable} compares the two application.
+Bazo is a cryptocurrency developed at the University of Zurich. The currency was tailored to the use case of the financial service provider, which acts as a central institution that is able to create new coins and accounts. This makes the currency private, since an invitation needs to be used to participate. This differs from various popular cryptocurrencies such as Bitcoin and Ethereum which are both open to the public. Similar to the approach taken in Ethereum, Bazo implements an account-based data model. Consensus in the Bazo network is achieved through a Proof of Work algorithm, although there are drawbacks from employing this strategy \cite{lisg}. More information about the current state of research concerning the consensus protocol is given in the \textit{Proof of Stake} thesis \cite{proofofstake}.
+The outcome of the first development efforts for Bazo consisted of two applications. The first one, \textit{Bazo Miner}, can be classified as a Mining client. The second application is a Full client \cite{bitcoinclients}. Table \ref{table:clientstable} compares the two application.
 \subsection{Bazo Client Implementations}
-As part of the initial development efforts for Bazo, a full client application was created. With this application, it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this fork implementation of the full client, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases, for example, that a Bazo client can be run on a device with limited resources such as a mobile device. This type of client can be classified as a \textit{Headers-only Client} \cite{bitcoinclients}. This type of client is compared in table \ref{table:clientstable}.
+As part of the initial development efforts for Bazo, a full client application was created. With this application, it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this fork implementation of the full client, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases, for example, that a Bazo client can be run on a device with limited resources such as a mobile device. This type of client can be classified as a \textit{Headers-only Client} \cite{bitcoinclients} and is compared in table \ref{table:clientstable}.
 %% elaborate.
 The implementation of this client is relevant for this thesis, since the Bazo Wallet is required to communicate with a Bazo client. Through this, the Bazo Wallet can perform actions such as querying account balances, transaction states as well as creating new transactions.
 
@@ -68,26 +68,27 @@ The implementation of this client is relevant for this thesis, since the Bazo Wa
     Signing-only clients  & no & no & yes & no \\ \hline
     Mining clients  & no & no & no & yes \\ \hline
     \end{tabular}
-    \captionof{table}{Comparison of different client solutions with Bitcoin \cite{bitcoinclients}}
+    \captionof{table}{Comparison of different client solutions existing in the Bitcoin network\cite{bitcoinclients}}
 
 \end{center}
 \subsection{Coinblesk}
 Coinblesk is a project carried out at the CSG at the University of Zurich. With Coinblesk, payments can be made in the Bitcoin network without having to wait for a transaction to be fully validated in a block. This is achieved by employing a client-server architecture, where transactions are signed by multiple instances in order to ensure validity as well as transaction speed.
-With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the underlying architecture for Coinblesk is substantially different from the approach with Bazo, parts of the user interface can be reused for the Bazo Wallet. This is described in chapter \ref{userinterface}.
+With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the architecture for Coinblesk is substantially different from the approach with Bazo, parts of the user interface can be reused for the Bazo Wallet. This is further described in chapter \ref{userinterface}.
 \subsection{Bazo Block Explorer\label{bazoblockexplorer}}
-As described in chapter \cite{undefined} the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issuing new coins and setting
+As described in chapter \ref{envisionedpaymentprocess} the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issuing new coins and setting
 parameters for the miners can be performed.
 %% find sources
-A solution to bring more transparency into the network by letting users inspect the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block explorer is an application, that lets users query informations about the currency without necessarily requiring them to participate in the network.
-In order to visualize various aspects of the Bazo currency, a Block Explorer was developed. This application is also used to let the company perform administrative tasks such as setting the reward for mining a block in the Bazo network.
-\section{Requirements to the envisioned application}
+A solution to bring more transparency into the network by letting users inspect and visualize the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block explorer is an application, that lets users query informations about the currency without necessarily requiring them to participate in the network.
+In order to visualize various aspects of the Bazo currency, a Block Explorer is being developed for Bazo simultaneously to the implementation of the Bazo Wallet. This application is also used to let the company perform the administrative tasks such as setting the reward for mining a block in the Bazo network and other parameters \cite{bazoblockexplorer}.
+
+\section{Requirements to the envisioned application}\label{requirements}
 This section captures requirements which have been known upfront or which haven been explored or derived from other requirements. 
 \subsection{Functional Requirements}\label{functionalreq}
 The envisioned Wallet application is supposed to enable the following operations
 \begin{enumerate}
 \item Requesting Funds from other Users.
 This is supposed to be achieved by sending transaction data between users over multiple ways, such as NFC, BTLE, QR Codes and Links. There should be a fallback solution which is applicable even if all these technologies are not supported by the underlying platform.
-\item Sending Funds from to Users.
+\item Sending Funds to Users.
 \item Inspecting account state such as e.g. balance.
 \item Linking account details to the Bazo Block Explorer, thus directing the user to it for further details.
 \item Requesting new Bazo coins from the traditional bonus points.
@@ -100,19 +101,19 @@ The envisioned Wallet application is supposed to behave under the following qual
 \begin{itemize}
 \item Operations with the currency should be possible in a trustless way using the application.
 \item All operations requiring the users private key should be safe and run completely in the browser. It should not be necessary to send the key over a network or expose it in any other way.
-\item Even users on devices and platforms that do not support most ways of transferring transaction data should have a fallback solution to still do so.
+\item Even users on devices and platforms that do not support most ways of transferring transaction data should have a fallback solution available.
 
 \end{itemize}
 \subsection{Analyzing Requirements}
 
 The functional requirements outlined in \ref{functionalreq} were compared to %??% 
-the provided functionality of \textit{myetherwallet.com}, a web-based wallet for the Ethereum cryptocurrency. All of the requirements are met in \textit{myetherwallet.com}, except for the ways of transferring transaction data as described in the first requirement and for the integration of a point of sale system. For sharing transaction data among users, \textit{myetherwallet.com} provides the ability to generate a QR-Code from the public address \cite{myethwallet}. %The functionalities not covered by the requirements in \ref{functionalreq} indicate that the envisioned system provides more than a Wallet for the currency since these functionalities can be found in other payment applications.%
-The envisioned system could also be described as a Nonbank-centric person-to-person payment methods. This characterization builds on person to person exchange of transaction data, which is clearly met in the requirements described. The clearing of such payments can vary to fit the classification. %??%
+the provided functionality of \textit{myetherwallet.com}, a web-based wallet for the Ethereum cryptocurrency. All of the requirements are provided by \textit{myetherwallet.com}, except for the ways of transferring transaction data as described in the first requirement and for the integration of a point of sale system. For sharing transaction data among users, \textit{myetherwallet.com} provides the ability to generate a QR-Code from the public address \cite{myethwallet}. %The functionalities not covered by the requirements in \ref{functionalreq} indicate that the envisioned system provides more than a Wallet for the currency since these functionalities can be found in other payment applications.%
+The envisioned system could be described as a Nonbank-centric person-to-person payment method. This characterization builds on person to person exchange of transaction data, which is clearly met in the described requirements. The clearing of such payments can vary to fit the classification. %??%
 Several advantages, such as speed and security, of such payment systems are known, although this depends on the way that payments are cleared. Since this type of payment system requires at least the payee to have an account created, drawbacks such as the payment system not being accepted by users or users fearing that information is revealed exist \cite{p2ppayments}. 
-Other studies highlight that users that were interviewed, lived a mobile lifestyle and wished for their payment systems to be usable mobile. Security was also found to be an important factor for payment systems for respondents, although they associated the currently available systems, such as PayPal, to be risky \cite{p2ppadoption}.
+In a study that evaluated demands to payment systems, it is highlighted that users lived a mobile lifestyle and wished for their payment systems to be usable mobile. Security was also found to be an important factor for payment systems, although respondents associated the currently available systems, such as PayPal, to be risky \cite{p2ppadoption}.
 Since the application will not only be targeted to a universal base of users but also to merchants, which have a special role, the payment solution can be characterized as a  \textit{Payment System for Merchants or Retailers}.
 Another indication of this classification is the usage of proximity technologies at a Point of Sale, which this application requires \cite{p2ptypes}.
 There are sources that characterize payment systems specifically for cryptocurrencies. Geva differentiates between mobile and cloud wallets. Functionalities such as proximity-based transfers qualify as a mobile wallet and are said to be key enabling technologies for such mobile payments \cite{bitcoinmobile}.
-Another source evaluates different applications that can interact with the Blockchain on a more technical level. Although the evaluation was performed for the Bitcoin currency, it can be compared due to the various forms of clients also being present in the Bazo ecosystem.
-Due to the design guideline of crafting the application as a web application, the application can be classified as a Web-based signing-only client. This characterization fits since, the browser application can not validate and store parts of the blockchain. It is necessarily dependent on a web service for communication, however it is important to note that transaction signing is implemented in the browser \cite{bitcoinclients}. 
+Another source evaluates different applications that can interact with the Blockchain on a more technical level. The evaluation was performed for the Bitcoin currency, however it is highly comparable since the various forms of clients can also be found in the Bazo ecosystem.
+Due to the design guideline of crafting the application as a web application, the application can be classified as a \textit{ Web-based signing-only client}. This characterization fits, since the browser application can not validate and store parts of the blockchain. It is necessarily dependent on a web service for communication, however it is important to note that transaction signing is implemented in the browser and not by the web service \cite{bitcoinclients}. 
 
