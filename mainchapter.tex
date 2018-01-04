@@ -43,8 +43,8 @@ In order to communicate Bazo Transactions to other devices and applications, an 
 
 
 \[
-\underbrace{\overbrace{bazo:}^{\mathrm{protocol}}\overbrace{34ad8...8a4a4}^{\mathrm{bazo address}}}_{\mathrm{required components}}
-\underbrace{\overbrace{?amount=123}^{\mathrm{amoun t}}\overbrace{?label=1 Coffee}^{\mathrm{label}}\overbrace{?message=Message}^{\mathrm{message}}}_{\mathrm{optional components}}
+\underbrace{\overbrace{bazo:}^{\mathrm{protocol}}\overbrace{34ad8...8a4a4}^{\mathrm{public\ key}}}_{\mathrm{required\ components}}
+\underbrace{\overbrace{?amount=123}^{\mathrm{amoun t}}\overbrace{?label=1 Coffee}^{\mathrm{label}}\overbrace{?message=Message}^{\mathrm{message}}}_{\mathrm{optional\ components}}
 \]
 
 
@@ -53,10 +53,10 @@ This implies, that the Bazo Wallet and other applications that need to interact 
 For the web-based wallet this transaction info should also be an optional parameter of the URL of the payment page. This allows that a complete URI to the payment page with all required transaction information can be shared among users or between merchants and users.
 This enables to encode complete transaction information as well as a an URI to the application page with the transaction information into media such as a QR-Code. This has the benefit, that all users of the Wallet can exchange payment information without having to know about the Schema.
 Since merchants frequently have more advanced payment systems and don't want to encode payment information into media such as QR-Codes for each new transaction, the payment page of the Wallet also needs to be able to accept additional parameters, by which the Wallet can then query the transaction amount from a service.
-The schema below shows the URI endpoint of the payment page, together with additional parameters that can be supplied to have the payment page prefilled with transaction information. This procedure is further described in Figure\ref{fig:POS}.
+The schema below shows the URI endpoint of the payment page, together with additional parameters that can be supplied to have the payment page prefilled with transaction information. This procedure is further described in Figure \ref{fig:POS}.
 \[
-\underbrace{\overbrace{https://host/:}^{\mathrm{Host}}\overbrace{/auth/user/send}^{\mathrm{payment page}}}_{\mathrm{required components}}
-\underbrace{\overbrace{posid=323}^{\mathrm{POS identification}}\overbrace{?paymentinfo=bazo://123123}^{\mathrm{transaction info}}}_{\mathrm{optional components}}
+\underbrace{\overbrace{https://host/:}^{\mathrm{Host}}\overbrace{\#/auth/user/send}^{\mathrm{payment\ page}}}_{\mathrm{required\ components}}
+\underbrace{\overbrace{posid=323}^{\mathrm{POS\  identification}}\overbrace{?paymentinfo=bazo://123123}^{\mathrm{transaction\ data}}}_{\mathrm{optional\ components}}
 \]
 
 The implementation of the module to encode and decode bazo encoded transaction information is described in \cite{undefined}.
@@ -112,7 +112,7 @@ A service worker is a method to enable background processing of certain actions.
 User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest}, \cite{securitychrome}.
 \end{itemize}
 
-\subsection{User Interface}
+\subsection{User Interface}\label{userinterface}
 The application was implemented as a Single-Page-Application. In SPA, it is possible to structure content and application interface into pages without leaving the document. %find sources%, 
 This deals with the quality requirement, that the application should run in the browser with as little logic on the backend as possible. The Wallet was structured into the following pages, each accessible through a unique URL, although all technically in the same document:
 \begin{itemize}
@@ -172,11 +172,27 @@ After extensive testing, it became clear that the current implementation of Goog
 
 Another challenge posed the creation and signing of Bazo transactions in the browser. The structure of a Funds Transaction can be seen in figure \ref{fig:FundsTX}. Since not all data-types that are usually available in C-like structs, are available in the browser, a bridging solution had to be implemented. The application was therefore designed as a signing-only client, with the implication of designing a web interface into the light client as described in \ref{networkandinterfaces}. This is a common approach when building web based Wallets that don't store the users private key on a server \cite{bitcoinclients}\cite{masteringbitcoin}.
 
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
-\caption{\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.}
-\end{figure}
+\begin{algorithm}
+\caption{FundsTx}
+\label{euclid}
+\begin{algorithmic}[1]
+\State type FundsTx struct $\{$
+\State     Header byte
+\State Amount uint64
+\State Fee uint64
+\State TxCnt uint32
+\State From [32] byte
+\State To [32] byte
+\State Sig [64] byte
+\State  $\};$
+\end{algorithmic}
+\end{algorithm}\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.
+
+%%\begin{figure}
+%%\centering
+%%\includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
+%%\caption{\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.}
+%%\end{figure}
 
 \subsection{Web NFC}
 In section \ref{pocnfcbridge} the semantics of the data model of a transaction that can be shared among users in the form of a single URL was explained.
@@ -288,6 +304,7 @@ Comparing the mechanism in Bazo, see Figure \ref{fig:TransactionProcess}, and Ri
 
 
 \subsection{Client Integration}
+
 Chapter \ref{bazoclientwebinterface} explained the interaction between the Bazo Wallet and the Bazo light client over a web interface.
 This chapter explains contexts in which the bazo client can be run, consequences and documents the efforts of porting the light client to mobile devices.
 Due to the security constraints one needs to be consider when interaction with other sources in a PWA, the Bazo client web interface has to be in a secure context \cite{securitychrome}. This would mean that an SSL certificate needs to be installed or the server needs to accessible through a secure reverse tunnel.
