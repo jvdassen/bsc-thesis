@@ -1,14 +1,15 @@
 \chapter{Background and Related Work}
 \section{Background}
-This chapter familiarizes the reader with core concepts and technologies, which were leveraged for the development of the Bazo Wallet. An insight into the traditional and envisioned system of the financial service provider is also given, so that the reader is introduced to the domain of the customer.
+This chapter familiarizes the reader with core concepts and technologies, which were leveraged for the development of the Bazo Wallet. An insight into the traditional and envisioned system of the financial service provider is also given, so that the reader is introduced to the company's domain.
 %customer?%
 \subsection{Cryptocurrencies}
 \subsection{Web based Wallets}
-A web based wallet is a web application that allows for certain operations with the Blockchain. There are two common ways of implementing operations in the context of the web.
-As the name suggests, Web Clients allow users to operate on the blockchain using a web application. The key difference of this approach is that assets such as private keys are stored on the server of the application. Since the user has to share these assets with a third party, he will lose control over his funds and is dependent on the provider. This means that funds can be stolen from user, which has happened multiple times in Web clients for the Bitcoin network \cite{masteringbitcoin}.
+A web based wallet is a web application that allows for certain operations on the Blockchain of a currency. There are two common ways of implementing operations in the context of the web.
+The first one is known as a \textit{Web Client} and allows users to operate on the Blockchain using a web application. The key difference of this approach is that assets, such as private keys, are stored on the server of the application. Since the user has to share these assets with a third party, he will lose control over his funds and is dependent on the provider. This means that funds can be stolen from users, which has happened multiple times in Web clients for the Bitcoin network \cite{masteringbitcoin}.
 The second approach is known as a signing-only client. These applications do not maintain the blockchain or parts of it, as it is common with Full- or Headers-only clients. This allows to implement operations with minimal resources such as storage or network usage. Cryptographic operations are performed with the tools available in web applications and implemented in JavaScript.
 A drawback of such signing-only applications is that there still needs to be a certain amount of trust with the server, that actually maintains parts of the blockchain and exposes an interface for the web applications \cite{bitcoinclients}.
 Both client variants are compared in table \ref{table:clientstable}.
+%endA%
 \subsection{Progressive Web Applications}\label{pwacharacteristics}
 A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applications.
 They leverage the accessibility from the web but have various enhancements to give them a user experience that is closer to native mobile applications.
