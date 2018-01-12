@@ -41,12 +41,10 @@ One requirement, that is that Bazo coins can be exchanged between users without 
 \subsection{Schema}\label{schema}
 In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema closely follows the Bitcoin Improvement Proposal 21 (BIP 21) for an URI scheme since it contained all necessary elements to fulfill the requirement \cite{bip21}. The URI Schema consists of a required part which holds the protocol name and the recipient's fully qualified Bazo address. The structure and schema of an example transaction request are visible in \ref{fig:urischeme}.
 
-
 \[
 \underbrace{\overbrace{bazo:}^{\mathrm{protocol}}\overbrace{34ad8...8a4a4}^{\mathrm{public\ key}}}_{\mathrm{required\ components}}
 \underbrace{\overbrace{?amount=123}^{\mathrm{amoun t}}\overbrace{?label=1 Coffee}^{\mathrm{label}}\overbrace{?message=Message}^{\mathrm{message}}}_{\mathrm{optional\ components}}
 \]\label{fig:urischeme} Example of a transaction request with the Bazo Wallet.
-
 
 % reference nfc bridge
 The chosen data model implies that the Bazo Wallet and other applications that need to interact with it need to be able to encode and decode transaction information as supplied in the described grammar.
@@ -100,7 +98,7 @@ Once this set up is in place, the user will approach the POS System and may star
 \chapter{Implementation}
 Chapter \ref{design} introduced the design of the Bazo Wallet in order to fulfill the requirements to such an application documented in Chapter \ref{requirements}. This Chapter documents the implementation phase of the application. Chapter  \ref{architecture} outlines the architecture, the application employed. The following sections explain how the individual functional requirements were implemented.
 \section{Architecture\label{architecture}}
-The application was implemented as a Progressive Web Application. The characteristics of a progressive web application have been outlined in \ref{pwacharacteristics}. The application was implemented as a web application with the addition of the following items to comply as a progressive web application:
+The application was implemented as a Progressive Web Application. The characteristics of a progressive web application have been outlined in Chapter \ref{pwacharacteristics}. The application was implemented as a web application with the addition of the following items to comply as a progressive web application:
 \begin{itemize}
 \item Manifest
 A manifest is a JSON file that describes metadata of a web application such as links to icons for different screen sizes. It is further used to configure the progressive web application. For example, the name that will be displayed in the app drawer on the phone once the app is installed, can be set here. It is important to note that only Google Chrome on Android supports manifest files. \cite{manifest} Other platforms, such as iOS rely on meta tags in the main html file of the web application \cite{applemetatags}. Implementing meta tags and manifest was straight forward, the names and description of the application had to be given, and the static ressources such as icons had to be linked correctly.
