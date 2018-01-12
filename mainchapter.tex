@@ -3,7 +3,7 @@ This Chapter describes the design decisions taken for the implementation of the 
 \section{Design Guidelines}\label{designguide}
 For the development of the Bazo Wallet, multiple requirements were explored with the financial service provider. These are described in \ref{functionalreq}. This section introduces several design guidelines which were known from the start of the project and consequences on other design desicions.
 \subsection{Progressive Web Applications}
-The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due to Progressive Web Applications having native elements, they provide a unified solution for multiple operating systems, targeting both mobile and desktop devices. This implies that a web application is to be crafted, that supports all the functional requirements described in \ref{functionalreq}. The Web application therefore needs to contain the following pages to support the core requirements:
+The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due to Progressive Web Applications having native elements, PWA's can be a solution for providing a unified experience for multiple operating systems, targeting both mobile and desktop devices. This implies that a web application is to be crafted, that supports all the functional requirements described in \ref{functionalreq}. The Web application therefore needs to contain the following pages to support the core requirements:
 \begin{itemize}
 \item Page to share transaction data
 \item Page to send new transactions
@@ -12,23 +12,23 @@ The Bazo Wallet is supposed to be designed as a Progressive Web Application. Due
 \end{itemize}
 
 \subsection{Network Communication and Interfaces}\label{networkandinterfaces}
-Since the Application is designed as a PWA and a quality requirement is the fully client side approach for all the operations, all operations need to be made in the browser. Since no backend application should be leveraged, the Web app needs to be able to sign transactions in the browser. All further communication with the Bazo network needs to be done over web interfaces. This led to the design of a RESTful web interface for the bazo light client, which was then implemented. The following operations should be supported by the API:
+Since the Application is designed as a PWA and a quality requirement is the fully client side approach for all the operations, all operations need to be made in the browser. Since no backend application should be leveraged, the Web app needs to be able to sign transactions in the browser. All further communication with the Bazo network needs to be done over web interfaces. This led to the design of a RESTful web interface for the Bazo light client, which was then implemented. The following operations should be supported by the API:
 \begin{itemize}
 \item Querying account state
 
 This endpoint should return all necessary information about the account's state such as balance, the transaction counter and information if the account has root access.
 \item Preparing transactions
 
-By supplying fee, transaction height, target and source address to this endpoint, the API will prepare the transaction hash and return it to the client to calculate the signature.
+By supplying fee, transaction value, target and source address to this endpoint, the API will prepare the transaction hash and return it to the client to calculate the signature.
 \item Distributing transactions in the peer-to-peer network
 
 This endpoint can be used to post a transaction hash and signature. The API will then distribute the transaction in the peer-to-peer network.
 \end{itemize}
-In order to depict the complete payment process for users in the role of a merchant, the application needs to retrieve infromation such as transaction height through a web interface. Further, an interface to the existing bonus program was designed in partnership with the company. The following operations were designed to be implemented into the backend of the financial service provider:
+In order to depict the complete payment process for users in the role of a merchant, the application needs to retrieve infromation such as transaction value through a web interface. Further, an interface to the existing bonus program was designed in partnership with the company. The following operations were designed to be implemented into the backend of the financial service provider:
 \begin{itemize}
 \item Filing a new request to deduct bonus points and credit a Bazo account
 \item Querying the state of filed requests
-\item Querying the transactoin height of a POS instance given a supplied ID denoting the POS system in proximity.
+\item Querying the transaction value of a POS instance given a supplied ID denoting the POS system in proximity.
 \end{itemize}
 \subsection{Device Sharing}
 In order to explore how suitable a PWA approach for the implementation of a Wallet or payment application is, the application is required to share transaction data on a device-to-device basis. Technologies such as NFC and Bluetooth should be evaluated for their browser support and implemented. 
@@ -39,7 +39,7 @@ One requirement, that is that Bazo coins can be exchanged between users without 
 %Search for papers, resources etc.
 %%Sharing transaction information in native applications is often achieved with technologies such as NFC, Bluetooth or by encoding and reading transaction information from a Quick-Response Code.
 \subsection{Schema}\label{schema}
-In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema closely follows the 21st Bitcoin Improvement Proposal for an URI scheme since it contained all necessary elements to fulfill the requirement \cite{bip21}. The URI Schema consists of a required part which holds the protocol name and the recipient's fully qualified bazo address. The structure and schema of an example transaction request are visible in \ref{urischeme}.
+In order to communicate Bazo Transactions to other devices and applications, an URI Scheme was designed to hold transaction information, so that a requesting party can communicate it. The grammar and structure for the schema closely follows the Bitcoin Improvement Proposal 21 (BIP 21) for an URI scheme since it contained all necessary elements to fulfill the requirement \cite{bip21}. The URI Schema consists of a required part which holds the protocol name and the recipient's fully qualified Bazo address. The structure and schema of an example transaction request are visible in \ref{fig:urischeme}.
 
 
 \[
@@ -73,7 +73,7 @@ Since the android platform allows starting an application when a certain type of
 \subsection{Merchant options}\label{merchantoptions}
 In order to completely support the payment process, which does require interaction of the application with backend services from the financial service provider, interfaces need to be integrated into the application.
 This is also necessary since some platform do not support WebNFC in the browser, which means that the payment process can not be carried out in a complete device-to-device manner. On iOS devices, support for NFC is restricted to native API's and the functionality is limited to reading passive NFC Tags.
-In order to enable the complete payment process, the mechanism that is being implemented can be described as follows. The user of an iOS device can use any existing NFC Tag Reader application from the Apple App Store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application on android.
+In order to enable the complete payment process, the mechanism that is being implemented can be described as follows. The user of an iOS device can use any existing NFC Tag Reader application from the Apple App Store. Before the payment process can be started, the merchant needs to supply payment information in form of a correct Bazo address as well as some token that represents the Point-of-sale system. The merchant should have the possibility to write these informations to the NFC Tag at the POS, using the Mobile Wallet application on android.
 Once this set up is in place, the user will approach the POS System and may start the payment process. The cashier will scan the items, and the POS System will automatically associate the POS ID with the transaction value. The user can now use any existing iOS or android application to read the NFC tag. Since the transaction information is encoded in a URI, the user is taken to the payment page of the Mobile Wallet. Here, the POS ID is used to query the transaction value associated with the POS from a web-service. Since the Bazo Address is supplied in the URI as well, the transaction request is complete and can be confirmed by the user. Once confirmed the Mobile Wallet will sign the transaction and send it to the Bazo network. Figure
 \ref{fig:POS} shows the process of transferring transaction information and transaction issueing under the constraint that a third party service needs to be queried.
 
@@ -118,12 +118,12 @@ This deals with the quality requirement, that the application should run in the 
 \item \textbf{Home Page}
 This is where the user will be directed upon loading the application. If a user tries to access a page, he is not allowed to, he will be directed to this page. For example, if a user opens the link to the payment page of the application, but the network connection is lost, he will be temporarily be redirected to the home page until network access becomes available again.
 \item \textbf{Settings Page}
-On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. This would mean that the user has an additional field available to encode the POS ID into the transaction data. Further, the user is given the possibility to set the URI of a bazo client web interface, that is then used for further communication with the client's web interface.
+On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. This would mean that the user has an additional field available to encode the POS ID into the transaction data. Further, the user is given the possibility to set the URI of a Bazo client web interface, that is then used for further communication with the client's web interface.
 \item \textbf{Accounts Page}
 Whenever a user tries to access any of the other pages except for the Home and Settings Page, without an account being stored in the browser, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. Every public key can only be stored once, so that the total balance can be computed from the set of accounts. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then automatically get preselected for all other operations on other pages.
 This page can also be opened with an address supplied in the URI, which would then be filled into the form. This is employed to make the process of inviting the user into the system easier.
 \item \textbf{Requesting Funds Page}
-When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction height. If the user has selected advanced options in the Settings Page, he may set an identifier for a POS system. 
+When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction value. If the user has selected advanced options in the Settings Page, he may set an identifier for a POS system. 
 The compiled transaction data can then be transferred to other users using as many of the transaction sharing methods, as supported by his device and browser. Only the sharing methods supported by the underlying platform are visible to the user, in order to progressively enhance the application. For each of the transfer methods, an overlay would be opened to instruct the transfer process and to indicate the state of the transfer.
 \item \textbf{Sending Funds Page}
 If a user opens transaction data which is encoded into a single URI, he would be taken to the Sending Funds Page.
@@ -159,7 +159,7 @@ With a new API for browser side encryption in discussion by the World Wide Web C
 This makes local storage of security related data such as private keys unsuitable. Therefore, only user-data such as settings and public keys of Bazo accounts were stored in the Web Storage. For explicit state management vuex, a library for state management with Vue.js was used \cite{vuex}. The subset of state that needed to be persisted in Web Storage was placed in this storage.
 %??%
 \subsection{Network Communication}
-Multiple operations of the Bazo Wallet are performed using cross-origin http requests. These operations include payment preparation, payment submission and account balance querying. All of these operations are centralized in a single Service module, that can be shared between the individual components. With this it is possible to parametrize network requests globally. This is a requirement, so that the URI used to perform the requests can be configured by the user. The actual communication with the endpoints of the bazo client and their semantics are explained in \ref{blockchaininteraction}.
+Multiple operations of the Bazo Wallet are performed using cross-origin http requests. These operations include payment preparation, payment submission and account balance querying. All of these operations are centralized in a single Service module, that can be shared between the individual components. With this it is possible to parametrize network requests globally. This is a requirement, so that the URI used to perform the requests can be configured by the user. The actual communication with the endpoints of the Bazo client and their semantics are explained in \ref{blockchaininteraction}.
 
 \section{Transaction Sharing}
 Requesting payments is a core requirement for the Bazo Wallet to qualify as a payment system for end-users. The design of the sharing process and the data model were explained in \ref{transactioninfo} This section explains how sharing transaction data across devices was implemented.
@@ -271,7 +271,7 @@ The web service consisted of two endpoints for each type of transaction in the B
 For each of the transaction types the following two endpoints need to be used.
 \begin{itemize}
 \item The endpoint at /create<Account Type>/ is used to create and obtain a transaction hash given all parameters for the Transaction struct are sent. This solves the problem of lacking the appropriate data types in the browser. The  returned transaction hash can then be signed on the client.
-\item The endpoint at /send<Account Type>/ accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond the answer to the client.
+\item The endpoint at /send<Account Type>/ accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying Bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond the answer to the client.
 \end{itemize}  
 
 \subsection{Transaction Signing}\label{transactionsigning}
@@ -315,16 +315,16 @@ Comparing the mechanism in Bazo, see Figure \ref{fig:TransactionProcess}, and Ri
 \subsection{Client Integration}
 
 Chapter \ref{bazoclientwebinterface} explained the interaction between the Bazo Wallet and the Bazo light client over a web interface.
-This Chapter explains contexts in which the bazo client can be run, consequences and documents the efforts of porting the light client to mobile devices.
+This Chapter explains contexts in which the Bazo client can be run, consequences and documents the efforts of porting the light client to mobile devices.
 Due to the security constraints one needs to consider when interacting with cross-origin resources in a PWA, the Bazo client web interface has to be in a secure context \cite{securitychrome}. This would mean that an SSL certificate needs to be installed or that the server needs to accessible through a secure reverse tunnel.
 This makes mobile devices as a runtime difficult. However, a proof of concept was developed to show that mobile devices are technically feasible to run the client. 
 
 To overcome these limitations, native application wrappers for the light client written in Go were evaluated. 
 
 The first approach for porting the light client, which was written in the \textit{Go language}, evaluated the usage of go bindings for java. These could then be used in a native Android application. There exists a project \textit{go mobile}, that can be used to generate bindings from a package written in \textit{Go}. However, the current state of the go mobile project did not support all networking and data structure needs to fulfill the requirement. Further, this would have required to restructure the go application as a package \cite{gobind}. Programming to such bindings usually has the advantage, that the Java application can directly call methods of the binded package. Since all communication between the actual Wallet application would go over the http interface, this would not pose an advantage.
-The second approach focused on cross-compiling the bazo client for the android operating system running on ARMv5 architectures.
-To port the complete bazo client without any modifications to the android operating system the application was compiled using the clang compiler. The compiler can be obtained through androids official NDK or it can be compiled from scratch. The complete toolchain was compiled targeting the arm architecture, and android API version 21 for a darwin x64bit system which was the host for the compilation \cite{standalonetoolchain}. The clang compiler of the toolchain was then used to configure the go environment for cross-compilation. This involved configuring the golang environment for arm architectures and to use the freshly compiled clang compiler \cite{gobuild}.
-The binary was then copied to an android device an ran in the scope of an existing application. This is a necessary step for binaries that are run on devices were root access is not given. The application performed well, so that ngrok was used to create a secure reverse tunnel. With this in place the web application was able to interact with the bazo client running on the same device but accessible through the secure context. Detailed instructions for installation can be found in \ref{bazoandroid}.
+The second approach focused on cross-compiling the Bazo client for the android operating system running on ARMv5 architectures.
+To port the complete Bazo client without any modifications to the android operating system the application was compiled using the clang compiler. The compiler can be obtained through androids official NDK or it can be compiled from scratch. The complete toolchain was compiled targeting the arm architecture, and android API version 21 for a darwin x64bit system which was the host for the compilation \cite{standalonetoolchain}. The clang compiler of the toolchain was then used to configure the go environment for cross-compilation. This involved configuring the golang environment for arm architectures and to use the freshly compiled clang compiler \cite{gobuild}.
+The binary was then copied to an android device an ran in the scope of an existing application. This is a necessary step for binaries that are run on devices were root access is not given. The application performed well, so that ngrok was used to create a secure reverse tunnel. With this in place the web application was able to interact with the Bazo client running on the same device but accessible through the secure context. Detailed instructions for installation can be found in \ref{bazoandroid}.
 This Proof of Concept could be leveraged to create an actual android application wrapping the binary. However, a solution to configure SSL appropriately would need to be found.
 % reference in future work
 
