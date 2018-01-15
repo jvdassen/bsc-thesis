@@ -38,8 +38,19 @@ Chapter \ref{requirementsanalysis} contained an analysis of the application that
 Chapter \ref{bazomobile} proved that it is technically possible to run the bazo client and even the bazo miner application on a mobile device running Android. This was done with the intention to allow the PWA to communicate with a trustable Bazo node. The necessity of this solution lies in the weakness of signing-only clients which rely on a web service and thus on a third-party. To allow a user to use the compiled binaries in a comfortable manner the following issues would have to be evaluated and solved:
 \begin{itemize}
 \item Android wrapper application:
+
 The compiled binaries of the PoC can be run from the command line. However, an android application that would wrap and run the binaries would need to be developed.
+\item Communication between native and web application:
+
+Most of the communication between the two applications could be achieved through the RESTful API. However, running the two applications consistently would possibly require extension of the API. Another way how these types of applications can exchange data based on user input is through the intent system. This approach was also proved to work in the NFC Bridge application, see \ref{nfcbridge}, and might be a more resilient channel of communication.
+\item Network constraints:
+
+Chapter \ref{bazomobile} outlined constraints posed on a PWA. This would imply for the PWA to establish a secure connection to the native application. Depending on the way how the two applications communicate, this could involve further efforts, such as enabling the native application with https.
 \end{itemize}
+
+Chapter \ref{merchantoptions} and \ref{onboarding} introduced two processes that are dependent on interfaces and applications on the side of the financial service provider. The mechanisms, processes and interfaces required in the company's infrastructure were designed in partnership. All necessary operations in the Wallet have been implemented. At the time of writing, the necessary developments on the company's side have not yet been completed. This means that minor adjustments to the code base of the PWA, such as setting an URL for the submissions, are needed in the future.
+
+
 \begin{bclogo}[logo=\bcattention, couleurBarre=red, noborder=true, 
                couleur=LightSalmon]{Important!}
 This section is incomplete.
