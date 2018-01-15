@@ -182,13 +182,13 @@ Another challenge posed the creation and signing of Bazo transactions in the bro
 \label{euclid}
 \begin{algorithmic}[1]
 \State type FundsTx struct $\{$
-\State     Header byte
-\State Amount uint64
-\State Fee uint64
-\State TxCnt uint32
-\State From [32] byte
-\State To [32] byte
-\State Sig [64] byte
+\State \ \ \ \ Header byte
+\State \ \ \ \ Amount uint64
+\State \ \ \ \ Fee uint64
+\State \ \ \ \ TxCnt uint32
+\State \ \ \ \ From [32] byte
+\State \ \ \ \ To [32] byte
+\State \ \ \ \ Sig [64] byte
 \State  $\};$
 \end{algorithmic}
 \end{algorithm}\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.
