@@ -31,6 +31,9 @@ It is known that although there is some space for attacks, such as tampering wit
 Another risk is introduced with the unified data model of transaction data, since this points to the URI of the Bazo Wallet. One could trick a user into using a web application that looks like the Bazo Wallet, but has the only purpose of stealing the private key, in case that the user does not realize that the URI does not belong to the actual Wallet.
 One solution how this weakness can be handled is to install the progressive web application to the home screen. On Android platforms, this will associate the installed application with the URI of the origin. Therefore the application will only open if the host of the URI matches the origin of the installed web page.
 \section{Future Work}
+During the development of the Bazo Wallet, limitations with respect to the current implementation of applications in the Bazo ecosystem were observed. This chapter summarizes the issues and possible solutions.
+
+Chapter \ref{requirementsanalysis} contained an analysis of the application that was to be developed. Due to the elicited requirements and the design guidelines the application was developed as a signing-only client. 
 \begin{bclogo}[logo=\bcattention, couleurBarre=red, noborder=true, 
                couleur=LightSalmon]{Important!}
 This section is incomplete.
