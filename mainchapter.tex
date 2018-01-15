@@ -112,7 +112,7 @@ A manifest is a JSON file that describes metadata of a web application such as l
 A service worker is a method to enable background processing of certain actions. A common way how service workers are used is to enable offline capability by intercepting web requests. By caching static parts of the web application, offline availability is enabled \cite{serviceworkers}. The service worker used in the project is automatically generated at compile time by a webpack plugin. This makes it possible to flexibly configure the service worker and define all the static resources which are then cached for offline usage. The offline experience is further enhanced by an event listener, which is integrated in the routing of the SPA. If a user is on a page that requires network access, the application will then inform the user about the network loss and redirect to the Home page.
 
 \item Security Constraints
-User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest}, \cite{securitychrome}.
+User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or websockets \cite{manifest} \cite{securitychrome}.
 \end{itemize}
 
 \subsection{User Interface}\label{userinterface}
