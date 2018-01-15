@@ -87,6 +87,14 @@ Initially, a user would have to use the Bazo Wallet to generate a new ECDSA key 
 Assigning new funds to a registered account requires that the financial service provider deducts the bonus points from the user and sends a \textit{FundsTx} to the users public key. In order to determine if a user may participate in the program and to deduct the bonus points from the correct account, the user needs to obtain a token, which is then sent with each request.
 The two processes are visualized in greater detail in xy and \ref{fig:xy}. 
 
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth]{diagrams/POS_flow.png}
+\caption{\label{fig:onboarding}Process of generating, registrating.}
+\end{figure}
+
+
+
 \chapter{Implementation}
 Chapter \ref{design} introduced the design of the Bazo Wallet in order to fulfill the requirements to such an application documented in Chapter \ref{requirements}. This Chapter documents the implementation phase of the application. Chapter  \ref{architecture} outlines the architecture, the application employed. The following sections explain how the individual functional requirements were implemented.
 \section{Architecture\label{architecture}}
