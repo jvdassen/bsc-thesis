@@ -338,8 +338,8 @@ Due to limitations of the browser for C-like structures as they would be require
 The process of obtaining transaction information, requesting a new transaction, signing and dispatching it into the network is shown in figure \ref{fig:TransactionProcess}. The process can be described as follows:
 \begin{enumerate}
 \item The application queries the necessary account information to request a transaction struct in a later step. This is a necessary step, since the TxCount of the transaction has to be correct in order for the transaction to be valid.
-\item When the account information is read, the web application can send a request to the web service to create a new FundsTx struct. The Bazo client creates the appropriate structure, hashes it using the SHA3-256 algorithm and returns it to the Wallet.
-\item The Wallet is now in charge of asking the user about its private key, signing the received transaction hash and sending it to the Bazo client.
+\item When the account information is read, the web application can send a request to the web service to create a new FundsTx struct. The Bazo client creates the appropriate structure, hashes it using the \textit{SHA3-256} algorithm and returns it to the Wallet.
+\item The Wallet is now in charge of asking the user about its private key and signing the received transaction hash, using the \textit{ECDSA} algorithm on the \textit{p256} curve. The resulting signature and transaction hash pair then needs to be sent back to the Bazo client for distribution in the network.
 \end{enumerate}
 
 This approach is comparable to the mechanism employed in the official JavaScript API of the Ripple currency \cite{ripplelib}.
@@ -409,6 +409,8 @@ The issues described above, led to initial loading times of around five to seven
 After optimizing the application, the \textit{Performance} metric received a score of 77.
 
 For the full score of the \textit{Best Practises} metric, the application would have to be deployed to a server that allows serving over HTTP/2. Since this is not part of the actual implementation of the web application and rather a question of deployment, this metric can not be improved with the code basis of the web application.
+
+Lighthouse specifically proposes manual checks in order to ensure that the user experience is 
 
 \begin{bclogo}[logo=\bcattention, couleurBarre=red, noborder=true, 
                couleur=LightSalmon]{Important!}
