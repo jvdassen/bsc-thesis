@@ -153,7 +153,7 @@ On each of the pages there is a thin progress bar at the very top of the documen
 
 \end{itemize}
 
-Since the User Interface of the coinblesk-frontend application was structured as a SPA with reusable components, it was possible to use this application as a base \cite{coinbleskfrontend}. Since that application was designed as a client-server application, most of the logic had to be rewritten. However, it was possible to inherit the application structure as well as certain components. The Home Page as well as the four components that are visible on all pages were reused. Few modifications such as styling had to be applied. Almost all individual pages had to be rewritten. When doing this, the same User Interface Framework was used, since it provided reusable components and a consistent look with other parts of the application. A webpack configuration was used to optimize and build the application.
+Since the User Interface of the coinblesk-frontend application was structured as a SPA with reusable components, it was possible to use this application as a base \cite{coinbleskfrontend}. Since that application was designed as a client-server application, most of the logic had to be rewritten. However, it was possible to inherit the application structure as well as certain components. The Home Page as well as the four components that are visible on all pages were reused. Few modifications such as styling had to be applied. Almost all individual pages had to be rewritten. When doing this, the same User Interface Framework was used, since it provided reusable components and a consistent look with other parts of the application. A webpack configuration was used to optimize and build the application. Figures \ref{fig:uihome} - \ref{fig:uisettings} show the individual pages with their respective components.
 
 \begin{figure}
 \centering
@@ -164,50 +164,50 @@ Since the User Interface of the coinblesk-frontend application was structured as
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Funds-1.png}
-\caption{\label{fig:uifunds1}Funds Page: Inspect and create new funding requests from bonus points.}
+\caption{\label{fig:uifunds1}\textbf{Funds Page:} Inspect and create new funding requests from bonus points.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Funds-2.png}
-\caption{\label{fig:uifunds2}Funds Page: Generate, save and export a new Bazo account for new Funding requests.}
+\caption{\label{fig:uifunds2}\textbf{Funds Page:} Generate, save and export a new Bazo account for new Funding requests.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Accounts.png}
-\caption{\label{fig:uiaccounts}Accounts Page: Add and inspect existing Bazo accounts.}
+\caption{\label{fig:uiaccounts}\textbf{Accounts Page:} Add and inspect existing Bazo accounts.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{screenshots/Accounts.png}
-\caption{\label{fig:uiaccounts}Accounts Page: Importing an account from a keyfile that was generated on the \textit{Funds} page.}
+\includegraphics[width=1\textwidth]{screenshots/Accounts-Import.png}
+\caption{\label{fig:uiaccounts}\textbf{Accounts Page:} Importing an account from a keyfile that was generated on the \textit{Funds} page.}
 \end{figure}
 
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Request-1.png}
-\caption{\label{fig:uirequest1}Request Page: Compile shareable payment information.}
+\caption{\label{fig:uirequest1}\textbf{Request Page:} Compile shareable payment information.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Request-2.png}
-\caption{\label{fig:uirequest2}Request Page: Transfer payment information with one of the transfer methods.}
+\caption{\label{fig:uirequest2}\textbf{Request Page:} Transfer payment information with one of the transfer methods.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Send-1.png}
-\caption{\label{fig:uisend1}Send Page: Fill in payment information or receive them through one of the transfer methods.}
+\caption{\label{fig:uisend1}\textbf{Send Page:} Fill in payment information or receive them through one of the transfer methods.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Send-2.png}
-\caption{\label{fig:uisend2}Send Page: Confirm and sign the payment.}
+\caption{\label{fig:uisend2}\textbf{Send Page:} Confirm and sign the payment.}
 \end{figure}
 
 \begin{figure}
@@ -227,7 +227,7 @@ This makes local storage of security related data such as private keys unsuitabl
 \subsection{Network Communication}
 Multiple operations of the Bazo Wallet are performed using cross-origin http requests. These operations include payment preparation, payment submission and account balance querying. All of these operations are centralized in a single Service module, that can be shared between the individual components. With this it is possible to parametrize network requests globally. This is a requirement, so that the URI used to perform the requests can be configured by the user. The actual communication with the endpoints of the Bazo client and their semantics are explained in \ref{blockchaininteraction}.
 
-\section{Transaction Sharing}
+\section{Transaction Sharing}\label{transactoinsharing}
 Requesting payments is a core requirement for the Bazo Wallet to qualify as a payment system for end-users. The design of the sharing process and the data model were explained in \ref{transactioninfo} This section explains how sharing transaction data across devices was implemented.
 \subsection{Web APIs and Browser Support}\label{browsersupport}
 At the time of writing, more and more native API's are made available for the Web.
@@ -431,17 +431,17 @@ Since the complete functionality with all branches can be relatively quickly tes
     \begin{tabular}{ | l | l | l | l | p{2cm} |}
     \hline
       & Internet Explorer & Google Chrome & Safari & Firefox \\ \hline
-    macOS X (10.12.6)  & no & yes & yes & yes \\ \hline
+    macOS X (10.12.6)  & no (deprecated) & yes & yes & yes \\ \hline
     Windows 10 (14393.479)  & yes & yes & no (deprecated) & yes \\ \hline    
     iOS (11.1.2)  & no (not available) & no & yes & no \\ \hline
-    Android (8.0.0)  & no & yes & no (not available) & yes \\ \hline
+    Android (8.0.0)  & no (not available) & yes & no (not available) & yes \\ \hline
     \end{tabular}
     \captionof{table}{Overview of tested browsers and operating systems.}\label{table:testing}
     \end{center}
 Table \ref{table:testing} shows targeted platforms where the complete functionality of the Bazo Wallet was tested. The web application proved to work as expected based on the evaluation of cross-browser support for the leveraged API's as described in \ref{browsersupport}. Testing the web application in Safari on an iOS device, revealed that there are still several issues with PWA's on iOS. Here, the application behaves differently, depending on if it is run directly from Safari or from the home screen. Given that WebKit, the browser engine used by Safari, still does not completely support PWA's explains the lack of stability. Many of the technologies used with PWA's, such as Service Workers are not completely implemented at the time of writing \cite{webkitsw}. However, using the web application in Safari provided a consistent user experience. All elements that require unsupported features were hidden from the user.
  
 All parts of the application that contain interaction with the Bazo network can be considered critical functionality. The same can be said for other parts, that are important for the security of a user's Funds. In order to simplify testing and improve reusability, all of these operations were bundled into a JavaScript library. Hence, this library consists of methods, that wrap the web interface of the Bazo client, outlined in \ref{bazoclientwebinterface}. Further, the library contains helper functions, for operations such as generating appropriate key pairs. The Bazo Wallet only needs to be able to create one of the three types of transactions, that are possible within Bazo. However, to promote the library's reusability, the scope of the library was extend for all transaction types and their respective helper methods.
-The library was tested using the \textit{mocha} testing framework in conjunction with \textit{istanbul} for code coverage analysis. 97.5\% of all lines were covered by the unit tests, see \ref{fig:coverage}.
+The library was tested using the \textit{mocha} testing framework in conjunction with \textit{istanbul} for code coverage analysis. 97.5\% of all lines were covered by the unit tests, see Figure \ref{fig:coverage}.
 
 \begin{figure}
 \centering
