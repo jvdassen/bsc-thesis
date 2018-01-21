@@ -85,6 +85,7 @@ Copy the binaries to the current working directory of the application:
 After this step the binaries can be run from the command line. 
 First, the provided root key which is associated with the root account that is also the beneficiary in the miner application, has to be used to create a new non-root user account:
 \begin{framed}./bazo\_miner new\_database :8000 \&
+
 ./bazo\_client accTx <header> <fee> <privKey> <keyOutput>
 \end{framed}
 With this, the bazo miner binary is run in the background, while passing the name for a new database file. The last argument will tell the miner to listen on localhost:8000 for inbount connections. Then, the client can be used with the follwoing parameters:
