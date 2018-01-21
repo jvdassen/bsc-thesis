@@ -49,7 +49,7 @@ Table \ref{table:testing} shows targeted platforms where the complete functional
  
 All parts of the application that contain interaction with the Bazo network can be considered critical functionality. The same can be said for other parts, that are important for the security of a user's Funds. In order to simplify testing and improve reusability, all of these operations were bundled into a JavaScript library. Hence, this library consists of methods, that wrap the web interface of the Bazo client, outlined in \ref{bazoclientwebinterface}. Further, the library contains helper functions, for operations such as generating appropriate key pairs. The Bazo Wallet only needs to be able to create one of the three types of transactions, that are possible within Bazo. However, to promote the library's reusability, the scope of the library was extend for all transaction types and their respective helper methods.
 The library was tested using the \textit{mocha} testing framework in conjunction with \textit{istanbul} for code coverage analysis. 97.5\% of all lines were covered by the unit tests, see Figure \ref{fig:coverage}. Modularizing all payment related operations into a library, further allows to assess the Speed of a payment with the Wallet. The helper method of the JavaScript library that allows to prepare, sign and distribute a transaction was tested under constrained network access to simulate a mobile environment. Running the tests iteratively revealed a consistent performance for the operation, which took between 1500 and 2000 milliseconds. The duration of the operation can be explained by looking at the implementation, which consists of three synchronous http requests and the computation of the transaction's signature. Each request had an impact of around 500 to 600 milliseconds to the operation. The unit tests of individual methods running the same requests on their own showed similar performance. Computing the transaction's signature showed a performance impact of around 10 milliseconds. This result is comparable to the results of the benchmarking performed by the maintainer of the utilized JavaScript library \cite{elliptic}. 
-Since most of the time for the operation is lost while connecting to remote systems, the mobile port of the bazo client, described in \ref{}
+Since most of the time for the operation is lost while connecting to remote systems, the mobile port of the bazo client, described in \ref{futurework}, could dramatically improve the performance of this operation.
 
 \begin{figure}
 \centering
@@ -57,10 +57,8 @@ Since most of the time for the operation is lost while connecting to remote syst
 \caption{\label{fig:coverage}Coverage report of the Bazo API library.}
 \end{figure}
 \section{Bazo as a Payment solution}
-This section evaluates the developed P2P mobile payment application against key characteristics for such a solution. Key characteristics of a mobile payment solution can be:
+This section evaluates the developed P2P mobile payment application against key characteristics for such a solution. Qualitative Key characteristics of a mobile payment solution can be:
 \begin{enumerate}
-\item \textbf{Speed}
-The speed of a payment is characterized as the time passed between initiation and clearance of the transaction.
 \item \textbf{Payer control}
 This refers to the degree as where a user can select the most advantageous terms for his payment.
 \item \textbf{Security}
@@ -69,8 +67,6 @@ The degree of risk of having funds manipulated or stolen by engaging in the paym
 \item \textbf{Universality}
 This key characteristic deals with the importance of a payment system being accepted by a large user base to make the payment solution attractive.
 \end{enumerate}
-
-Considering speed, there are multiple issues for assessing the Speed of the Bazo Wallet. First, it is hard to determine where the start of the transaction process begins. It is assumed that the transaction process starts when the user has already all the necessary information such as target address and transaction value available. It is difficult to assess the speed of the Wallet since the speed of the payment depends on other systems. A high amount of unconfirmed transactions, a lower fee selected by the user and the configuration of the block interval can impact the payment speed. If we would assume these values were chosen optimally, the Bazo Wallet contributes little to no time to the overall time required for the payment. Obtaining transaction data, signing and submitting it from and to a remote Bazo client, took less than 500ms in tests. Using a local client, such as the Android version should require even less time, since most of the time is lost connecting to remote systems.
 
 Payer control with the Bazo currency has a mixed image.
 The user has the control to create transactions at terms he prefers, for example, the user can set the fee he is ready to spend for the transaction. However, the clearance of the transaction depends very much on the network. That is the current amount of unconfirmed transactions, the rate at which transactions are validated and the fee the user has set. The user has little to no influence on these conditions.
