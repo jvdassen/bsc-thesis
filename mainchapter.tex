@@ -114,6 +114,8 @@ A service worker is a method to enable background processing of certain actions.
 User-agents such as Google Chrome pose certain security constraints to allow a web application to be installable. This restricts web application and all cross-origin requests to be in a secure context, such as secured http or WebSockets \cite{manifest} \cite{securitychrome}.
 \end{itemize}
 
+When all characteristics for a PWA are implemented correctly, browsers such as Google Chrome and Firefox will display an installation prompt. This is visualized for both browsers in Figure \ref{fig:uihomeinstall}.
+
 \subsection{User Interface}\label{userinterface}
 The application was implemented as a Single-Page-Application. With SPAs, it is possible to structure content and application interface into pages without leaving the document. %find sources%,
 This deals with the quality requirement, that the application should run in the browser with as little logic on the backend as possible. The Wallet was structured into the following pages, each accessible through a unique URI, although all technically in the same document:
@@ -165,7 +167,7 @@ Since the user interface of the coinblesk-frontend application was structured as
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{screenshots/Home2.png}
-\caption{\label{fig:uihome}Comparison of the PWA installation prompt in Firefox (left) and Google Chrome (right) on an Android device.}
+\caption{\label{fig:uihomeinstall}Comparison of the PWA installation prompt in Firefox (left) and Google Chrome (right) on an Android device.}
 \end{figure}
 
 \begin{figure}
