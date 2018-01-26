@@ -124,7 +124,7 @@ This is where the user will be directed upon loading the application. If a user 
 On this page, the user can edit configurations such as showing or hiding advanced options on the other pages, which are directed at users in the role of a merchant. This would mean that the user has an additional field available to encode the POS ID into the transaction data. Further, the user is given the possibility to set the URI of a Bazo client web interface, which is then used for further communication with the client's web interface. The implementation of these options is shown in Figure \ref{fig:uisettings}.
 \item \textbf{Accounts Page}
 Whenever a user tries to access any of the other pages except for the Home and Settings Page, without an account being stored in the browser, he will be redirected to the accounts page. Here, it is possible to store new Bazo accounts, by supplying the public key and a name to identify the account. Every public key can only be stored once, so that the total balance can be computed from the set of accounts. All accounts stored in the browser are displayed in a table, along with information such as balance, name and address for every account. Each of the stored accounts can be inspected in the Bazo Block Explorer, see \ref{bazoblockexplorer} and deleted from the storage. An account can also be selected to be the main account used. This account will then automatically get preselected for all other operations on other pages.
-This page can also be opened with an address supplied in the URI, which would then be filled into the form. This is employed to make the process of inviting the user into the system easier. Figure \ref{fig:uiaccounts} gives an insight into how this Page is being displayed when an unconfirmed and a confirmed account are stored.
+This page can also be opened with an address supplied in the URI, which would then be filled into the form. This is employed to make the process of inviting the user into the system easier. Figure \ref{fig:uiaccounts1} gives an insight into how this Page is being displayed when an unconfirmed and a confirmed account are stored. Figure \ref{fig:uiaccounts2} shows how an account can be imported from a keyfile. 
 \item \textbf{Requesting Funds Page}
 When a user wants to share transaction data with another user, he would use this page. Here the user can set the necessary information such as target address and transaction value. If the user has selected advanced options in the Settings Page, he may set an identifier for a POS system. 
 The compiled transaction data can then be transferred to other users using as many of the transaction sharing methods, as supported by his device and browser. Only the sharing methods supported by the underlying platform are visible to the user, in order to progressively enhance the application. For each of the transfer methods, an overlay would be opened to instruct the transfer process and to indicate the state of the transfer. Figure \ref{fig:uirequest1} demonstrates an example of how payment information can be compiled. The transmission of this information via QR-Code can be seen in Figure \ref{fig:uirequest2}.
@@ -177,13 +177,13 @@ Since the user interface of the coinblesk-frontend application was structured as
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{screenshots/Accounts.png}
-\caption{\label{fig:uiaccounts}\textbf{Accounts Page:} Add and inspect existing Bazo accounts.}
+\caption{\label{fig:uiaccounts1}\textbf{Accounts Page:} Add and inspect existing Bazo accounts.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth]{screenshots/Accounts-Import.png}
-\caption{\label{fig:uiaccounts}\textbf{Accounts Page:} Importing an account from a keyfile that was generated on the \textit{Funds} page.}
+\caption{\label{fig:uiaccounts2}\textbf{Accounts Page:} Importing an account from a keyfile that was generated on the \textit{Funds} page.}
 \end{figure}
 
 
