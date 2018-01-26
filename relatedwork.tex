@@ -1,5 +1,5 @@
 \chapter{Background and Related Work}
-This chapter aims to provide the reader with the necessary knowledge about related technologies, development activities and the initial situation of the context of this thesis. 
+This chapter aims to provide the reader with the necessary knowledge about related technologies, development activities and the initial situation of the context of this thesis.
 \section{Background}
 This chapter familiarizes the reader with core concepts and technologies, which were leveraged for the development of the Bazo Wallet. An insight into the traditional and envisioned system of the financial service provider is also given, so that the reader is introduced to the company's domain.
 
@@ -35,7 +35,7 @@ A Progressive Web Application should be installable to the users home screen and
 
 \end{theorem-install}
 \begin{theorem-secure}
-Since web application have access to powerful APIs in the browsers context, PWA's are supposed to be served from secure contexts. This can be achieved by using protocols such as \textit{https} or \textit{wss} \cite{securitychrome}.
+Since web application have access to powerful APIs in the browsers context, PWAs are supposed to be served from secure contexts. This can be achieved by using protocols such as \textit{https} or \textit{wss} \cite{securitychrome}.
 
 \end{theorem-secure}
 \subsection{Traditional payment process}
@@ -65,7 +65,7 @@ The implementation of this client is relevant for this thesis, since the Bazo Wa
     \hline
       & Blockchain & Block headers & Transaction Signing & Mining \\ \hline
     Full clients  & yes & yes & yes & no \\ \hline
-    Headers-only clients  & no & yes & yes & no \\ \hline    
+    Headers-only clients  & no & yes & yes & no \\ \hline
     Signing-only clients  & no & no & yes & no \\ \hline
     Mining clients  & yes & no & no & yes \\ \hline
     \end{tabular}
@@ -74,7 +74,7 @@ The implementation of this client is relevant for this thesis, since the Bazo Wa
 \end{center}
 \subsection{Coinblesk}
 Coinblesk is a project carried out at the Communication Systems Group (CSG) at the University of Zurich. With Coinblesk, payments can be made in the Bitcoin network without having to wait for a transaction to be fully validated in a block. This is achieved by employing a client-server architecture, where transactions are signed by multiple instances in order to ensure validity as well as transaction speed.
-With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native android application and the other one is implemented as a Progressive Web Application. Although the architecture for Coinblesk is substantially different from the approach with Bazo, parts of the user interface can be reused for the Bazo Wallet. This is further described in Chapter \ref{userinterface}.
+With Coinblesk, multiple mobile payment solution implementations exist. One implementation is a native Android application and the other one is implemented as a Progressive Web Application. Although the architecture for Coinblesk is substantially different from the approach with Bazo, parts of the user interface can be reused for the Bazo Wallet. This is further described in Chapter \ref{userinterface}.
 \subsection{Bazo Block Explorer\label{bazoblockexplorer}}
 As described in Chapter \ref{envisionedpaymentprocess}, the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issuing new coins and setting
 parameters for the miners can be performed.
@@ -83,7 +83,7 @@ A solution to bring more transparency into the network by letting users inspect 
 In order to visualize various aspects of the Bazo currency, a Block Explorer is being developed for Bazo simultaneously to the implementation of the Bazo Wallet. This application is also used to let the company perform the administrative tasks such as setting the reward for mining a block in the Bazo network and other parameters \cite{bazoblockexplorer}.
 
 \section{Requirements to the envisioned application}\label{requirements}
-This section captures requirements which have been known upfront or which haven been explored or derived from other requirements. 
+This section captures requirements which have been known upfront or which haven been explored or derived from other requirements.
 \subsection{Functional Requirements}\label{functionalreq}
 The envisioned Wallet application is supposed to enable the following operations:
 \begin{enumerate}
@@ -116,5 +116,4 @@ Since the application will not only be targeted to a universal base of users but
 Another indication of this classification is the usage of proximity technologies at a Point of Sale, which this application requires \cite{p2ptypes}.
 There are sources that characterize payment systems specifically for cryptocurrencies. Geva differentiates between Mobile and Cloud Wallets. Functionalities such as proximity-based transfers qualify as a Mobile Wallet and are said to be key enabling technologies for such mobile payments \cite{bitcoinmobile}.
 Another source evaluates different applications that can interact with the Blockchain on a more technical level. The evaluation was performed for the Bitcoin currency, however it is highly comparable since the various forms of clients can also be found in the Bazo ecosystem.
-Due to the design guideline of crafting the application as a web application, the application can be classified as a \textit{ Web-based signing-only client}. This characterization fits, since the browser application can not validate and store parts of the Bazo blockchain. It is necessarily dependent on a web service for communication, however it is important to note that transaction signing is implemented in the browser and not by the web service \cite{bitcoinclients}. It would be technically feasible to retrieve complete blocks from a blockchain and validate transactions in a web browser. With Bazo this is not directly possible, since the blocks are distributed over a TCP connection and validated on a low-level representation \cite{lisg}. The first of these issues could be solved by developing a web service that would allow retrieval of block headers over a protocol that is suitable for the web. 
-
+Due to the design guideline of crafting the application as a web application, the application can be classified as a \textit{ Web-based Signing-Only Client}. This characterization fits, since the browser application can not validate and store parts of the Bazo blockchain. It is necessarily dependent on a web service for communication, however it is important to note that transaction signing is implemented in the browser and not by the web service \cite{bitcoinclients}. It would be technically feasible to retrieve complete blocks from a blockchain and validate transactions in a web browser. With Bazo this is not directly possible, since the blocks are distributed over a TCP connection and validated on a low-level representation \cite{lisg}. The first of these issues could be solved by developing a web service that would allow retrieval of block headers over a protocol that is suitable for the web.
