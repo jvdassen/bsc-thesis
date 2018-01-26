@@ -283,84 +283,81 @@ Reading NFC messages from passive and active devices was achieved without implem
 \item If the Bazo Wallet PWA is not installed, there will be no intent filter requesting the data. The user is then prompted with all applications that can handle an URI, such as a Web browser. If a browser is selected, then the Bazo payment page is opened with all transaction data passed as a parameter.
 \end{enumerate}
 
-Writing the transaction data to other android devices was implemented using the Android Beam technology.
-The transaction data can be passed to the NFC Bridge by either manually entering it into a form or by passing it as data through an intent. Passing data to the application through parameters has the benefit that web applications can generate links that will take the user to the application. Such a link can contain further data, which would be set to the transaction data the user wants to share with another android device.
-If the android phone is held against another Android Beam enabled device, the NFC Bridge application will automatically set the appropriate transaction data encoded as an NDEF message and push it to the other device.
+Writing the transaction data to other Android devices was implemented using the Android Beam technology.
+The transaction data can be passed to the NFC Bridge by either manually entering it into a form or by passing it as data through an intent. Passing data to the application through parameters has the benefit that web applications can generate links that will take the user to the application. Such a link can contain further data, which would be set to the transaction data the user wants to share with another Android device.
+If the Android phone is held against another Android Beam enabled device, the NFC Bridge application will automatically set the appropriate transaction data encoded as an NDEF message and push it to the other device.
 
-At the time of writing, NFC support for iOS platforms was just released for their most recent publicly available version, iOS 11. The NFC functionality offered to iOS developers covered writing and reading to NFC tags on the iPhone 7 and iPhone 7 Plus \cite{corenfc}. Thus, an NFC Bridge application similar to how it was developed for android would not extend the functionality of existing generic NFC applications. The NFC fallback capabilities with the Bazo Wallet on iOS are outlined in Chapter \ref{fallback}.
+At the time of writing, NFC support for iOS platforms was just released for their most recent publicly available version, iOS 11. The NFC functionality offered to iOS developers covered writing and reading to NFC tags on the iPhone 7 and iPhone 7 Plus \cite{corenfc}. Thus, an NFC Bridge application similar to how it was developed for Android would not extend the functionality of existing generic NFC applications. The NFC fallback capabilities with the Bazo Wallet on iOS are outlined in Chapter \ref{fallback}.
 \subsection{Bluetooth Low Energy}\label{ble}
-Bluetooth Low Energy, allows for devices to exchange data in short wireless connection. Devices will usually establish connections in a peer-to-peer topology \cite{blep2p}. Data can be structured into GATT-services which is then exposed to other BLE-capable devices. These devices may then perform actions such as reading and writing on these Services \cite{blegatt}. 
-This makes the web-bluetooth API useful for web applications interacting with BLE-devices in proximity. However, to use the API for transaction sharing between two web pages on different devices, this would imply for one of the devices to take on the role of a server. This functionality is not provided in the web-bluetooth API, and makes it therefore not suitable to solve the requirement \cite{webble}. 
-%%This was confirmed by \cite{undefined}.
+Bluetooth Low Energy allows for devices to exchange data in short wireless connection. Devices will usually establish connections in a peer-to-peer topology \cite{blep2p}. Data can be structured into GATT-services which is then exposed to other BLE-capable devices. These devices may then perform actions such as reading and writing on these Services \cite{blegatt}. 
+This makes the web-bluetooth API useful for web applications interacting with BLE-devices in proximity. However, to use the API for transaction sharing between two web pages on different devices, this would imply for one of the devices to take on the role of a server. This functionality is not provided in the web-bluetooth API, and therefore makes it unsuitable to solve the requirement \cite{webble}. 
 
-Since the web-bluetooth API could not be used for data sharing, the websharing API was leveraged to provide easy sharing capabilites with low friction. Low friction for usage is given through the deep integration of the API with android's intent system. By invoking the API through passing the relevant URI, all sharing options available to the device will be presented to the user \cite{webshareapi}. This has two advantages:
+Since the web-bluetooth API could not be used for data sharing, the websharing API was leveraged to provide easy sharing capabilities with low friction. Low friction for usage is given through the deep integration of the API with Android's intent system. By invoking the API through passing the relevant URI, all sharing options available to the device will be presented to the user \cite{webshareapi}. This has two advantages:
 \begin{enumerate}
-\item Technologies such as Bluetooth, E-mail, SMS and even Android Beam are always available, even on system without installed third-party applications.
-\item Sharing transaction data is not limited to functionalities provided by the Wallet. The user has the possibility to use any existing application, for example, his favorite chat applicatoin, to transfer the URI. When new applications are installed, they are automatically registerend and then considered by the android's intent system for sharing.
+\item Technologies such as Bluetooth, E-mail, SMS and even Android Beam are always available, even on systems without any third-party applications.
+\item Sharing transaction data is not limited to functionalities provided by the Wallet. The user has the possibility to use any existing application, for example his favorite chat application, to transfer the URI. When new applications are installed, they are automatically registered and then considered by the android's intent system for sharing.
 \end{enumerate}
 
 The Web Share API is not considered a W3C standard, however it was assessed as an origin trial in Google Chrome on Android and is now normally available starting with version 61 \cite{webshareapi}\cite{websharespec}.
 
 
 \subsection{Quick Response Codes}\label{qrcodes}
-Quick Response Codes were initially envisioned to be the fallback way to transfer transaction data for devices that either do not support NFC or in cases where the browser does not support webNFC. With the data model explained in \ref{schema}, all transaction data can be placed in a QR Code in the form of a single URI.
+Quick Response Codes were initially envisioned to be the fallback option to transfer transaction data for devices that either do not support NFC or in cases where the browser does not support webNFC. With the data model explained in \ref{schema}, all transaction data can be placed in a QR Code in the form of a single URI.
 This data model was chosen with the intent to support devices where the browser does not allow camera access in the browser over the webRTC API, which is still not widely adapted by browsers \cite{webrtcimplreport}. Testing Google Chrome and Safari on desktop and mobile systems showed that only Google Chrome has implemented the webRTC API for camera access. Safari has  implemented webRTC into their most recent version 11, which was released to the public in September 2017  \cite{safari11release}\cite{ios11release}. This implies that users with older versions of iOS will not have access to the API. Users with such a device can still read the QR Code using a generic native application. Since all information is encoded in a single URI the payment page can be opened with all necessary information prefilled.
 Google Chrome has already implemented the webRTC API, therefore multiple QR Reader libraries leveraging the API exist.
 The QR Scanner from the coinblesk-frontend project was a simple wrapper around an existing QR Reader library \cite{instascan}. Due to the implementations in Safari version 11, the underlying library had to be modified so that certain attributes were set. This allowed to run the QR Reader in the Browser of iOS devices. The actual decoding of the image with the library is implemented in pure JavaScript. This has performance drawbacks, since there is no hardware support. Further, the library is quite large with around 1.5 MB size for a minified JavaScript file. Because of this, the ShapeDetectionAPI was evaluated, which promises certain optimizations, since the decoding is not run in JavaScript \cite{shapeapinotes}. However, this new API is neither a W3c Standard or on track of becoming one \cite{shapeapispec}.
 
 \subsection{Fallback Solutions}\label{fallback}
-Subsections of Chapter 4.2 outlined how existing native and web-enabled APIs were leveraged for the Bazo Wallet to share transaction data. This section documents the fallback solutions that were evaluated for devices or platforms that lack the support for the API, either natively or on the web.
-For android, the complete functionality of NFC could be leveraged. Writing and reading NFC tags was implemented with the web-nfc API. Complete peer to peer communication was enabled by developing an API bridge, see \ref{nfcbridge}. A similar functionality is also provided by the webshareAPI implemented for Bluetooth transferrals \ref{ble}.
-As iOS platforms only support native APIs when communicating over NFC and peer to peer mode is not yet included, the fallback solution to use NFC on iOS consists of using a native application. Writing the NFC tag can be done with any generic NFC application or, on an android device, with the Bazo Wallet itself.
-Initially a QR-Code was envisioned to be the fallback solution that should cover all devices. However, reading a camera video stream is only possible for the most recent version of iOS. This implies that this can not be used as a fallback solution for older iOS devices, although the same procedure as with NFC, where an existing native application can be used for scanning is possible.
-Because of this limitation in iOS, a solution where the URI with all transaction data is being copied to the users clipboard was implemented for both systems. This way, iOS users have a convenient way of obtaining the URI and can then manually distribute the URI over their preferred channel. The same functionality is offered to android users over the webshare API which has a better integration into the android system, so that the URI is directly passed to the androids intent system for sharing, see \ref{ble}.
+Subsections of Chapter 4.2 outlined how existing native and web-enabled APIs were leveraged for the Bazo Wallet to share transaction data. This section documents the fallback solutions evaluated for devices or platforms that lack the support for the API, either natively or on the web.
+For Android, the complete functionality of NFC could be leveraged. Writing and reading NFC tags was implemented with the web-nfc API. Complete peer to peer communication was enabled by developing an API bridge, see \ref{nfcbridge}. A similar functionality is also provided by the webshareAPI implemented for Bluetooth transferrals \ref{ble}.
+Since iOS platforms only support native APIs when communicating over NFC and peer-to-peer mode has not yet been included, the fallback solution to use NFC on iOS consists of using a native application. Writing the NFC tag can be done with any generic NFC application or, on an Android device, with the Bazo Wallet itself.
+Initially a QR-Code was envisioned to be the fallback solution that should cover all devices. However, reading a camera video stream is only possible for the most recent version of iOS. This implies that this can not be used as a fallback solution for older iOS devices, although the same procedure as with NFC, where an existing native application can be used for scanning, is possible.
+Because of this limitation in iOS, a solution where the URI with all transaction data is being copied to the users clipboard was implemented for both systems. This way, iOS users have a convenient way of obtaining the URI and can then manually distribute the URI over their preferred channel. The same functionality is offered to android users over the webshare API which has a better integration into the android system, so that the URI is directly passed to Android's intent system for sharing, see \ref{ble}.
 
 \section{Blockchain Interaction}\label{blockchaininteraction}
-Actual network communication with the Bazo network in a trustless way posed the most difficult technical challenge for the application. The following operations and issues had to be evaluated:
+Trustless network communication with the Bazo network posed the most difficult technical challenge for the application. The following operations and issues had to be evaluated:
 
 \begin{enumerate}
-\item Building the transaction data in the schema defined in the Bazo protocol. \ref{fig:FundsTX}.
-Due to technical limitations of the browser, this application context is not suitable to fulfill the requirements of a light client implementation. Reasons for this are lack of support for tcp communcation, appropriate storage solutions and data structures.
+\item Building the transaction data in the schema defined in the Bazo protocol, as described in chapter \ref{fig:FundsTX}.
+Due to technical limitations of the browser, this application context is not suitable to fulfill the requirements of a light client implementation. Reasons for this are lack of support for tcp communication, appropriate storage solutions and data structures.
 
 \item Signing the transaction data with the appropriate algorithms.
 \item Verifying transaction and account information.
-In order to run the Bazo Wallet as trustless as possible, the application has to maintain at least a certain amount of the blockchain to verify information. For the Bazo Wallet this would mean that the Bazo Wallet itself needs to verify blocks and transactions, or that the Bazo Wallet needs to communicate with a trustworthy Bazo client. 
+In order to run the Bazo Wallet as trustless as possible, the application has to maintain at least certain parts of the blockchain to verify information. For the Bazo Wallet this would mean that the Bazo Wallet itself needs to verify blocks and transactions, or that the Bazo Wallet needs to communicate with a trustworthy Bazo client. 
 \end{enumerate}
-% link to gomobile, link to evaluation & future work
-
 
 \subsection{Bazo Client Web interface} \label{bazoclientwebinterface}
-In order to interact with the Bazo Client, a web interface had to be created. The web service was designed as a RESTful API and implemented into the light client.
+In order to interact with the Bazo client, a web interface had to be created. The web service was designed as a RESTful API and implemented into the light client.
 The web service consisted of two endpoints for each type of transaction in the Bazo currency and one for the retrieval of account information such as balance and other parameters.
 For each of the transaction types the following two endpoints need to be used.
 \begin{itemize}
-\item The endpoint at /create<Account Type>/ is used to create and obtain a transaction hash given all parameters for the Transaction struct are sent. This solves the problem of lacking the appropriate data types in the browser. The  returned transaction hash can then be signed on the client.
-\item The endpoint at /send<Account Type>/ accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying Bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond the answer to the client.
+\item The endpoint at /create<Transaction Type>/ is used to create and obtain a transaction hash given all parameters for the Transaction struct are sent. This solves the problem of lacking the appropriate data types in the browser. The  returned transaction hash can then be signed on the client.
+\item The endpoint at /send<Transaction Type>/ accepts the transaction signature, which was generated on the client, and matching transaction hash. With these informations, the transaction can be considered complete, so that the underlying Bazo client can distribute the transaction for further validation in the network. The web service does not validate the transaction and respond to the client.
 \end{itemize}  
 
 \subsection{Transaction Signing}\label{transactionsigning}
-Due to limitations of the browser for C-like structures as they would be required to create a FundsTx, an interface had to the Bazo client was to be developed. 
+Due to limitations of the browser for C-like structures, required to create a FundsTx, an interface to the Bazo client was developed. 
 The process of obtaining transaction information, requesting a new transaction, signing and dispatching it into the network is shown in figure \ref{fig:TransactionProcess}. The process can be described as follows:
 \begin{enumerate}
 \item The application queries the necessary account information to request a transaction struct in a later step. This is a necessary step, since the TxCount of the transaction has to be correct in order for the transaction to be valid.
-\item When the account information is read, the web application can send a request to the web service to create a new FundsTx struct. The Bazo client creates the appropriate structure, hashes it using the \textit{SHA3-256} algorithm and returns it to the Wallet.
-\item The Wallet is now in charge of asking the user about its private key and signing the received transaction hash, using the \textit{ECDSA} algorithm on the \textit{p256} curve. The resulting signature and transaction hash pair then needs to be sent back to the Bazo client for distribution in the network.
+\item When the account information is read, the web application sends a request to the web service to create a new FundsTx struct. The Bazo client creates the appropriate structure, hashes it using the \textit{SHA3-256} algorithm and returns it to the Wallet.
+\item The Wallet is now in charge of asking the user about his private key and signing the received transaction hash, using the \textit{ECDSA} algorithm on the \textit{p256} curve. The resulting signature and transaction hash pair then needs to be sent back to the Bazo client for distribution in the network.
 \end{enumerate}
 
 This approach is comparable to the mechanism employed in the official JavaScript API of the Ripple currency \cite{ripplelib}.
 Figure \ref{fig:ripplesendTx} demonstrates how a transaction can be sent with the Ripple cryptocurrency using the official library. The mechanism can be outlined as follows:
 \begin{enumerate}
-\item A connection to an interface is opened over a Websocket. 
-\item A request is made to obtain relevant data and instruction for the payment.
+\item A connection to an interface is opened over a WebSocket. 
+\item A request is made to obtain relevant data and instructions for the payment.
 \item The data returned from preparing the transaction is signed.
-\item The API submits the signed Transaction over the WebSocket.
+\item The API submits the signed transaction over the WebSocket.
 \end{enumerate}
 
 
 Comparing the mechanism in Bazo, see Figure \ref{fig:TransactionProcess}, and Ripple, \ref{fig:ripplesendTx}, reveals certain differences, although the approach, with the respective consequences being similar.
 \begin{itemize}
-\item \textbf{Protocol mechanism} In Ripple, there exists a convenient method to prepare all data into a single JSON object, that needs to be signed and submitted. This step is splitted up into multiple steps in the web interface for Bazo. The client is responsible for querying the account information and then requesting a transaction hash from said information.
-\item \textbf{Connection Type} Both cryptocurrencies use web interfaces for communication with a node in the Network. In Bazo http is used, while the Ripple library makes use of a WebSocket for two-way communication. Given that two-way communication is not necessary for the Bazo currency, the http approach was chosen, since this is supported by a broad range of devices and browsers.
+\item \textbf{Protocol mechanism} In Ripple, there exists a convenient method to prepare all data into a single JSON object which needs to be signed and submitted. This step is split up into multiple steps in the web interface for Bazo. The client is responsible for querying the account information and then requesting a transaction hash from said information.
+\item \textbf{Connection Type} Both cryptocurrencies use web interfaces for communication with a node in the network. Http is used in Bazo, while the Ripple library makes use of a WebSocket for two-way communication. Given that two-way communication is not necessary for the Bazo currency, the http approach was chosen, since it is supported by a broad range of devices and browsers.
 \end{itemize}
 
 \begin{figure}
@@ -379,16 +376,16 @@ Comparing the mechanism in Bazo, see Figure \ref{fig:TransactionProcess}, and Ri
 \subsection{Client Integration}\label{bazomobile}
 
 Chapter \ref{bazoclientwebinterface} explained the interaction between the Bazo Wallet and the Bazo light client over a web interface.
-This Chapter explains contexts in which the Bazo client can be run, consequences and documents the efforts of porting the light client to mobile devices.
+This chapter explains contexts in which the Bazo client can be run as well as their consequences. It further documents the efforts of porting the light client to mobile devices.
 Due to the security constraints one needs to consider when interacting with cross-origin resources in a PWA, the Bazo client web interface has to be in a secure context \cite{securitychrome}. This would mean that an SSL certificate needs to be installed or that the server needs to accessible through a secure reverse tunnel.
-This makes mobile devices as a runtime difficult. However, a proof of concept was developed to show that mobile devices are technically feasible to run the client. 
+This makes mobile devices as a target difficult. However, a Proof of Concept was developed to show that mobile devices are technically feasible to run the client. 
 
-To overcome these limitations, native application wrappers for the light client written in Go were evaluated. 
+%%To overcome these limitations, native application wrappers for the light client written in Go were evaluated. 
+The first approach for porting the light client, written in the Go language, evaluated the usage of bindings for Java. These could then be used in a native Android application. There exists a project, go mobile, that can be used to generate bindings from a package written in Go. However, the current state of the go mobile project does not support all networking and data structure requirements. Further, this would have required to restructure the go application as a package \cite{gobind}. Programming to such bindings has the advantage that the Java application can directly call methods of the binded package. Since all communication between the actual Wallet application would go over the http interface, this would not pose an advantage.
 
-The first approach for porting the light client, which was written in the \textit{Go language}, evaluated the usage of go bindings for java. These could then be used in a native Android application. There exists a project \textit{go mobile}, that can be used to generate bindings from a package written in \textit{Go}. However, the current state of the go mobile project did not support all networking and data structure needs to fulfill the requirement. Further, this would have required to restructure the go application as a package \cite{gobind}. Programming to such bindings usually has the advantage, that the Java application can directly call methods of the binded package. Since all communication between the actual Wallet application would go over the http interface, this would not pose an advantage.
-The second approach focused on cross-compiling the Bazo client for the android operating system running on ARMv5 architectures.
-To port the complete Bazo client without any modifications to the android operating system the application was compiled using the clang compiler. The compiler can be obtained through androids official NDK or it can be compiled from scratch. The complete toolchain was compiled targeting the arm architecture, and android API version 21 for a darwin x64bit system which was the host for the compilation \cite{standalonetoolchain}. The clang compiler of the toolchain was then used to configure the go environment for cross-compilation. This involved configuring the golang environment for arm architectures and to use the freshly compiled clang compiler \cite{gobuild}.
-The binary was then copied to an android device an ran in the scope of an existing application. This is a necessary step for binaries that are run on devices were root access is not given. The application performed well, so that ngrok was used to create a secure reverse tunnel. With this in place the web application was able to interact with the Bazo client running on the same device but accessible through the secure context. Detailed instructions for installation can be found in \ref{bazoandroid}.
+The second approach focused on cross-compiling the Bazo client for the Android operating system running on ARMv5 architectures.
+To port the complete Bazo client without any modifications to the Android operating system, the application was compiled using the clang compiler. The compiler can be obtained through Android's official NDK or it can be compiled from scratch. The complete toolchain was compiled targeting the ARM architecture, and Android API version 21 for a darwin system which was the host for the compilation \cite{standalonetoolchain}. The clang compiler of the toolchain was then used to configure the go environment for cross-compilation. This involved configuring the golang environment for arm architectures and to use the freshly compiled clang compiler \cite{gobuild}.
+The binary was then copied to an Android device and run in the scope of an existing application. This is a necessary step for binaries that are run on devices where root access is not given. The application performed as expected, so that ngrok was used to create a secure reverse tunnel. With this in place, the web application was able to interact with the Bazo client running on the same device but accessible through the secure context. Detailed instructions for installation can be found in \ref{bazoandroid}.
 This Proof of Concept could be leveraged to create an actual android application wrapping the binary. However, a solution to configure SSL appropriately would need to be found.
 
 
