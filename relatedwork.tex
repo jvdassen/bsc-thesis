@@ -47,7 +47,7 @@ Similar to the process of exchanging virtual points for goods, the company also 
 \subsection{Envisioned payment process}\label{envisionedpaymentprocess}
 The envisioned system is supposed to overcome the stated disadvantages, by mapping the virtual points to a currency that can be used directly to make transactions between users or between user and the partner company.
 The company rewarding with the virtual points should still remain in a central position for the currency and control aspects such as issueing new units and accounts.
-The Wallet that is developed for making transactions with the currency is required to support user to user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by exchanging payment information in a device-to-device manner. Since merchants may have more advanced payment systems, a possibility to integrate third party interfaces into the payment process is required. The detailed requirements needed to be explored with the company and are further described in Chapter \ref{functionalreq}.
+The Wallet that is developed for making transactions with the currency is required to support user-to-user transactions as well as transactions between a user and the merchant. This implies that there is a way that both merchants and users can request money by exchanging payment information in a device-to-device manner. Since merchants may have more advanced payment systems, a possibility to integrate third party interfaces into the payment process is required. The detailed requirements needed to be explored with the company and are further described in Chapter \ref{functionalreq}.
 
 
 \section{Related Work}
@@ -56,7 +56,7 @@ The development of a Wallet for the cryptocurrency, which is the focus of this t
 Bazo is a cryptocurrency developed at the University of Zurich. The currency was tailored to the use case of the financial service provider which acts as a central institution that is able to create new coins and accounts. This makes the currency private, since an invitation needs to be used to participate. This differs from various popular cryptocurrencies such as Bitcoin and Ethereum which are both open to the public. Similar to the approach taken in Ethereum, Bazo implements an account-based data model. Consensus in the Bazo network is achieved through a Proof of Work algorithm, although there are drawbacks from employing this strategy \cite{lisg}. More information about the current state of research concerning the consensus protocol is given in the \textit{Proof of Stake} thesis \cite{proofofstake}.
 The outcome of the first development efforts for Bazo consisted of two applications. The first one, \textit{Bazo Miner}, can be classified as a Mining client. The second application is a Full client \cite{bitcoinclients}. Table \ref{table:clientstable} compares the two applications.
 \subsection{Bazo Client Implementations}
-As part of the initial development efforts for Bazo, a full client application was created. With this application it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is developed at the University of Zurich. With this fork implementation of the full client, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases; for example, a Bazo client can be run on a device with limited resources such as a mobile device. This type of client can be classified as a \textit{Headers-only Client} \cite{bitcoinclients} and is compared in Table \ref{table:clientstable}.
+As part of the initial development efforts for Bazo, a full client application was created. With this application it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is being developed at the University of Zurich. With this fork implementation of the full client, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases; for example, a Bazo client can be run on a device with limited resources such as a mobile device. This type of client can be classified as a \textit{Headers-only Client} \cite{bitcoinclients} and is compared in Table \ref{table:clientstable}.
 %% elaborate.
 The implementation of this client is relevant for this thesis, since the Bazo Wallet is required to communicate with a Bazo client. Through this, the Bazo Wallet can perform actions such as querying account balances, transaction states as well as creating new transactions.
 
@@ -80,7 +80,7 @@ As described in Chapter \ref{envisionedpaymentprocess}, the financial service pr
 parameters for the miners can be performed.
 %% find sources
 A solution to bring more transparency into the network by letting users inspect and visualize the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block Explorer is an application, that lets users query information about the currency without necessarily requiring them to participate in the network.
-In order to visualize various aspects of the Bazo currency, a Block Explorer is being developed for Bazo simultaneously to the implementation of the Bazo Wallet. This application is also used to let the company perform the administrative tasks such as setting the reward for mining a block in the Bazo network and other parameters \cite{bazoblockexplorer}.
+In order to visualize various aspects of the Bazo currency, a Block Explorer is being developed simultaneously to the implementation of the Bazo Wallet. This application is also used to let the company perform the administrative tasks such as setting the reward for mining a block in the Bazo network and other parameters \cite{bazoblockexplorer}.
 
 \section{Requirements to the envisioned application}\label{requirements}
 This section captures requirements which have been known upfront or which haven been explored or derived from other requirements.
@@ -93,7 +93,7 @@ This is supposed to be achieved by sending transaction data between users over m
 \item Inspecting account state such as e.g. balance.
 \item Linking account details to the Bazo Block Explorer, thus directing the user to it for further details.
 \item Requesting new Bazo coins from the traditional bonus points.
-\item Querying transaction value of a cash register in an existing sale system.
+\item Querying transaction value of a cash register in an existing POS system.
 
 
 \end{enumerate}
