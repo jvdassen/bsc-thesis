@@ -25,9 +25,8 @@ So, in a production environment one should build the actual files using another 
 \begin{framed}
 yarn run build\end{framed}
 This will build and transpile all source files. Further, the resulting project will be optimized for performance by splitting files into chunks and compressing them. The built project can then be found in the \textit{dist} directory of the current working directory.
-\begin{framed}
-yarn run build
-\end{framed}
+
+
 It is possible to run the built project locally by running:
 \begin{framed}
 node start-server.js
@@ -73,7 +72,7 @@ This installation uses \textit{Android Debugging Bridge} to obtain a shell sessi
 \begin{framed}\url{https://developer.android.com/studio/command-line/adb.html#wireless}
 \end{framed}
 Once the device is properly connected, the binaries can be pushed to the device. The following command is run from the root directory of the Android Port project:
-\begin{framed}adb push bin/bazo\_miner-android-armv5 /data/local/bin\end{framed}
+\begin{framed}adb push bin/bazo*-android-armv5 /data/local/bin\end{framed}
 The target directory can be any directory with write access for the adb shell. Once the files are copied to the device, they can be run directly if root access is enabled on the phone.
 \begin{framed}adb shell /data/local/bin/<binary>\end{framed}
 If this is not the case, the VM of an existing Android application can be used to run the binaries in. Open an interactive shell on the device:
