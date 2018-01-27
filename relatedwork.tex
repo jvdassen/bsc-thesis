@@ -9,14 +9,12 @@ The first one is known as a \textit{Web Client} and allows users to operate on t
 The second approach is known as a \textit{Signing-Only Client}. These applications do not maintain the blockchain or parts of it, as it is common with Full- or Headers-only clients. This allows to implement operations with minimal resources such as storage or network usage. Cryptographic operations are performed with the tools available in web applications and implemented in JavaScript.
 A drawback of such signing-only applications is that there still needs to be a certain amount of trust with the server, that actually maintains parts of the blockchain and exposes an interface for the web applications \cite{bitcoinclients}.
 Both client variants are compared in Table \ref{table:clientstable}.
-%endA%
 \subsection{Progressive Web Applications}\label{pwacharacteristics}
 A Progressive Web Application (PWA), is a web application that has various characteristics that are usually found within native applications.
 They leverage the accessibility from the web but have various enhancements to give them a user experience that is closer to native mobile applications.
 
 A PWA can be characterized as \cite{pwas}:
 
-%how to cite theorems?%
 \theoremstyle{definition}
 \newtheorem*{theorem-progressive}{Progressive}
 \newtheorem*{theorem}{Connectivity Independent}
@@ -57,7 +55,6 @@ Bazo is a cryptocurrency developed at the University of Zurich. The currency was
 The outcome of the first development efforts for Bazo consisted of two applications. The first one, \textit{Bazo Miner}, can be classified as a Mining client. The second application is a Full client \cite{bitcoinclients}. Table \ref{table:clientstable} compares the two applications.
 \subsection{Bazo Client Implementations}
 As part of the initial development efforts for Bazo, a full client application was created. With this application it is possible to issue transactions. However, in order to participate in the Bazo network, peers have to obtain a complete copy of the Blockchain. In order to increase applicability for various use cases and to comply with resource constraints a light client implementation is being developed at the University of Zurich. With this fork implementation of the full client, peers are not required to obtain all information from the blockchain. Validation of the requested information is still ensured by employing new techniques. This opens new use cases; for example, a Bazo client can be run on a device with limited resources such as a mobile device. This type of client can be classified as a \textit{Headers-only Client} \cite{bitcoinclients} and is compared in Table \ref{table:clientstable}.
-%% elaborate.
 The implementation of this client is relevant for this thesis, since the Bazo Wallet is required to communicate with a Bazo client. Through this, the Bazo Wallet can perform actions such as querying account balances, transaction states as well as creating new transactions.
 
 \begin{center}
@@ -78,7 +75,6 @@ With Coinblesk, multiple mobile payment solution implementations exist. One impl
 \subsection{Bazo Block Explorer\label{bazoblockexplorer}}
 As described in Chapter \ref{envisionedpaymentprocess}, the financial service provider still remains in a central position in the Bazo network. Thus, administrative tasks such as inviting new users into the network as well as issuing new coins and setting
 parameters for the miners can be performed.
-%% find sources
 A solution to bring more transparency into the network by letting users inspect and visualize the state of transactions, blocks and other details of a currency lies in providing a Block Explorer. A Block Explorer is an application, that lets users query information about the currency without necessarily requiring them to participate in the network.
 In order to visualize various aspects of the Bazo currency, a Block Explorer is being developed simultaneously to the implementation of the Bazo Wallet. This application is also used to let the company perform the administrative tasks such as setting the reward for mining a block in the Bazo network and other parameters \cite{bazoblockexplorer}.
 

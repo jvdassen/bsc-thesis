@@ -55,7 +55,6 @@ Figure \ref{schema} shows an URI consisting of the endpoint of the payment page,
 \underbrace{\overbrace{?posid=<ID>}^{\mathrm{POS\  identification}}\overbrace{\&paymentinfo=bazo:<public key>}^{\mathrm{transaction\ data}}}_{\mathrm{optional\ components}}
 \]\label{fig:schema}Example of a complete URI pointing to the payment page and containing a valid transaction request.
 
-%reference impl
 
 \subsection{Device Sharing}\label{pocnfcbridge}
 In order to explore further possibilities on how to extend the browser support for native APIs a Proof of Concept was designed. The PoC is targeted to the Android platform, since NFC support is still fairly limited on iOS devices at the time of the design. This means that with Core NFC, a technology by Apple, only communication with passive NFC Tags is supported \cite{corenfc}. The PoC, further referenced as \textit{NFC Bridge}, should run as a background service and enable two processes.
@@ -83,7 +82,7 @@ Once this set up is in place, the user will approach the POS System and may star
 \subsection{Onboarding Process and Account Generation}\label{onboarding}
 This chapter describes the design of the process of creating a new account and how an existing account can be topped up with Bazo coins.
 Initially, a user would have to use the Bazo Wallet to generate a new ECDSA key pair consisting of private and public key. This key pair is not considered as valid account, where an inbound transaction could be executed on the account. This approach differs from other cryptocurrencies such as Ethereum \cite{myethwallet}. The reasoning behind this difference lies in the design of the Bazo currency, which is intentionally private. This means, that a key pair is only then a valid account if an \textit{AccTx} is executed. The registration of a public key therefore requires a transaction containing the public key of the new and root account. This transaction would then be signed with the private Key of the root account.
-Assigning new funds to a registered account requires that the financial service provider deducts the bonus points from the user and sends a \textit{FundsTx} to the users public key. In order to determine if a user may participate in the program and to deduct the bonus points from the correct account, the user needs to manually obtain a token, which is then sent with each request. These operations would be performed in the backend of the financial service provider. The mechanism is further illustrated in Figures \ref{fig:onboarding} and \ref{fig:topup}.
+Assigning new funds to a registered account requires that the financial service provider deducts the bonus points from the user and sends a \textit{FundsTx} to the users public key. In order to determine if a user may participate in the program and to deduct the bonus points from the correct account, the user needs to manually obtain a token, which is then sent with each request. These operations would be performed in the backend of the financial service provider. The mechanism is further illustrated in Figures \ref{fig:onboarding} and \ref{fig:topup}. Operations marked with an asterisk are scheduled to run periodically.
 
 
 \begin{figure}
@@ -230,11 +229,10 @@ Since the user interface of the coinblesk-frontend application was structured as
 
 \subsection{Storage and State management\label{storageandstate}}
 In Chapter \ref{qualityrequirements}, the requirement for complete client-side operation and security requirements were introduced. This implied, that a storage solution local to the browser had to be used. HTML5 Web Storage is a browser side storage solution, that is supported by the majority of browsers \cite{localstoragetest} \cite{localstorage}.
-%part?%
+
 In the Security part of the specification document, multiple issues with the security of Web Storage are explained \cite{localstorage}.
 With a new API for browser side encryption in discussion by the World Wide Web Consortium, mechanisms like symmetrically encrypting values in the storage could be leveraged. However, the API is only considered a recommendation of the consortium\cite{webcrypto}.
 This makes local storage of security related data such as private keys unsuitable. Therefore, only user-data such as settings and public keys of Bazo accounts were stored in the Web Storage. For explicit state management vuex, a library for state management with Vue.js was used \cite{vuex}. The subset of state that needed to be persisted in Web Storage was placed in this storage.
-%??%
 \subsection{Network Communication}
 Multiple operations of the Bazo Wallet are performed using cross-origin http requests. These operations include payment preparation, payment submission and account balance querying. All of these operations are centralized in a single Service module, that can be shared between the individual components. This makes parametrizing network requests globally possible. This is a requirement, so that the URI used to perform the requests can be configured by the user. The actual communication with the endpoints of the Bazo client and their semantics are explained in \ref{blockchaininteraction}.
 
@@ -265,11 +263,6 @@ Another challenge posed the creation and signing of Bazo transactions in the bro
 \end{algorithmic}
 \end{algorithm}\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.
 
-%%\begin{figure}
-%%\centering
-%%\includegraphics[width=1\textwidth]{diagrams/AccountTx_struct.png}
-%%\caption{\label{fig:FundsTX}Structure of a FundsTx in Bazo \cite{lisg}.}
-%%\end{figure}
 
 \subsection{Web NFC}
 In section \ref{pocnfcbridge} the semantics of the data model of a transaction that can be shared among users in the form of a single URI was explained.
